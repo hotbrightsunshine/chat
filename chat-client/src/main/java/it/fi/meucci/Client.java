@@ -6,6 +6,9 @@ import it.fi.meucci.utils.Username;
 import java.net.Inet4Address;
 import java.net.Socket;
 
+/**
+ * Rappresenta il Client.
+ */
 public class Client {
     private Username username;
     private Socket socket;
