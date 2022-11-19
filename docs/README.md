@@ -149,9 +149,9 @@ Le classi in comune a tutti e due i progetti:
 - **Message**: I messaggi che vengono scambiati tra client e server. Hanno un tipo, un destinatario, e un mittente. Contengono un campo opzionale chiamato “content”, usato per vari scopi, dipendentemente dal tipo del messaggio. Ha un metodo statico validate che converte l’user input in un Message. 
 - **Username**: La classe che rappresenta l’username di un utente. Serve per indirizzare i Messaggi ai propri destinatari. Nel server, ogni Username è associato ad un Socket. Ha due metodi statici che ritornano un oggetto con username “server” e uno con username “everyone”. Questi due nomi utenti sono proibiti e il server non può assegnarli. Intuitivamente, “server” è l’username che serve per indirizzare un messaggio al server; “everyone” manda il messaggio in broadcast.
 - **Type «enumeration»**: È una enumerazione che contiene i possibili tipi che un messaggio può avere:
-    - COMMAND è un comando, e deve necessariamente essere rivolto al server
-    - MESSAGE è il messaggio per un utente
-    - SERVER_ANN è un messaggio dal server per gli utenti; che comunica l’uscita o l’entrata di un client all’interno della chat oppure un messaggio di errore ad esempio. 
+    - `COMMAND` è un comando, e deve necessariamente essere rivolto al server
+    - `MESSAGE` è il messaggio per un utente
+    - `SERVER_ANN` è un messaggio dal server per gli utenti; che comunica l’uscita o l’entrata di un client all’interno della chat oppure un messaggio di errore ad esempio. 
 Le classi che appartengono al package **“server”**:
 - **Server**: È la classe che rappresenta il server. Ha una lista connected che contiene tutti i client connessi, che sono filtrati dal metodo getAllowed che ritorna una lista di utenti alla quale la connessione è permessa. Non è permessa agli utenti che non hanno un username valido. 
 - **RequestListener**: Gestisce la comunicazione con un client. Il campo allowed è impostato a false fino a quando l’username del client non è valido. Close può distruggere il Thread e lo elimina dalla lista connected in Server. Implementa Runnable. 
@@ -177,16 +177,18 @@ Quale sintassi viene data ai comandi affinché possano essere correttamente codi
 |:------------:|:---------------------------------------------:|:--------------------------:|
 |       @      | everyone oppure l’username di un altro utente | Il contenuto del messaggio |
 
-Esempio messaggio **a tutti**: `@everyone Ciao a tutti!`
-Esempio messaggio **al singolo**: `@marco Ciao marco, come stai?`
+Esempio di messaggio: 
+- **a tutti**: `@everyone Ciao a tutti!`
+- **al singolo**: `@marco Ciao marco, come stai?`
 
 ### Tabella Comando
 | **Prefisso** |   **Nome comando**  |         **Argomenti**         |
 |:------------:|:-------------------:|:-----------------------------:|
 |       /      | stop,name, et.cet.  | Dipendono dal tipo di comando |
 
-Esempio: `/name marco`
-Esempio: `/stop`
+Esempi: 
+- `/name marco`
+- `/stop`
 
 L’oggetto JSON che viene trasmesso al server è simile al seguente:
 - `{“from”:”A”, “to”:”B”, “type”:”MESSAGE”, “args”:{“ciao B”,}}`
