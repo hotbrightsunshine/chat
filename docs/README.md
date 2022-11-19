@@ -2,8 +2,11 @@
 ## Introduzione
 ### Cosa è una chat? 
 La chat è uno strumento oggidì utilizzato quotidianamente da tutti che permette la comunicazione istantanea tra più utenti attraverso lo scambio di messaggi testo, audio, e video. 
+
 Il tipo di chat preso in esame in questo progetto è quello centralizzato, cioè quella composta da due parti: una parte client, usata dall’utente, che invia i messaggi al server; ed il server, appunto, che si occupa di smistare i messaggi degli utenti. Il server non è deputato all’utilizzo dell’utente dato che i messaggi sono privati e devono essere visti solo dai destinatari. 
+
 Per fornire un parallelismo con la realtà, consideriamo un ufficio postale. L’utente consegna all’ufficio postale la lettera, indicandone il destinatario: l’ufficio postale invia quindi la lettera, assicurandosi che sia stata recapitata. 
+
 Resta chiaro il fatto che server e client, sebbene interdipendenti, siano due entità distinte. Stabiliti degli standard di comunicazione, client e server devono essere capaci di comunicare anche se il loro sviluppo è realizzato da persone diverse. Ad esempio: l’invio del messaggio al corretto destinatario deve essere un compito affidato al server solamente: il client si deve occupare solo di indicarne il nome.
 
 ### La chat nel progetto
@@ -15,8 +18,10 @@ Per la finalizzazione del progetto, sono state utilizzate alcune tecnologie rile
 - **Socket TCP** – Un’astrazione che si basa sul protocollo di trasporto TCP della pila ISO–OSI, e rappresenta la connessione e il suo relativo canale dati tra due end point. 
 - **JavaFX** – Una toolkit GUI che consente di creare interfacce grafiche con Java. 
 - **Maven** – Un gestore di dipendenze, o build tool, per progetti Java.
+
 Di supporto, sono state utilizzate altre tecnologie native, come la programmazione concorrente, realizzata la classe **Thread** di Java. 
 Queste sono implementate dalle librerie native di Java e dalle librerie ufficiali di JavaFX. Lo sviluppo sarà realizzato con il Java Development Kit alla versione 17, distribuito da OpenJDK. 
+
 Quanto agli ambienti di sviluppo, aspetto meno rilevante, è stato utilizzato l’IDE IntelliJ IDEA di Jetbrains, che si integra bene con le librerie di JavaFX e il software di supporto SceneBuilder pubblicato da Gluon per la realizzazione della User Interface.
 
 ### Definizioni preliminari
@@ -163,10 +168,12 @@ Le classi che appartengono al package “client”:
 Questa sezione elenca alcune soluzioni ai problemi e quesiti che mi sono trovato ad affrontare durante il processo di progettazione.
 
 ### Tecnologia utilizzata per lo scambio dei messaggi
-I messaggi scambiati tra le entità del progetto debbono possedere un formato particolare che sia decifrabile da entrambi i lati e che non mostri falle: utilizzare un formato dove campi e attributi non sono standardizzati, rischia di rivelarsi una scelta fallace. Ho deciso di utilizzare il formato JSON, utilizzato da moltissimi sviluppatori, che conferisce al messaggio un formato flessibile e adatto a cambiamenti. L’altra scelta disponibile, sarebbe stata l’utilizzo dell’XML, che però è prolisso e non flessibile. Siccome la struttura del Messaggio non è definita e cambia da tipo a tipo (e.g. un messaggio NAME_OK non porta con sé nessun contenuto; al contrario, un messaggio MESSAGE bisogna di un contenuto che è difatti il messaggio da inviare) la scelta migliore è quella di utilizzare un formato JSON. 
+I messaggi scambiati tra le entità del progetto debbono possedere un formato particolare che sia decifrabile da entrambi i lati e che non mostri falle: utilizzare un formato dove campi e attributi non sono standardizzati, rischia di rivelarsi una scelta fallace. Ho deciso di utilizzare il formato JSON, utilizzato da moltissimi sviluppatori, che conferisce al messaggio un formato flessibile e adatto a cambiamenti. 
+L’altra scelta disponibile, sarebbe stata l’utilizzo dell’XML, che però è prolisso e non flessibile. Siccome la struttura del Messaggio non è definita e cambia da tipo a tipo (e.g. un messaggio NAME_OK non porta con sé nessun contenuto; al contrario, un messaggio MESSAGE bisogna di un contenuto che è difatti il messaggio da inviare) la scelta migliore è quella di utilizzare un formato JSON. 
 
 ### Interruzione di un thread mentre è in corso l’acquisizione da tastiera
-Divisione del client in due Thread: come chiudere il processo durante l’acquisizione da tastiera da parte di un sottoprocesso? Documentandomi online, questo problema non ha trovato soluzione in quanto l’acquisizione da tastiera è un processo che avviene a livello del sistema operativo. O meglio esprimendosi, non ha una soluzione se si pretende che la conferma di chiusura debba essere ricevuta dal server. Se l’utente sta digitando da tastiera, il termine del processo può essere svolto solamente dopo che l’utente ha battuto invio. Una soluzione è questa: il metodo send del client esegue un controllo sull’input da tastiera: se l’utente digita “/stop” (affronterò successivamente la sintassi dei comandi), l’esecuzione può fermarsi senza problemi; dopotutto, è il protocollo TCP che si occupa di garantire una avvenuta ricezione del messaggio dal destinatario, per cui il client non ha bisogno di conferme dal server per spegnersi, perché vengono già inviate alla chiusura del Socket. 
+*Divisione del client in due Thread: come chiudere il processo durante l’acquisizione da tastiera da parte di un sottoprocesso?* Documentandomi online, questo problema non ha trovato soluzione in quanto l’acquisizione da tastiera è un processo che avviene a livello del sistema operativo. O meglio esprimendosi, non ha una soluzione se si pretende che la conferma di chiusura debba essere ricevuta dal server. 
+Se l’utente sta digitando da tastiera, il termine del processo può essere svolto solamente dopo che l’utente ha battuto invio. Una soluzione è questa: il metodo send del client esegue un controllo sull’input da tastiera: se l’utente digita “/stop” (affronterò successivamente la sintassi dei comandi), l’esecuzione può fermarsi senza problemi; dopotutto, è il protocollo TCP che si occupa di garantire una avvenuta ricezione del messaggio dal destinatario, per cui il client non ha bisogno di conferme dal server per spegnersi, perché vengono già inviate alla chiusura del Socket. 
 Questo problema tuttavia non si pone se si utilizza una interfaccia grafica, in quanto l’acquisizione da tastiera avviene in maniera differente. 
 
 ### Sintassi dei comandi e "campi" del messaggio JSON
@@ -182,9 +189,9 @@ Esempio di messaggio:
 - **al singolo**: `@marco Ciao marco, come stai?`
 
 ### Tabella Comando
-| **Prefisso** |   **Nome comando**  |         **Argomenti**         |
-|:------------:|:-------------------:|:-----------------------------:|
-|       /      | stop,name, et.cet.  | Dipendono dal tipo di comando |
+| **Prefisso** |   **Nome comando**      |         **Argomenti**         |
+|:------------:|:-----------------------:|:-----------------------------:|
+|       /      | `stop`,`name`, et.cet.  | Dipendono dal tipo di comando |
 
 Esempi: 
 - `/name marco`
@@ -207,7 +214,8 @@ qualche esempio:
 - `{“from”:”A”, “to”:”server”, “type”:”COMMAND”, “args”:{“DISCONNECT”,}}`
 
 ### Il comando di cambio nome: alcuni dettagli
-È importante sottolineare alcune cose sul comando di cambio nome. Innanzitutto, nessun utente può scegliere un nome uguale a `“everyone”` in quanto è riservato all’inoltro di messaggi in broadcast. Il server si troverebbe in difficoltà: se un utente si chiama `“everyone”` allora tutti i messaggi inviati a questo saranno inviati in broadcast; oppure, ogni messaggio mandato in broadcast potrebbe essere inviato solamente a lui. 
+È importante sottolineare alcune cose sul comando di cambio nome. Innanzitutto, nessun utente può scegliere un nome uguale a `“everyone”` in quanto è riservato all’inoltro di messaggi in broadcast. 
+Il server si troverebbe in difficoltà: se un utente si chiama `“everyone”` allora tutti i messaggi inviati a questo saranno inviati in broadcast; oppure, ogni messaggio mandato in broadcast potrebbe essere inviato solamente a lui. 
 La questione è analoga per la stringa `“server”`: nessun utente può averla come nickname, per le stesse motivazioni di prima: è riservata ad altri scopi. 
 
 ### `MESSAGE`
