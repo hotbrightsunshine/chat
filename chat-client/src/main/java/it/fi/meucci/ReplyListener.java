@@ -16,4 +16,8 @@ public class ReplyListener implements Runnable {
     public void handle(Message message){
 
     }
+
+    public void close(){
+
+    }
 }

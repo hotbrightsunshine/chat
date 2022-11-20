@@ -3,6 +3,7 @@ package it.fi.meucci;
 import it.fi.meucci.utils.Message;
 import it.fi.meucci.utils.Username;
 
+import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.Socket;
 
@@ -14,19 +15,16 @@ public class Client {
     private Socket socket;
     private ReplyListener listener;
 
-    public Socket connect(Inet4Address address, int port){
-        return null;
+    public Client(Inet4Address address, int port) throws IOException {
+        socket = new Socket(address, port);
     }
 
     public void send(Message message){
 
     }
 
-    public void start(){
-
-    }
-
-    public void stop(){
-
+    public void stop() throws IOException {
+        socket.close();
+        listener.close();
     }
 }

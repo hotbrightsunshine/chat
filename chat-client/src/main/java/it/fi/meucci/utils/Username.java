@@ -20,14 +20,14 @@ public class Username {
     /**
      * @return L'username "everyone"
      */
-    public Username everyone(){
+    public static Username everyone(){
         return Username.everyone;
     }
 
     /**
      * @return L'username "server"
      */
-    public Username server(){
+    public static Username server(){
         return Username.server;
     }
 }

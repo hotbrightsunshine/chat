@@ -1,5 +1,7 @@
 package it.fi.meucci.utils;
 
+import java.util.ArrayList;
+
 /**
  * I messaggi che vengono scambiati tra client e server.
  * Hanno un tipo, un destinatario, e un mittente.
@@ -34,7 +36,23 @@ public class Message {
      * @return Il messaggio valido oppure null.
      */
     public static Message validate(String str){
-        // Unimplemented
-        return null;
+        char c = str.charAt(0);
+        Type type = (c == '/') ? (Type.COMMAND) : 
+            ((c == '@') ? (Type.MESSAGE) : (null));
+
+        if (type == null) {return null;}
+        else if (type == Type.COMMAND){
+            String temp = str.substring(1);
+            String[] args = temp.split(" ");
+            return new Message(type, null, Username.server(), args);
+        }
+        else if (type == Type.MESSAGE){
+            String temp = str.substring(1);
+            String[] message = temp.split(" ");
+            ArrayList<String> strings = // continued;
+            return new Message(type, null, args[0], );
+        }
+
+        
     }
 }
