@@ -6,7 +6,8 @@ public enum ServerAnnouncement {
     NAME_OK, // Il nome inserito va bene
     NAME_NOT_OK, // Il nome inserito non va bene
     NEED_NAME, // Il client non ha un nome
-    LIST // Lista dei messaggi
+    LIST, // Lista dei messaggi
+    DEST_NOT_CORRECT // Il destinatario del server non è corretto
     ;
 
     /**
@@ -19,10 +20,18 @@ public enum ServerAnnouncement {
     }
 
     /**
-     * 
+     * Crea un messaggio di tipo NEED_NAME
      * @return un messaggio di tipo NEED_NAME
      */
     public static Message needNameMessage(){
 
+    }
+
+    /**
+     * Crea un messaggio di tipo DEST_NOT_CORRECT
+     * @return un messaggio di tipo DEST_NOT_CORRECT
+     */
+    public static Message destNotCorrectMessage(){
+        
     }
 }
