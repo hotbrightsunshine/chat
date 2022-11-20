@@ -11,6 +11,11 @@ public class RequestListener implements Runnable
     private Socket socket;
     private boolean allowed;
 
+    public RequestListener(Socket socket)
+    {
+        this.socket = socket;
+    }
+
     @Override
     public void run() {
 
