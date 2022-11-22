@@ -44,5 +44,11 @@ public class Server
         // Cicla tutta la lista dei connessi
         // Se il listener ha un username valido, viene aggiunto alla lista temporanea
         // Ritorna la lista temporanea
+
+        //oppure stream.filter( (msg) -> { msg.username != null });
+    }
+
+    public void send(Message msg){
+
     }
 }

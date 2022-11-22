@@ -10,6 +10,7 @@ public class App
 {
     // PORTA
     public static final int PORT = 7777;
+    public static Server server;
 
     /**
      * Fa partire il server
@@ -19,6 +20,6 @@ public class App
     {
         // Crea un server
         // Lo avvia
-        Server s = new Server(PORT);
+        App.server = new Server(PORT);
     }
 }

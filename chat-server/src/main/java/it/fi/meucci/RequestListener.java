@@ -48,6 +48,8 @@ public class RequestListener implements Runnable
             // Ascolto dei messaggi sul canale
             // Deserializzazione del messaggio
             // Interpretazione del messaggio: spendisco il msg al metodo HANDLE
+            
+            // IMPORTANTISSIMO! 
             // Creo un nuovo Thread temporaneo per eseguire HANDLE
             // con new Thread(new Runnable(run(){ handle() }));
         }
@@ -61,10 +63,15 @@ public class RequestListener implements Runnable
         /*
          * Il messaggio ha diversi tipi.
          * Se è un MESSAGGIO {
-         *      Controlla il destinatario: SE è valido (è nella lista) {
-         *          
-         *      }
+         *      Handler.handleMessage(msg);
+         * } SE è UN COMANDO {
+         *      Handler.handleCommand(msg);
+         * } ALTRIMENTI {
+         *      Handler.handle(msg);
          * }
+         * 
+         * // IMPORTANTE
+         * Se questi messaggi ritornano delle eccezioni, è importante gestirle!
          */
     }
 
