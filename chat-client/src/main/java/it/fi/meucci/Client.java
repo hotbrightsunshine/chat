@@ -35,7 +35,11 @@ public class Client {
   */
     public Client(Inet4Address address, int port) throws IOException {
         socket = new Socket(address, port);
-
+        try {
+            output = new DataOutputStream(socket.getOutputStream());
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
 
 
     } 
@@ -46,9 +50,15 @@ public class Client {
    * - In caso il messaggio non sia valido viene ritornato "null"
   */
     public void send(Message message){
-        ObjectMapper objectmapper = new ObjectMapper();
         //Serializza il messaggio
         //invia al server il messaggio
+        ObjectMapper objectmapper = new ObjectMapper();
+        try {
+            output.writeBytes(objectmapper.writeValueAsString(message) + '\n');
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+ 
     }
 
        /**
@@ -65,17 +75,8 @@ public class Client {
      * - In caso il messaggio sia valido richiama il metodo send
      * - Altrimenti stampa un messaggio di errore
      */
-    public void keyboardlistener(Scanner s)
-    {
-        for(;;)
-        {
-            //LETTURA DA TASTIERA
-            //SALVATAGGIO IN STRINGA DELLA LETTURA
-            //RICHIAMA IL METODO VALIDATE che si trova in message.java
-            // SE VALIDATE MESSAGE != NULL VALIDO quindi richiamo il metodo send()
-            // SENNO' STAMPO ERRORE
-        }
-    }
+  
+ 
 
     
 }
