@@ -1,18 +1,21 @@
 package it.fi.meucci;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.fi.meucci.utils.CommandType;
 import it.fi.meucci.utils.Message;
 import it.fi.meucci.utils.ServerAnnouncement;
+import it.fi.meucci.utils.Username;
 
 import java.io.DataOutputStream;
 import java.util.ArrayList;
 
 /**
  * Questa classe contiene tutti i metodi necessari per l'inoltro e la gestione dei messaggi.
- * Sono chiamati dai Request Listener
+ * Sono chiamati dai Request Listener. NON può essere istanziata.
  */
-public class Handler {
+public abstract class Handler {
     public static ObjectMapper om = new ObjectMapper();
+
     /**
      * Gestisce un messaggio, lo valida logicamente (se gli username sono corretti) e lo invia se è corretto.
      * @param msg Il messaggio da gestire
@@ -23,13 +26,32 @@ public class Handler {
          * Se mittente e destinatario sono validi:
          *      estrae il destinatario. 
          *      App.server.send(msg)
-         * Se il mittente non è negli username:
-         *      Manda una eccezione ServerAnnouncement.NEED_NAME
+
          * Se il destinatario non è valido:
          *      Manda una eccezione ServerAnnouncement.DEST_NOT_CORRECT
          */
+        /*
+         * Se il mittente non è negli username:
+         *      Manda una eccezione ServerAnnouncement.NEED_NAME
+         */
+        Username from = msg.getFrom();
+        Username to = msg.getTo();
+        // Se il mittente ha un username non valido oppure è vuoto:
+        if (!App.server.isUserValid(from)){
+            throw new HandlerException(ServerAnnouncement.NEED_NAME);
+        } else if (!App.server.isUserValid(to)){
+            throw new HandlerException(ServerAnnouncement.DEST_NOT_CORRECT);
+        }
 
-        throw new HandlerException(ServerAnnouncement.DEST_NOT_CORRECT);
+        // Confermo che ci sia un solo argomento per il messaggio
+        String newarg = "";
+        for(String s : msg.getArgs()){
+            newarg += s + " ";
+        }
+        // Modifico l'argomento del messaggio
+        msg.setArgs(new String[]{newarg});
+        // Mando il messaggio
+        App.server.send(msg);
     }
 
     /**
@@ -47,28 +69,30 @@ public class Handler {
          *
          * CONTROLLO argomenti
          * // Ogni comando ha argomenti diversi. Comandi come /stop non li hanno, ma comandi come
-         * // /nick si, e ne hanno 1.
+         * // /nick si, e ne hanno uno.
          * Bisogna fare uno switch sul tipo di comando, che viene estratto dal primissimo parametro!
          * I comandi possono essere:
          * CommandType.CHANGE_NAME
          * CommandType.DISCONNECT
          * Se non sono questi
          */
+        Username from = msg.getFrom();
+        Username to = msg.getTo();
+        if(!App.server.isUserValid(from)){
+            throw new HandlerException(ServerAnnouncement.NEED_NAME);
+        } else if(!App.server.isUserValid(to)){
+            throw new HandlerException(ServerAnnouncement.DEST_NOT_CORRECT);
+        }
+
+        if(msg.getArgs()[0].equals(CommandType.DISCONNECT.toString())){
+            throw new HandlerException(ServerAnnouncement.DISCONNECT);
+        } else {
+            throw new HandlerException(ServerAnnouncement.COMMAND_NOT_RECOGNIZED);
+        }
+
     }
 
     public static void handle(Message msg) throws HandlerException {
-
-    }
-
-
-    public static void send(Message msg, DataOutputStream stream){
-        /*
-         * Serializzare MSG e spararlo nella stream. PUNTO
-         *
-         */
-    }
-
-    public static void sendBroadcast(Message msg, ArrayList<DataOutputStream> streams){
-        // for di send()
+        throw new HandlerException(ServerAnnouncement.COMMAND_NOT_RECOGNIZED);
     }
 }

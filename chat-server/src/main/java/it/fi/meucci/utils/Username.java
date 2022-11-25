@@ -38,4 +38,13 @@ public class Username {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Username)) {
+            return false;
+        } else {
+            return username.equals(((Username) obj).username);
+        }
+    }
 }

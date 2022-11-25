@@ -67,7 +67,7 @@ public class RequestListener implements Runnable
 
     /**
      * In base al messaggio ricevuto, ha un comportamento diverso. 
-     * @param msg E' il messaggio appena ricevuto
+     * @param msg È il messaggio appena ricevuto
      */
     public void handle(Message msg){
         /*
@@ -95,7 +95,7 @@ public class RequestListener implements Runnable
                 try {
                     Handler.handleMessage(msg);
                 } catch (HandlerException e) {
-
+                    // Guarda le eccezioni! Se hanno il tipo SA.DISCONNECT devi chiuedere il socket!
                 }
                 break;
             default:

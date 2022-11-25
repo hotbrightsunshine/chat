@@ -11,7 +11,9 @@ public enum ServerAnnouncement {
     NAME_NOT_OK, // Il nome inserito non va bene
     NEED_NAME, // Il client non ha un nome
     LIST, // Lista dei messaggi
-    DEST_NOT_CORRECT // Il destinatario del server non è corretto
+    DEST_NOT_CORRECT, // Il destinatario del server non è corretto
+    DISCONNECT,
+    INVALID_REQUEST
     ;
 
     /**

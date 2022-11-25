@@ -51,7 +51,7 @@ public class Server
         ArrayList<Username> temp = new ArrayList<>();
         for (RequestListener r:
              listeners) {
-            if(r.getUsername() != null){
+            if (r.getUsername() != null) {
                 temp.add(r.getUsername());
             }
         }
@@ -60,5 +60,12 @@ public class Server
 
     public void send(Message msg){
 
+    }
+
+    public boolean isUserValid(Username username){
+        if(username.getUsername().equals("")){
+            return false;
+        }
+        return getUsernames().contains(username);
     }
 }
