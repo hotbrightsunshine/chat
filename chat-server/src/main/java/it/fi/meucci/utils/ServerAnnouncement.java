@@ -1,5 +1,7 @@
 package it.fi.meucci.utils;
 
+import it.fi.meucci.Server;
+
 import java.util.ArrayList;
 
 public enum ServerAnnouncement {
@@ -18,11 +20,19 @@ public enum ServerAnnouncement {
      * @return Un messaggio di tipo LIST
      */
     public static Message listAnnouncement(ArrayList<Username> utenti, Username to){
-
+        ArrayList<String> strings= new ArrayList<>();
+        for(Username u : utenti){
+            strings.add(u.getUsername());
+        }
+        strings.add(0, ServerAnnouncement.LIST.toString());
+        String[] tmp = (String[]) strings.toArray();
+        return new Message(Type.SERVER_ANN, Username.server(), to, tmp);
     }
 
     /**
      * Crea un messaggio con un solo argomento (il tipo)
+     * @param t Type of the ServerAnnouncement
+     * @param to A chi è direzionato il messaggio
      * @return un messaggio di tipo NEED_NAME
      */
     public static Message createServerAnnouncement(Username to, ServerAnnouncement t){

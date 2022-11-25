@@ -10,7 +10,7 @@ package it.fi.meucci.utils;
  *  “everyone” manda il messaggio in broadcast.
  */
 public class Username {
-    String username;
+    private String username;
     private static Username everyone = new Username("everyone");
     private static Username server = new Username("server");
     public Username(String username){
@@ -29,5 +29,13 @@ public class Username {
      */
     public static Username server(){
         return Username.server;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

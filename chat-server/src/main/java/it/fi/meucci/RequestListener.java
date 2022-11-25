@@ -121,7 +121,7 @@ public class RequestListener implements Runnable
     /**
      * Manda un messaggio al client
      *  */ 
-    private void send(){
+    public void send(){
 
     }
 

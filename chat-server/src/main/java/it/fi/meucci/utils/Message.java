@@ -1,14 +1,14 @@
 package it.fi.meucci.utils;
 
 
+import java.util.ArrayList;
+
 /**
  * I messaggi che vengono scambiati tra client e server.
  * Hanno un tipo, un destinatario, e un mittente.
  * Contengono un campo opzionale chiamato “content”, usato per vari scopi, dipendentemente dal tipo del messaggio.
  * Ha un metodo statico validate che converte l’user input in un Message.
  */
-
-
 public class Message
 {
     private Type type;
@@ -30,16 +30,6 @@ public class Message
         this.from = from;
         this.to = to;
         this.args = args;
-    }
-
-    /**
-     * Valida una stringa e crea un messaggio.
-     * @param str Il messaggio di input
-     * @return Il messaggio valido oppure null.
-     */
-    public static Message validate(String str){
-        // Unimplemented
-        return null;
     }
 
     public Type getType() {

@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import it.fi.meucci.utils.Message;
 import it.fi.meucci.utils.Username;
 
 public class Server
@@ -55,5 +56,9 @@ public class Server
             }
         }
         return temp;
+    }
+
+    public void send(Message msg){
+
     }
 }
