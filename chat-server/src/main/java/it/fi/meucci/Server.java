@@ -11,6 +11,7 @@ public class Server
 {
 
     private ArrayList <RequestListener> listeners = new ArrayList<>();
+    private ArrayList <Thread> threads = new ArrayList<>();
     private static ServerSocket serverSocket;
 
     
@@ -23,15 +24,21 @@ public class Server
      * Accetta le connessioni in input.
      * Ha un ciclo che accetta continuamente nuove connessioni, creando per loro dei Thread. 
      */
-    public void accept(){
+    public void accept() throws IOException {
         while(true){
             // Metodo accept del serversocket
+            Socket s = serverSocket.accept();
 
             // Creazione del Thread e del RequestListener
+            RequestListener r = new RequestListener(this, s);
+            Thread t = new Thread(r);
 
             // Aggiungo il Request Listener alla lista di listener 
+            listeners.add(r);
+            threads.add(t);
 
             // Faccio partire il Thread
+            t.start();
         }
     }
 
@@ -40,15 +47,13 @@ public class Server
      * @return Ritorna una lista di username, cioè i client connessi che hanno un username validato
      */
     public ArrayList<Username> getUsernames(){
-        // Crea una lista temporanea vuota : ArrayList<Username>
-        // Cicla tutta la lista dei connessi
-        // Se il listener ha un username valido, viene aggiunto alla lista temporanea
-        // Ritorna la lista temporanea
-
-        //oppure stream.filter( (msg) -> { msg.username != null });
-    }
-
-    public void send(Message msg){
-
+        ArrayList<Username> temp = new ArrayList<>();
+        for (RequestListener r:
+             listeners) {
+            if(r.getUsername() != null){
+                temp.add(r.getUsername());
+            }
+        }
+        return temp;
     }
 }

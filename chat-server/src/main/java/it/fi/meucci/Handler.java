@@ -1,11 +1,18 @@
+package it.fi.meucci;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.fi.meucci.utils.Message;
 import it.fi.meucci.utils.ServerAnnouncement;
+
+import java.io.DataOutputStream;
+import java.util.ArrayList;
 
 /**
  * Questa classe contiene tutti i metodi necessari per l'inoltro e la gestione dei messaggi.
  * Sono chiamati dai Request Listener
  */
 public class Handler {
+    public static ObjectMapper om = new ObjectMapper();
     /**
      * Gestisce un messaggio, lo valida logicamente (se gli username sono corretti) e lo invia se è corretto.
      * @param msg Il messaggio da gestire
@@ -36,17 +43,32 @@ public class Handler {
          *      Allora va bene. 
          *      GOTO CONTROLLO Argomenti
          * Se non è valido:
-         *      Male, manda una eccezione. 
+         *      Male, manda una eccezione.
+         *
+         * CONTROLLO argomenti
+         * // Ogni comando ha argomenti diversi. Comandi come /stop non li hanno, ma comandi come
+         * // /nick si, e ne hanno 1.
+         * Bisogna fare uno switch sul tipo di comando, che viene estratto dal primissimo parametro!
+         * I comandi possono essere:
+         * CommandType.CHANGE_NAME
+         * CommandType.DISCONNECT
+         * Se non sono questi
          */
     }
 
-    public static void handle(Message msg){
+    public static void handle(Message msg) throws HandlerException {
 
     }
 
-    public static void send(Message msg){
-        /**
-         * 
+
+    public static void send(Message msg, DataOutputStream stream){
+        /*
+         * Serializzare MSG e spararlo nella stream. PUNTO
+         *
          */
+    }
+
+    public static void sendBroadcast(Message msg, ArrayList<DataOutputStream> streams){
+        // for di send()
     }
 }

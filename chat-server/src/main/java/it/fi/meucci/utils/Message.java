@@ -25,7 +25,7 @@ public class Message
      * @param args La lista di argomenti del comando o del messaggio
      * @since 1.0
      */
-    private Message(Type type, Username from, Username to, String[] args) {
+    public Message(Type type, Username from, Username to, String[] args) {
         this.type = type;
         this.from = from;
         this.to = to;
@@ -42,4 +42,35 @@ public class Message
         return null;
     }
 
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public Username getFrom() {
+        return from;
+    }
+
+    public void setFrom(Username from) {
+        this.from = from;
+    }
+
+    public Username getTo() {
+        return to;
+    }
+
+    public void setTo(Username to) {
+        this.to = to;
+    }
+
+    public String[] getArgs() {
+        return args;
+    }
+
+    public void setArgs(String[] args) {
+        this.args = args;
+    }
 }

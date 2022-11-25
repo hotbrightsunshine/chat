@@ -1,4 +1,4 @@
-package main.java.it.fi.meucci;
+package it.fi.meucci;
 
 import java.util.logging.Handler;
 
@@ -16,7 +16,7 @@ public class HandlerException extends Exception {
     }
     
     public HandlerException(ServerAnnouncement s){
-        super(s);
+        super(String.valueOf(s));
         this.s = s;
     }
 }

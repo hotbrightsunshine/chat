@@ -1,5 +1,7 @@
 package it.fi.meucci.utils;
 
+import java.util.ArrayList;
+
 public enum ServerAnnouncement {
     JOINED, // Un utente entra
     LEFT, // Un utente è uscito
@@ -15,23 +17,16 @@ public enum ServerAnnouncement {
      * @param utenti la lista degli utenti connessi del server
      * @return Un messaggio di tipo LIST
      */
-    public static Message listMessage(ArrayList<Username> utenti){
+    public static Message listAnnouncement(ArrayList<Username> utenti, Username to){
 
     }
 
     /**
-     * Crea un messaggio di tipo NEED_NAME
+     * Crea un messaggio con un solo argomento (il tipo)
      * @return un messaggio di tipo NEED_NAME
      */
-    public static Message needNameMessage(){
-
-    }
-
-    /**
-     * Crea un messaggio di tipo DEST_NOT_CORRECT
-     * @return un messaggio di tipo DEST_NOT_CORRECT
-     */
-    public static Message destNotCorrectMessage(){
-        
+    public static Message createServerAnnouncement(Username to, ServerAnnouncement t){
+        String[] tmp = {t.toString()};
+        return new Message(Type.SERVER_ANN, Username.server(), to, tmp);
     }
 }

@@ -28,10 +28,11 @@ public class RequestListener implements Runnable
     {
         this.socket = socket;
         allowedToRun = true;
+        this.father = father;
     }
 
     /**
-     * 
+     * Implementazione del metodo RUN
      */
     @Override
     public void run() {
@@ -42,9 +43,16 @@ public class RequestListener implements Runnable
             // Serializza il messaggio ^
             // send(messaggio serializzato in JSON)
 
-        
+        /*
+        While non ha un nome (){}
+         */
+
+        /*
+        SERVER ANNOUNCEMENT con JOINED e il nome del nuovo utente
+         */
+
         // Inizio della procedura "ciclata"
-        while(allowedToRun){
+        while(allowedToRun){ // oppure finché il socket non è chiuso
             // Ascolto dei messaggi sul canale
             // Deserializzazione del messaggio
             // Interpretazione del messaggio: spendisco il msg al metodo HANDLE
@@ -53,6 +61,8 @@ public class RequestListener implements Runnable
             // Creo un nuovo Thread temporaneo per eseguire HANDLE
             // con new Thread(new Runnable(run(){ handle() }));
         }
+
+        // Appena la socket è chiusa, manda un messaggio SERVER ANNOUNCEMENT con LEFT
     }
 
     /**
@@ -73,6 +83,29 @@ public class RequestListener implements Runnable
          * // IMPORTANTE
          * Se questi messaggi ritornano delle eccezioni, è importante gestirle!
          */
+        switch(msg.getType()){
+            case COMMAND:
+                try {
+                    Handler.handleCommand(msg);
+                } catch (HandlerException e) {
+
+                }
+                break;
+            case MESSAGE:
+                try {
+                    Handler.handleMessage(msg);
+                } catch (HandlerException e) {
+
+                }
+                break;
+            default:
+                try {
+                    Handler.handle(msg);
+                } catch (HandlerException e) {
+
+                }
+                break;
+        }
     }
 
     /**
@@ -80,7 +113,7 @@ public class RequestListener implements Runnable
      */
     public void sendList(){
         // Lista di utenti autorizzati: Server.getUsername
-        // Generazione del messaggio ServerAnnouncement.listMessage(lista di utenti autorizzati)
+        // Generazione del messaggio ServerAnnouncement.listAnnouncement(lista di utenti autorizzati)
         // Serializzazione del messaggio
         // send 
     }
@@ -88,7 +121,7 @@ public class RequestListener implements Runnable
     /**
      * Manda un messaggio al client
      *  */ 
-    public void send(){
+    private void send(){
 
     }
 
@@ -100,5 +133,27 @@ public class RequestListener implements Runnable
         this.allowedToRun = allowedToRun;
     }
 
-    
+    public Server getFather() {
+        return father;
+    }
+
+    public void setFather(Server father) {
+        this.father = father;
+    }
+
+    public Username getUsername() {
+        return username;
+    }
+
+    public void setUsername(Username username) {
+        this.username = username;
+    }
+
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
+    }
 }
