@@ -29,6 +29,7 @@ public class Client {
     private BufferedReader keyboard;
     private DataOutputStream output;
     private BufferedReader input;
+    ObjectMapper objectmapper = new ObjectMapper();
      /**
   * - Costruttore che avvia in automatico la connessione.
   * - Deve inizializzare le *stream* del socket
@@ -52,7 +53,6 @@ public class Client {
     public void send(Message message){
         //Serializza il messaggio
         //invia al server il messaggio
-        ObjectMapper objectmapper = new ObjectMapper();
         try {
             output.writeBytes(objectmapper.writeValueAsString(message) + '\n');
         } catch (IOException e) {
@@ -69,12 +69,7 @@ public class Client {
         listener.close();
     }
 
-    /**
-     * - Viene letto ciò che è stato scritto dall'utente
-     * - Avviene poi la validazione del messaggio
-     * - In caso il messaggio sia valido richiama il metodo send
-     * - Altrimenti stampa un messaggio di errore
-     */
+   
   
  
 
