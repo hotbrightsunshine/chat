@@ -13,7 +13,7 @@ import java.util.Scanner;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Rappresenta il Client.
+* Rappresenta il Client.
 * - Si connette al server
 * - Ha un ciclo che consente la lettura continua da tastiera (verrà sostituito e modificato all'implementazione di JavaFX)
 * - Valida i messaggi scritti dall'utente (String -> Pojo)
@@ -30,9 +30,11 @@ public class Client {
     private DataOutputStream output;
     private BufferedReader input;
     ObjectMapper objectmapper = new ObjectMapper();
+
      /**
   * - Costruttore che avvia in automatico la connessione.
   * - Deve inizializzare le *stream* del socket
+  * @throws IOException
   */
     public Client(Inet4Address address, int port) throws IOException {
         socket = new Socket(address, port);
@@ -45,10 +47,7 @@ public class Client {
 
     } 
         /**
-   * - Viene letto ciò che è stato scritto dall'utente
-   * - Avviene poi la validazione del messaggio
-   * - In caso il messaggio sia valido viene ritornato il messaggio
-   * - In caso il messaggio non sia valido viene ritornato "null"
+   * - Serializza il messaggio e lo invia
   */
     public void send(Message message){
         //Serializza il messaggio
@@ -63,6 +62,7 @@ public class Client {
 
        /**
     * - Il client termina la connessione con il server
+    * @throws IOException
   */
     public void stop() throws IOException {
         socket.close();
