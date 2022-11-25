@@ -1,5 +1,8 @@
 package it.fi.meucci;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+
 import it.fi.meucci.utils.Message;
 
 /**
@@ -8,7 +11,10 @@ import it.fi.meucci.utils.Message;
  */
 public class ReplyListener implements Runnable {
     private Client father;
-
+    private BufferedReader keyboard;
+    private DataOutputStream output;
+    private BufferedReader input;
+    
     public ReplyListener(Client father){
         this.father = father;
     }
