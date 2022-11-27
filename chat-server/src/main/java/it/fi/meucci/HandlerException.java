@@ -1,7 +1,6 @@
 package it.fi.meucci;
 
-import java.util.logging.Handler;
-
+//import it.fi.meucci.utils.ServerAnnouncement;
 import it.fi.meucci.utils.ServerAnnouncement;
 
 public class HandlerException extends Exception {
