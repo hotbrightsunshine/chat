@@ -7,8 +7,6 @@ package it.fi.meucci.utils;
  * Contengono un campo opzionale chiamato “content”, usato per vari scopi, dipendentemente dal tipo del messaggio.
  * Ha un metodo statico validate che converte l’user input in un Message.
  */
-
-
 public class Message
 {
     private Type type;
