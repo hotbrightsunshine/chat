@@ -1,6 +1,11 @@
 package it.fi.meucci;
 
+import it.fi.meucci.exceptions.CommandNotRecognizedException;
+import it.fi.meucci.exceptions.DestNotCorrectException;
+import it.fi.meucci.exceptions.DisconnectException;
 import it.fi.meucci.exceptions.HandlerException;
+import it.fi.meucci.exceptions.NameNotOkException;
+import it.fi.meucci.exceptions.NeedNameException;
 import it.fi.meucci.utils.Message;
 import it.fi.meucci.utils.ServerAnnouncement;
 import it.fi.meucci.utils.Username;
@@ -13,8 +18,7 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class RequestListener implements Runnable
-{
+public class RequestListener implements Runnable {
 
     // L'username (Può essere nullable)
     private Username username;
@@ -31,12 +35,12 @@ public class RequestListener implements Runnable
 
     /**
      * Costruttore di RequestListener
+     * 
      * @param socket Il socket
      * @param father Il server madre
      * @throws IOException
      */
-    public RequestListener(Socket socket) throws IOException
-    {
+    public RequestListener(Socket socket) throws IOException {
         this.socket = socket;
         allowedToRun = true;
         outputStream = new DataOutputStream(socket.getOutputStream());
@@ -49,26 +53,26 @@ public class RequestListener implements Runnable
     public void run() {
         // Sicuramente il client appena connesso non ha un username.
         // Manda la lista di client *ABILITATI* a parlare (sendList())
-        // Manda un messaggio missing name 
-            // ServerAnnouncement.needNameMessage()
-            // Serializza il messaggio ^
-            // send(messaggio serializzato in JSON)
+        // Manda un messaggio missing name
+        // ServerAnnouncement.needNameMessage()
+        // Serializza il messaggio ^
+        // send(messaggio serializzato in JSON)
 
         /*
-        While non ha un nome (){}
+         * While non ha un nome (){}
          */
 
         /*
-        SERVER ANNOUNCEMENT con JOINED e il nome del nuovo utente
+         * SERVER ANNOUNCEMENT con JOINED e il nome del nuovo utente
          */
 
         // Inizio della procedura "ciclata"
-        while(allowedToRun){ // oppure finché il socket non è chiuso
+        while (allowedToRun) { // oppure finché il socket non è chiuso
             // Ascolto dei messaggi sul canale
             // Deserializzazione del messaggio
             // Interpretazione del messaggio: spendisco il msg al metodo HANDLE
-            
-            // IMPORTANTISSIMO! 
+
+            // IMPORTANTISSIMO!
             // Creo un nuovo Thread temporaneo per eseguire HANDLE
             // con new Thread(new Runnable(run(){ handle() }));
         }
@@ -77,32 +81,30 @@ public class RequestListener implements Runnable
     }
 
     /**
-     * In base al messaggio ricevuto, ha un comportamento diverso. 
+     * In base al messaggio ricevuto, ha un comportamento diverso.
+     * 
      * @param msg È il messaggio appena ricevuto
      * @throws IOException
      */
-    public void handle(Message msg) throws IOException{
+    public void handle(Message msg) throws IOException {
         /*
          * Il messaggio ha diversi tipi.
          * Se è un MESSAGGIO {
-         *      Handler.handleMessage(msg);
+         * Handler.handleMessage(msg);
          * } SE è UN COMANDO {
-         *      Handler.handleCommand(msg);
+         * Handler.handleCommand(msg);
          * } ALTRIMENTI {
-         *      Handler.handle(msg);
+         * Handler.handle(msg);
          * }
          * 
          * // IMPORTANTE
          * Se questi messaggi ritornano delle eccezioni, è importante gestirle!
          */
-        switch(msg.getType()){
+        switch (msg.getType()) {
             case COMMAND:
                 try {
                     Handler.handleCommand(msg);
-                } catch (HandlerException e) {
-
-                    }
-                }
+                } 
                 break;
             case MESSAGE:
                 try {
@@ -118,28 +120,34 @@ public class RequestListener implements Runnable
 
                 }
                 break;
+
         }
+
     }
 
     /**
      * Manda al client un messaggio con dentro la lista degli utenti
+     * 
      * @throws JsonProcessingException Lanciata quando il parsing non riesce
-     * @throws IOException Lanciata quando non il mandato non può essere inviato
+     * @throws IOException             Lanciata quando non il mandato non può essere
+     *                                 inviato
      */
     public void sendList() throws JsonProcessingException, IOException {
         // Lista di utenti autorizzati: Server.getUsername
         ArrayList<Username> usernames = App.server.getUsernames();
-        // Generazione del messaggio ServerAnnouncement.listAnnouncement(lista di utenti autorizzati)
+        // Generazione del messaggio ServerAnnouncement.listAnnouncement(lista di utenti
+        // autorizzati)
         Message msg = ServerAnnouncement.createListAnnouncement(usernames, username);
-        // send 
+        // send
         send(msg);
     }
 
     /**
      * Manda un messaggio al client
+     * 
      * @param msg Il messaggio da inviare
      * @throws IOException Lanciata quando il messaggio non può essere mandato
-     *  */ 
+     */
     public void send(Message msg) throws IOException {
         String str = om.writeValueAsString(msg);
         outputStream.writeBytes(str);

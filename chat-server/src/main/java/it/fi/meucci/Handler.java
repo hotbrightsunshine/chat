@@ -2,7 +2,10 @@ package it.fi.meucci;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import it.fi.meucci.exceptions.CommandNotRecognizedException;
+import it.fi.meucci.exceptions.DestNotCorrectException;
 import it.fi.meucci.exceptions.HandlerException;
+import it.fi.meucci.exceptions.NeedNameException;
 import it.fi.meucci.utils.CommandType;
 import it.fi.meucci.utils.Message;
 import it.fi.meucci.utils.ServerAnnouncement;
@@ -40,9 +43,9 @@ public abstract class Handler {
         Username to = msg.getTo();
         // Se il mittente ha un username non valido oppure è vuoto:
         if (!App.server.isUserValid(from)){
-            throw new HandlerException(ServerAnnouncement.NEED_NAME);
+            throw new NeedNameException();
         } else if (!App.server.isUserValid(to)){
-            throw new HandlerException(ServerAnnouncement.DEST_NOT_CORRECT);
+            throw new DestNotCorrectException();
         }
 
         // Confermo che ci sia un solo argomento per il messaggio
@@ -81,20 +84,20 @@ public abstract class Handler {
         Username from = msg.getFrom();
         Username to = msg.getTo();
         if(!App.server.isUserValid(from)){
-            throw new HandlerException(ServerAnnouncement.NEED_NAME);
+            throw new NeedNameException();
         } else if(!App.server.isUserValid(to)){
-            throw new HandlerException(ServerAnnouncement.DEST_NOT_CORRECT);
+            throw new DestNotCorrectException();
         }
 
         if(msg.getArgs()[0].equals(CommandType.DISCONNECT.toString())){
             throw new HandlerException(ServerAnnouncement.DISCONNECT);
         } else {
-            throw new HandlerException(ServerAnnouncement.COMMAND_NOT_RECOGNIZED);
+            throw new CommandNotRecognizedException();
         }
 
     }
 
     public static void handle(Message msg) throws HandlerException {
-        throw new HandlerException(ServerAnnouncement.COMMAND_NOT_RECOGNIZED);
+        throw new CommandNotRecognizedException();
     }
 }
