@@ -1,6 +1,8 @@
 package it.fi.meucci;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import it.fi.meucci.exceptions.HandlerException;
 import it.fi.meucci.utils.CommandType;
 import it.fi.meucci.utils.Message;
 import it.fi.meucci.utils.ServerAnnouncement;
