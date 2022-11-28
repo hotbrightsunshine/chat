@@ -1,14 +1,20 @@
 package it.fi.meucci;
 
+import it.fi.meucci.exceptions.HandlerException;
 import it.fi.meucci.utils.Message;
+import it.fi.meucci.utils.ServerAnnouncement;
 import it.fi.meucci.utils.Username;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RequestListener implements Runnable
 {
-    // PADRE
-    private Server father;
 
     // L'username (Può essere nullable)
     private Username username;
@@ -17,22 +23,27 @@ public class RequestListener implements Runnable
     private Socket socket;
 
     // Dice se il thread può andare oppure no
+    // è falso quando c'è un'eccezione, il socket si chiude etc.
     private boolean allowedToRun;
+
+    private ObjectMapper om = new ObjectMapper();
+    private DataOutputStream outputStream;
 
     /**
      * Costruttore di RequestListener
      * @param socket Il socket
      * @param father Il server madre
+     * @throws IOException
      */
-    public RequestListener(Server father, Socket socket)
+    public RequestListener(Socket socket) throws IOException
     {
         this.socket = socket;
         allowedToRun = true;
-        this.father = father;
+        outputStream = new DataOutputStream(socket.getOutputStream());
     }
 
     /**
-     * Implementazione del metodo RUN
+     * Implementazione del metodo Thread.run()
      */
     @Override
     public void run() {
@@ -68,8 +79,9 @@ public class RequestListener implements Runnable
     /**
      * In base al messaggio ricevuto, ha un comportamento diverso. 
      * @param msg È il messaggio appena ricevuto
+     * @throws IOException
      */
-    public void handle(Message msg){
+    public void handle(Message msg) throws IOException{
         /*
          * Il messaggio ha diversi tipi.
          * Se è un MESSAGGIO {
@@ -89,6 +101,7 @@ public class RequestListener implements Runnable
                     Handler.handleCommand(msg);
                 } catch (HandlerException e) {
 
+                    }
                 }
                 break;
             case MESSAGE:
@@ -110,19 +123,26 @@ public class RequestListener implements Runnable
 
     /**
      * Manda al client un messaggio con dentro la lista degli utenti
+     * @throws JsonProcessingException Lanciata quando il parsing non riesce
+     * @throws IOException Lanciata quando non il mandato non può essere inviato
      */
-    public void sendList(){
+    public void sendList() throws JsonProcessingException, IOException {
         // Lista di utenti autorizzati: Server.getUsername
+        ArrayList<Username> usernames = App.server.getUsernames();
         // Generazione del messaggio ServerAnnouncement.listAnnouncement(lista di utenti autorizzati)
-        // Serializzazione del messaggio
+        Message msg = ServerAnnouncement.createListAnnouncement(usernames, username);
         // send 
+        send(msg);
     }
 
     /**
      * Manda un messaggio al client
+     * @param msg Il messaggio da inviare
+     * @throws IOException Lanciata quando il messaggio non può essere mandato
      *  */ 
-    public void send(){
-
+    public void send(Message msg) throws IOException {
+        String str = om.writeValueAsString(msg);
+        outputStream.writeBytes(str);
     }
 
     public boolean isAllowedToRun() {
@@ -131,14 +151,6 @@ public class RequestListener implements Runnable
 
     public void setAllowedToRun(boolean allowedToRun) {
         this.allowedToRun = allowedToRun;
-    }
-
-    public Server getFather() {
-        return father;
-    }
-
-    public void setFather(Server father) {
-        this.father = father;
     }
 
     public Username getUsername() {

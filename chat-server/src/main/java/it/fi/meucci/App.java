@@ -1,5 +1,6 @@
 package it.fi.meucci;
 
+import java.io.IOException;
 import java.net.Inet4Address;
 
 /**
@@ -15,8 +16,9 @@ public class App
     /**
      * Fa partire il server
      * @param args Command Line Arguments
+     * @throws IOException
      */
-    public static void main( String[] args )
+    public static void main( String[] args ) throws IOException
     {
         // Crea un server
         // Lo avvia

@@ -10,10 +10,10 @@ public enum ServerAnnouncement {
     NAME_OK, // Il nome inserito va bene
     NAME_NOT_OK, // Il nome inserito non va bene
     NEED_NAME, // Il client non ha un nome
-    LIST, // Lista dei messaggi
+    LIST, // Lista dei partecipanti
     DEST_NOT_CORRECT, // Il destinatario del server non è corretto
     DISCONNECT,
-    INVALID_REQUEST
+    COMMAND_NOT_RECOGNIZED
     ;
 
     /**
@@ -21,7 +21,7 @@ public enum ServerAnnouncement {
      * @param utenti la lista degli utenti connessi del server
      * @return Un messaggio di tipo LIST
      */
-    public static Message listAnnouncement(ArrayList<Username> utenti, Username to){
+    public static Message createListAnnouncement(ArrayList<Username> utenti, Username to){
         ArrayList<String> strings= new ArrayList<>();
         for(Username u : utenti){
             strings.add(u.getUsername());
@@ -37,7 +37,9 @@ public enum ServerAnnouncement {
      * @param to A chi è direzionato il messaggio
      * @return un messaggio di tipo NEED_NAME
      */
-    public static Message createServerAnnouncement(Username to, ServerAnnouncement t){
+    public static Message createServerAnnouncement(
+        ServerAnnouncement t, 
+        Username to){
         String[] tmp = {t.toString()};
         return new Message(Type.SERVER_ANN, Username.server(), to, tmp);
     }

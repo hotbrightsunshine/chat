@@ -31,7 +31,7 @@ public class Server
             Socket s = serverSocket.accept();
 
             // Creazione del Thread e del RequestListener
-            RequestListener r = new RequestListener(this, s);
+            RequestListener r = new RequestListener(s);
             Thread t = new Thread(r);
 
             // Aggiungo il Request Listener alla lista di listener 

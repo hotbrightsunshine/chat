@@ -3,6 +3,10 @@ package it.fi.meucci.utils;
 
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import it.fi.meucci.exceptions.HandlerException;
+
 /**
  * I messaggi che vengono scambiati tra client e server.
  * Hanno un tipo, un destinatario, e un mittente.
@@ -25,7 +29,11 @@ public class Message
      * @param args La lista di argomenti del comando o del messaggio
      * @since 1.0
      */
-    public Message(Type type, Username from, Username to, String[] args) {
+    public Message(
+        @JsonProperty("type") Type type, 
+        @JsonProperty("from") Username from,
+        @JsonProperty("to") Username to,
+        @JsonProperty("args") String[] args) {
         this.type = type;
         this.from = from;
         this.to = to;
