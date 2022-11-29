@@ -82,7 +82,8 @@ public class RequestListener implements Runnable {
                 if(t_msg.equals(CommandType.CHANGE_NAME)){
                     //
                     if(App.server.isUserAvailable(usr)){
-
+                        this.username = usr;
+                        send(ServerAnnouncement.createJoinedAnnouncement(usr));
                     }
                 }
                 //Controlla il tipo
