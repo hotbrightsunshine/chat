@@ -23,4 +23,8 @@ public abstract class HandlerException extends Exception {
     public String toString() {
         return "HandlerException: " + getServerAnnouncement().toString() + " was issued.";
     }
+
+    public void print(){
+        System.out.println(this.toString());
+    }
 }

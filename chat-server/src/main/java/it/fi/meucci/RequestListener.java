@@ -1,11 +1,6 @@
 package it.fi.meucci;
 
-import it.fi.meucci.exceptions.CommandNotRecognizedException;
-import it.fi.meucci.exceptions.DestNotCorrectException;
-import it.fi.meucci.exceptions.DisconnectException;
 import it.fi.meucci.exceptions.HandlerException;
-import it.fi.meucci.exceptions.NameNotOkException;
-import it.fi.meucci.exceptions.NeedNameException;
 import it.fi.meucci.utils.Message;
 import it.fi.meucci.utils.ServerAnnouncement;
 import it.fi.meucci.utils.Username;
@@ -100,28 +95,25 @@ public class RequestListener implements Runnable {
          * // IMPORTANTE
          * Se questi messaggi ritornano delle eccezioni, è importante gestirle!
          */
-        switch (msg.getType()) {
-            case COMMAND:
-                try {
+
+        try {
+            switch (msg.getType()) {
+                case COMMAND:
                     Handler.handleCommand(msg);
-                } 
                 break;
-            case MESSAGE:
-                try {
+                case MESSAGE:
                     Handler.handleMessage(msg);
-                } catch (HandlerException e) {
-                    // Guarda le eccezioni! Se hanno il tipo SA.DISCONNECT devi chiuedere il socket!
-                }
                 break;
-            default:
-                try {
+                default:
                     Handler.handle(msg);
-                } catch (HandlerException e) {
-
-                }
                 break;
-
+    
+            }
+        } catch (HandlerException e){
+            e.print();
         }
+
+        
 
     }
 

@@ -1,11 +1,6 @@
 package it.fi.meucci.utils;
 
-
-import java.util.ArrayList;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import it.fi.meucci.exceptions.HandlerException;
 
 /**
  * I messaggi che vengono scambiati tra client e server.

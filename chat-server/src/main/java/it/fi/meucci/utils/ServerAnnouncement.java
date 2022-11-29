@@ -1,7 +1,5 @@
 package it.fi.meucci.utils;
 
-import it.fi.meucci.Server;
-
 import java.util.ArrayList;
 
 public enum ServerAnnouncement {
