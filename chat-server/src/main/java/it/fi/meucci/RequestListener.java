@@ -126,7 +126,7 @@ public class RequestListener implements Runnable {
         }
 
         // Appena la socket è chiusa, manda un messaggio SERVER ANNOUNCEMENT con LEFT
-        Message msgLeft = ServerAnnouncement.createServerAnnouncement(ServerAnnouncement.LEFT, username);
+        Message msgLeft = ServerAnnouncement.createLeftAnnouncement(username);
         try {
             send(msgLeft);
         } catch (IOException e) {
@@ -188,9 +188,15 @@ public class RequestListener implements Runnable {
      * @throws IOException Lanciata quando il messaggio non può essere mandato
      */
     public void send(Message msg) throws IOException {
+        if(msg.getTo()==Username.everyone())
+        {
+            App.server.send(msg);
+            return;
+        }
         String str = om.writeValueAsString(msg);
         outputStream.writeBytes(str);
     }
+
 
     public Message read() throws IOException{
         String read = inputStream.readLine();

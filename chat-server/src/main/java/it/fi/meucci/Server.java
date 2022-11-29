@@ -59,7 +59,7 @@ public class Server
     }
 
     public void send(Message msg){
-
+        
     }
 
     public boolean isUserValid(Username username){
