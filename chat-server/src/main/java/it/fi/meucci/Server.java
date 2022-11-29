@@ -68,4 +68,8 @@ public class Server
         }
         return getUsernames().contains(username);
     }
+
+    public boolean isUserAvailable(Username username){
+        return !isUserValid(username);
+    }
 }

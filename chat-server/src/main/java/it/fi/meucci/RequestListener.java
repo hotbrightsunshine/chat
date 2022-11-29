@@ -73,9 +73,11 @@ public class RequestListener implements Runnable {
          */
         while(username==null){
             try {
+                // leggi il messaggio
                 Message msg = read();
-                if(msg.getArgs()[0].equals(CommandType.CHANGE_NAME.toString())){
-                    
+                // vede se l'argomento del messaggio è CHANGE NAME
+               if(msg.getArgs()[0].equals(CommandType.CHANGE_NAME.toString())){
+                                        
                 }
                 //Controlla il tipo
                 //Se il tipo è un comando di tipo name
