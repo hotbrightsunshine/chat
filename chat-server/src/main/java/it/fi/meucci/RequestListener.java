@@ -1,12 +1,16 @@
 package it.fi.meucci;
 
 import it.fi.meucci.exceptions.HandlerException;
+import it.fi.meucci.utils.CommandType;
 import it.fi.meucci.utils.Message;
 import it.fi.meucci.utils.ServerAnnouncement;
+import it.fi.meucci.utils.Type;
 import it.fi.meucci.utils.Username;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -27,7 +31,7 @@ public class RequestListener implements Runnable {
 
     private ObjectMapper om = new ObjectMapper();
     private DataOutputStream outputStream;
-
+    private BufferedReader inputStream;
     /**
      * Costruttore di RequestListener
      * 
@@ -39,6 +43,7 @@ public class RequestListener implements Runnable {
         this.socket = socket;
         allowedToRun = true;
         outputStream = new DataOutputStream(socket.getOutputStream());
+        inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
     /**
@@ -52,11 +57,38 @@ public class RequestListener implements Runnable {
         // ServerAnnouncement.needNameMessage()
         // Serializza il messaggio ^
         // send(messaggio serializzato in JSON)
+        try {
+            sendList();
+            send(ServerAnnouncement.createServerAnnouncement(ServerAnnouncement.NEED_NAME, username));
+        } catch (JsonProcessingException e) {    
+            e.printStackTrace();
+            return;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
 
         /*
          * While non ha un nome (){}
          */
+        while(username==null){
+            try {
+                Message msg = read();
+                if(msg.getArgs()[0].equals(CommandType.CHANGE_NAME.toString())){
+                    
+                }
+                //Controlla il tipo
+                //Se il tipo è un comando di tipo name
+                //Controllo che il nome non sia già usato 
+                //Se non è usato setto username
+                // Mando un messaggio al client di NAME_OK
 
+            } catch (IOException e) {
+              
+                e.printStackTrace();
+            }
+
+        }
         /*
          * SERVER ANNOUNCEMENT con JOINED e il nome del nuovo utente
          */
@@ -82,20 +114,6 @@ public class RequestListener implements Runnable {
      * @throws IOException
      */
     public void handle(Message msg) throws IOException {
-        /*
-         * Il messaggio ha diversi tipi.
-         * Se è un MESSAGGIO {
-         * Handler.handleMessage(msg);
-         * } SE è UN COMANDO {
-         * Handler.handleCommand(msg);
-         * } ALTRIMENTI {
-         * Handler.handle(msg);
-         * }
-         * 
-         * // IMPORTANTE
-         * Se questi messaggi ritornano delle eccezioni, è importante gestirle!
-         */
-
         try {
             switch (msg.getType()) {
                 case COMMAND:
@@ -107,14 +125,16 @@ public class RequestListener implements Runnable {
                 default:
                     Handler.handle(msg);
                 break;
-    
             }
         } catch (HandlerException e){
             e.print();
+            send(
+                ServerAnnouncement
+                .createServerAnnouncement(
+                    e.getServerAnnouncement(),
+                username)
+            );
         }
-
-        
-
     }
 
     /**
@@ -143,6 +163,11 @@ public class RequestListener implements Runnable {
     public void send(Message msg) throws IOException {
         String str = om.writeValueAsString(msg);
         outputStream.writeBytes(str);
+    }
+
+    public Message read() throws IOException{
+        String read = inputStream.readLine();
+        return om.readValue(read, Message.class);
     }
 
     public boolean isAllowedToRun() {

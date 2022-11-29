@@ -5,12 +5,12 @@ public enum CommandType {
     DISCONNECT;
 
     public CommandType fromString(String str){
-        if(str.equals("CHANGE_NAME")){
+        if(str.toUpperCase().equals("CHANGE_NAME")){
             return CHANGE_NAME;
         }
         else
 
-        if(str.equals("DISCONNECT")){
+        if(str.toUpperCase().equals("DISCONNECT")){
             return DISCONNECT;
         } else
             return null;
