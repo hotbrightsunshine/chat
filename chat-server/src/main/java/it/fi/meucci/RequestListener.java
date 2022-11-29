@@ -108,28 +108,31 @@ public class RequestListener implements Runnable {
             try {
                 Message msg = read();
                 handle(msg);
-                Thread temp = new Thread(new Runnable() {
+
+                Thread temp = new Thread(new MessageHandlerThread(msg) {
                     @Override
                     public void run() {
-                        handle(msg);
+                        try {
+                            handle(this.getMessage());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
             
-                
-            ;
-            // Ascolto dei messaggi sul canale
-            // Deserializzazione del messaggio
-            // Interpretazione del messaggio: spedisco il msg al metodo HANDLE
-
-            // IMPORTANTISSIMO!
-            // Creo un nuovo Thread temporaneo per eseguire HANDLE
-            // con new Thread(new Runnable(run(){ handle() }));
         }
 
         // Appena la socket è chiusa, manda un messaggio SERVER ANNOUNCEMENT con LEFT
+        Message msgLeft = ServerAnnouncement.createLeftAnnouncement(username);
+        try {
+            send(msgLeft);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -186,9 +189,15 @@ public class RequestListener implements Runnable {
      * @throws IOException Lanciata quando il messaggio non può essere mandato
      */
     public void send(Message msg) throws IOException {
+        if(msg.getTo()==Username.everyone())
+        {
+            App.server.send(msg);
+            return;
+        }
         String str = om.writeValueAsString(msg);
         outputStream.writeBytes(str);
     }
+
 
     public Message read() throws IOException{
         String read = inputStream.readLine();
