@@ -75,7 +75,7 @@ public class RequestListener implements Runnable {
             try {
                 Message msg = read();
                 if(msg.getArgs()[0].equals(CommandType.CHANGE_NAME.toString())){
-                    
+
                 }
                 //Controlla il tipo
                 //Se il tipo è un comando di tipo name
@@ -95,9 +95,24 @@ public class RequestListener implements Runnable {
 
         // Inizio della procedura "ciclata"
         while (allowedToRun) { // oppure finché il socket non è chiuso
+            try {
+                Message msg = read();
+                handle(msg);
+                Thread temp = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        handle(msg);
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            
+                
+            ;
             // Ascolto dei messaggi sul canale
             // Deserializzazione del messaggio
-            // Interpretazione del messaggio: spendisco il msg al metodo HANDLE
+            // Interpretazione del messaggio: spedisco il msg al metodo HANDLE
 
             // IMPORTANTISSIMO!
             // Creo un nuovo Thread temporaneo per eseguire HANDLE
