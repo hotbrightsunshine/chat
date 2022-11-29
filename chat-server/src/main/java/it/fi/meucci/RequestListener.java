@@ -73,9 +73,17 @@ public class RequestListener implements Runnable {
          */
         while(username==null){
             try {
+                // leggi il messaggio
                 Message msg = read();
-                if(msg.getArgs()[0].equals(CommandType.CHANGE_NAME.toString())){
 
+                CommandType t_msg = CommandType.fromString(msg.getArgs()[0]);
+                Username usr = new Username(msg.getArgs()[1]);
+                // Se il tipo di comando è CHANGE NAME
+                if(t_msg.equals(CommandType.CHANGE_NAME)){
+                    //
+                    if(App.server.isUserAvailable(usr)){
+
+                    }
                 }
                 //Controlla il tipo
                 //Se il tipo è un comando di tipo name
@@ -84,7 +92,8 @@ public class RequestListener implements Runnable {
                 // Mando un messaggio al client di NAME_OK
 
             } catch (IOException e) {
-              
+                e.printStackTrace();
+            } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
 
