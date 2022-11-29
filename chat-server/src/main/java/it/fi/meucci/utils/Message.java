@@ -35,6 +35,9 @@ public class Message
         this.args = args;
     }
 
+    public
+    // fare il metodo per validare il messaggio se ha i parametri sbagliati per il cambio nome
+
     public Type getType() {
         return type;
     }

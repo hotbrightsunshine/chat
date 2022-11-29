@@ -1,10 +1,11 @@
 package it.fi.meucci;
 
+import it.fi.meucci.exceptions.CommandNotRecognizedException;
 import it.fi.meucci.exceptions.HandlerException;
+import it.fi.meucci.exceptions.NameNotOkException;
 import it.fi.meucci.utils.CommandType;
 import it.fi.meucci.utils.Message;
 import it.fi.meucci.utils.ServerAnnouncement;
-import it.fi.meucci.utils.Type;
 import it.fi.meucci.utils.Username;
 
 import java.io.BufferedReader;
@@ -46,19 +47,32 @@ public class RequestListener implements Runnable {
         inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
+    public void changeName(Username usr) throws IOException {
+        if(App.server.isUserAvailable(usr)){
+            // Mando all'utente che il nome è ok
+            send(ServerAnnouncement 
+            .createServerAnnouncement(ServerAnnouncement.NAME_OK, username));
+            // dico a tutti gli altri che l'utente ha cambiato nome
+            if(username != null){
+                send(ServerAnnouncement
+                .createUsernameChangedAnnouncement(username, usr));
+            }
+            this.username = usr;
+        } else {
+            send(ServerAnnouncement 
+            .createServerAnnouncement(ServerAnnouncement.NAME_NOT_OK, username));
+        }
+    }
+
     /**
      * Implementazione del metodo Thread.run()
      */
     @Override
     public void run() {
-        // Sicuramente il client appena connesso non ha un username.
-        // Manda la lista di client *ABILITATI* a parlare (sendList())
-        // Manda un messaggio missing name
-        // ServerAnnouncement.needNameMessage()
-        // Serializza il messaggio ^
-        // send(messaggio serializzato in JSON)
         try {
+            // Invio al client appena connesso una lista di client attualmente connessi e abilitati.
             sendList();
+            // Dice al client che ha bisogno di un nome.
             send(ServerAnnouncement.createServerAnnouncement(ServerAnnouncement.NEED_NAME, username));
         } catch (JsonProcessingException e) {    
             e.printStackTrace();
@@ -68,48 +82,59 @@ public class RequestListener implements Runnable {
             return;
         }
 
-        /*
-         * While non ha un nome (){}
-         */
+        // Fino a che non ha un nome
         while(username==null){
             try {
                 // leggi il messaggio
                 Message msg = read();
+                CommandType t_msg = null;
+                Username usr = null;
 
-                CommandType t_msg = CommandType.fromString(msg.getArgs()[0]);
-                Username usr = new Username(msg.getArgs()[1]);
+                try {
+                    // Estraggo il tipo e il parametro per leggibilità
+                    t_msg = CommandType.fromString(msg.getArgs()[0]);
+                    usr = new Username(msg.getArgs()[1]);
+                } catch (IndexOutOfBoundsException e) {
+                    send(ServerAnnouncement.createServerAnnouncement(
+                        ServerAnnouncement.COMMAND_NOT_RECOGNIZED, usr));
+                    continue;
+                }
+                
+
                 // Se il tipo di comando è CHANGE NAME
                 if(t_msg.equals(CommandType.CHANGE_NAME)){
-                    //
-                    if(App.server.isUserAvailable(usr)){
-                        this.username = usr;
-                        send(ServerAnnouncement.createJoinedAnnouncement(usr));
-                    }
+                    changeName(usr);
+                } else {
+                    // Ha mandato un messaggio diverso da name, quindi 
+                    send(ServerAnnouncement.createServerAnnouncement(
+                        ServerAnnouncement.NEED_NAME, usr));
+                    // La richiesta effettuata dal client non viene presa in considerazione.
                 }
-                //Controlla il tipo
-                //Se il tipo è un comando di tipo name
-                //Controllo che il nome non sia già usato 
-                //Se non è usato setto username
-                // Mando un messaggio al client di NAME_OK
 
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (IndexOutOfBoundsException e) {
+                // I parametri indirizzati non sono validi per args, quindi il comando non è valido
                 e.printStackTrace();
             }
-
         }
-        /*
-         * SERVER ANNOUNCEMENT con JOINED e il nome del nuovo utente
-         */
+        // L'utente ha un nome. 
+        // Dovrei aggiungere un massimo di errori per non ingolfare il server. 
+
+        // Si è connesso il client!
+        try {
+            send(ServerAnnouncement.createJoinedAnnouncement(username));
+        } catch (IOException e1) {
+            e1.printStackTrace();
+            return;
+        }
 
         // Inizio della procedura "ciclata"
         while (allowedToRun) { // oppure finché il socket non è chiuso
             try {
                 Message msg = read();
-                handle(msg);
 
-                Thread temp = new Thread(new MessageHandlerThread(msg) {
+                new Thread(new MessageHandlerThread(msg) {
                     @Override
                     public void run() {
                         try {
@@ -118,7 +143,7 @@ public class RequestListener implements Runnable {
                             e.printStackTrace();
                         }
                     }
-                });
+                }).start();
 
             } catch (IOException e) {
                 e.printStackTrace();

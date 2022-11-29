@@ -89,7 +89,10 @@ public abstract class Handler {
 
         if(msg.getArgs()[0].equals(CommandType.DISCONNECT.toString())){
             throw new DisconnectException();
-        } else {
+        } else if (msg.getArgs()[0].equals(CommandType.CHANGE_NAME.toString())) {
+            
+        }
+        else {
             throw new CommandNotRecognizedException();
         }
 
