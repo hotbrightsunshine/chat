@@ -41,4 +41,18 @@ public enum ServerAnnouncement {
         String[] tmp = {t.toString()};
         return new Message(Type.SERVER_ANN, Username.server(), to, tmp);
     }
+
+    public static Message createJoinedAnnouncement(
+        Username joined, 
+        Username to) {
+        String[] tmp = {joined.toString()};
+        return new Message(Type.SERVER_ANN, Username.server(), to, tmp);
+    }
+
+    public static Message createLeftAnnouncement(
+        Username left, 
+        Username to) {
+        String[] tmp = {left.toString()};
+        return new Message(Type.SERVER_ANN, Username.server(), to, tmp);
+    }
 }

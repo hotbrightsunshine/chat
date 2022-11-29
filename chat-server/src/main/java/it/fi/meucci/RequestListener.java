@@ -75,10 +75,13 @@ public class RequestListener implements Runnable {
             try {
                 // leggi il messaggio
                 Message msg = read();
-                // vede se l'argomento del messaggio è CHANGE NAME
-                CommandType t_msg = CommandTypemsg.getArgs()[0];
-                if(msg.getArgs()[0].equals(CommandType.CHANGE_NAME.toString())){
-                    if(App.server.isUserAvailable(new Username(msg.getArgs()[1]))){
+
+                CommandType t_msg = CommandType.fromString(msg.getArgs()[0]);
+                Username usr = new Username(msg.getArgs()[1]);
+                // Se il tipo di comando è CHANGE NAME
+                if(t_msg.equals(CommandType.CHANGE_NAME)){
+                    //
+                    if(App.server.isUserAvailable(usr)){
 
                     }
                 }
@@ -89,7 +92,8 @@ public class RequestListener implements Runnable {
                 // Mando un messaggio al client di NAME_OK
 
             } catch (IOException e) {
-              
+                e.printStackTrace();
+            } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
 
@@ -100,9 +104,24 @@ public class RequestListener implements Runnable {
 
         // Inizio della procedura "ciclata"
         while (allowedToRun) { // oppure finché il socket non è chiuso
+            try {
+                Message msg = read();
+                handle(msg);
+                Thread temp = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        handle(msg);
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            
+                
+            ;
             // Ascolto dei messaggi sul canale
             // Deserializzazione del messaggio
-            // Interpretazione del messaggio: spendisco il msg al metodo HANDLE
+            // Interpretazione del messaggio: spedisco il msg al metodo HANDLE
 
             // IMPORTANTISSIMO!
             // Creo un nuovo Thread temporaneo per eseguire HANDLE
