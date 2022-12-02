@@ -2,7 +2,7 @@ package it.fi.meucci.utils;
 
 import java.util.ArrayList;
 
-
+import it.fi.meucci.Client;
 
 public enum ServerAnnouncement {
     JOINED, // Un utente entra
