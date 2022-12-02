@@ -27,6 +27,7 @@ public class Server
      */
     public void accept() throws IOException {
         while(true){
+            System.out.println("In attesa di una nuova connessione...");
             // Metodo accept del serversocket
             Socket s = serverSocket.accept();
 
