@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import it.fi.meucci.exceptions.CommandNotRecognizedException;
 import it.fi.meucci.exceptions.DestNotCorrectException;
+import it.fi.meucci.exceptions.DisconnectException;
 import it.fi.meucci.exceptions.HandlerException;
 import it.fi.meucci.exceptions.NeedNameException;
 import it.fi.meucci.utils.CommandType;
@@ -26,7 +27,9 @@ public abstract class Handler {
      * @param msg Il messaggio da gestire
      * @throws HandlerException Può mandare una eccezione nel caso il messaggio non sia validabile
      */
-    public static void handleMessage(Message msg) throws HandlerException {
+    public static void handleMessage(Message msg) 
+    throws  NeedNameException, 
+            DestNotCorrectException {
         /*
          * Se mittente e destinatario sono validi:
          *      estrae il destinatario. 
@@ -64,7 +67,11 @@ public abstract class Handler {
      * @param msg il comando da elaborare
      * @throws HandlerException scatena una eccezione nel caso in cui il messaggio non sia validabile
      */
-    public static void handleCommand(Message msg) throws HandlerException {
+    public static void handleCommand(Message msg) 
+    throws  NeedNameException, 
+            DestNotCorrectException, 
+            DisconnectException, 
+            CommandNotRecognizedException {
         /*
          * Se il mittente è valido:
          *      Allora va bene. 
@@ -90,7 +97,7 @@ public abstract class Handler {
         }
 
         if(msg.getArgs()[0].equals(CommandType.DISCONNECT.toString())){
-            throw new HandlerException(ServerAnnouncement.DISCONNECT);
+            throw new DisconnectException();
         } else {
             throw new CommandNotRecognizedException();
         }

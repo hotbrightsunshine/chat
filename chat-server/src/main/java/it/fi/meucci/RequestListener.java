@@ -100,29 +100,28 @@ public class RequestListener implements Runnable {
          * // IMPORTANTE
          * Se questi messaggi ritornano delle eccezioni, è importante gestirle!
          */
-        switch (msg.getType()) {
-            case COMMAND:
-                try {
+
+        try {
+            switch (msg.getType()) {
+                case COMMAND:
                     Handler.handleCommand(msg);
-                } 
-                break;
-            case MESSAGE:
-                try {
+                    break;
+                case MESSAGE:
                     Handler.handleMessage(msg);
-                } catch (HandlerException e) {
-                    // Guarda le eccezioni! Se hanno il tipo SA.DISCONNECT devi chiuedere il socket!
-                }
-                break;
-            default:
-                try {
+                    break;
+                default:
                     Handler.handle(msg);
-                } catch (HandlerException e) {
-
-                }
-                break;
-
+                    break;
+    
+            }
+        } catch (HandlerException e) {
+            send(
+                ServerAnnouncement
+                    .createServerAnnouncement(
+                        e.getServerAnnouncement(),
+                        username)
+            );
         }
-
     }
 
     /**
