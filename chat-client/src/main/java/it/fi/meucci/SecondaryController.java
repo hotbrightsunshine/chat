@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 
 public class SecondaryController {
 
-    @FXML
     @FXML Button leave;
     @FXML Button sendMess;
     @FXML ListView listaPart;
