@@ -35,7 +35,18 @@ public class Message
         this.args = args;
     }
 
-    public
+    public boolean isChangeNameMessageValid(){
+        if(this.type != Type.COMMAND)
+            return false;
+
+        if(this.args.length == 2){
+            if(!this.args[0].equals(CommandType.CHANGE_NAME.toString())){
+                return false;
+            }
+        }
+        
+        return true;
+    }
     // fare il metodo per validare il messaggio se ha i parametri sbagliati per il cambio nome
 
     public Type getType() {

@@ -22,5 +22,6 @@ public class App
         // Crea un server
         // Lo avvia
         App.server = new Server(PORT);
+        server.accept();
     }
 }
