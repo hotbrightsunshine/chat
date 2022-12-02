@@ -1,13 +1,26 @@
 package it.fi.meucci;
 
+import java.io.IOException;
+
 /**
  * Hello world!
  *
  */
 public class App 
 {
-    public static void main( String[] args )
+    // PORTA
+    public static final int PORT = 7777;
+    public static Server server;
+
+    /**
+     * Fa partire il server
+     * @param args Command Line Arguments
+     * @throws IOException
+     */
+    public static void main( String[] args ) throws IOException
     {
-        System.out.println( "Hello World!" );
+        // Crea un server
+        // Lo avvia
+        App.server = new Server(PORT);
     }
 }

@@ -44,11 +44,14 @@ public class Client {
             // TODO: handle exception
         }
 
+<<<<<<< HEAD
 
     } 
         /**
    * - Serializza il messaggio e lo invia
   */
+=======
+>>>>>>> c26b3894e4ccc2f4e4364e61e0115d91d223d8fc
     public void send(Message message){
         //Serializza il messaggio
         //invia al server il messaggio

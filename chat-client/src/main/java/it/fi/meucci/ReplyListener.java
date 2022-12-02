@@ -63,6 +63,7 @@ public class ReplyListener implements Runnable {
         //controllo il tipo di messaggio inviato se è un messaggio per l'utente o se è un SERVER_ANN
         //ulteriore controllo sul tipo di SERVER_ANN
         //stampa il messaggio
+        if(message.)
     }
 /**
  * Chiude la lettura dell'output del socket
