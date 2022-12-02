@@ -32,13 +32,6 @@ public class Client {
         //inizializzazione attributi (streamReader ecc..)
     }
 
-
-     /**
-   * - Viene letto ciò che è stato scritto dall'utente
-   * - Avviene poi la validazione del messaggio
-   * - In caso il messaggio sia valido viene ritornato il messaggio
-   * - In caso il messaggio non sia valido viene ritornato "null"
-  */
     public void send(Message message){
         //Serializza il messaggio
         //invia al server il messaggio
