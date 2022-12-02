@@ -36,8 +36,9 @@ public class App extends Application {
     }
 
     public static void main(String[] args) throws IOException {
-       //Client c = new Client(ADDRESS, PORT);
-        launch();
+       Client c = new Client(ADDRESS, PORT);
+        //launch();
+        
     }
 
 }
