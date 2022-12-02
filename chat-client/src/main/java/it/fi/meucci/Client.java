@@ -42,13 +42,10 @@ public class Client {
             output = new DataOutputStream(socket.getOutputStream());
         } catch (Exception e) {
             // TODO: handle exception
+            e.printStackTrace();
         }
+    }
 
-
-    } 
-        /**
-   * - Serializza il messaggio e lo invia
-  */
     public void send(Message message){
         //Serializza il messaggio
         //invia al server il messaggio
