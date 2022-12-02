@@ -1,11 +1,6 @@
 package it.fi.meucci.utils;
 
-
-import java.util.ArrayList;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import it.fi.meucci.exceptions.HandlerException;
 
 /**
  * I messaggi che vengono scambiati tra client e server.
@@ -39,6 +34,9 @@ public class Message
         this.to = to;
         this.args = args;
     }
+
+    public
+    // fare il metodo per validare il messaggio se ha i parametri sbagliati per il cambio nome
 
     public Type getType() {
         return type;

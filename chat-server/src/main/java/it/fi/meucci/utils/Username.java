@@ -47,4 +47,12 @@ public class Username {
             return username.equals(((Username) obj).username);
         }
     }
+
+    @Override
+    public String toString() {
+        if(this.username == null) {
+            return "";
+        }
+        return username;
+    }
 }

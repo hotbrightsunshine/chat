@@ -1,17 +1,17 @@
 package it.fi.meucci;
 
 import it.fi.meucci.exceptions.CommandNotRecognizedException;
-import it.fi.meucci.exceptions.DestNotCorrectException;
-import it.fi.meucci.exceptions.DisconnectException;
 import it.fi.meucci.exceptions.HandlerException;
 import it.fi.meucci.exceptions.NameNotOkException;
-import it.fi.meucci.exceptions.NeedNameException;
+import it.fi.meucci.utils.CommandType;
 import it.fi.meucci.utils.Message;
 import it.fi.meucci.utils.ServerAnnouncement;
 import it.fi.meucci.utils.Username;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -32,7 +32,7 @@ public class RequestListener implements Runnable {
 
     private ObjectMapper om = new ObjectMapper();
     private DataOutputStream outputStream;
-
+    private BufferedReader inputStream;
     /**
      * Costruttore di RequestListener
      * 
@@ -44,6 +44,24 @@ public class RequestListener implements Runnable {
         this.socket = socket;
         allowedToRun = true;
         outputStream = new DataOutputStream(socket.getOutputStream());
+        inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    }
+
+    public void changeName(Username usr) throws IOException {
+        if(App.server.isUserAvailable(usr)){
+            // Mando all'utente che il nome è ok
+            send(ServerAnnouncement 
+            .createServerAnnouncement(ServerAnnouncement.NAME_OK, username));
+            // dico a tutti gli altri che l'utente ha cambiato nome
+            if(username != null){
+                send(ServerAnnouncement
+                .createUsernameChangedAnnouncement(username, usr));
+            }
+            this.username = usr;
+        } else {
+            send(ServerAnnouncement 
+            .createServerAnnouncement(ServerAnnouncement.NAME_NOT_OK, username));
+        }
     }
 
     /**
@@ -51,33 +69,95 @@ public class RequestListener implements Runnable {
      */
     @Override
     public void run() {
-        // Sicuramente il client appena connesso non ha un username.
-        // Manda la lista di client *ABILITATI* a parlare (sendList())
-        // Manda un messaggio missing name
-        // ServerAnnouncement.needNameMessage()
-        // Serializza il messaggio ^
-        // send(messaggio serializzato in JSON)
+        try {
+            // Invio al client appena connesso una lista di client attualmente connessi e abilitati.
+            sendList();
+            // Dice al client che ha bisogno di un nome.
+            send(ServerAnnouncement.createServerAnnouncement(ServerAnnouncement.NEED_NAME, username));
+        } catch (JsonProcessingException e) {    
+            e.printStackTrace();
+            return;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
 
-        /*
-         * While non ha un nome (){}
-         */
+        // Fino a che non ha un nome
+        while(username==null){
+            try {
+                // leggi il messaggio
+                Message msg = read();
+                CommandType t_msg = null;
+                Username usr = null;
 
-        /*
-         * SERVER ANNOUNCEMENT con JOINED e il nome del nuovo utente
-         */
+                try {
+                    // Estraggo il tipo e il parametro per leggibilità
+                    t_msg = CommandType.fromString(msg.getArgs()[0]);
+                    usr = new Username(msg.getArgs()[1]);
+                } catch (IndexOutOfBoundsException e) {
+                    send(ServerAnnouncement.createServerAnnouncement(
+                        ServerAnnouncement.COMMAND_NOT_RECOGNIZED, usr));
+                    continue;
+                }
+                
+
+                // Se il tipo di comando è CHANGE NAME
+                if(t_msg.equals(CommandType.CHANGE_NAME)){
+                    changeName(usr);
+                } else {
+                    // Ha mandato un messaggio diverso da name, quindi 
+                    send(ServerAnnouncement.createServerAnnouncement(
+                        ServerAnnouncement.NEED_NAME, usr));
+                    // La richiesta effettuata dal client non viene presa in considerazione.
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (IndexOutOfBoundsException e) {
+                // I parametri indirizzati non sono validi per args, quindi il comando non è valido
+                e.printStackTrace();
+            }
+        }
+        // L'utente ha un nome. 
+        // Dovrei aggiungere un massimo di errori per non ingolfare il server. 
+
+        // Si è connesso il client!
+        try {
+            send(ServerAnnouncement.createJoinedAnnouncement(username));
+        } catch (IOException e1) {
+            e1.printStackTrace();
+            return;
+        }
 
         // Inizio della procedura "ciclata"
         while (allowedToRun) { // oppure finché il socket non è chiuso
-            // Ascolto dei messaggi sul canale
-            // Deserializzazione del messaggio
-            // Interpretazione del messaggio: spendisco il msg al metodo HANDLE
+            try {
+                Message msg = read();
 
-            // IMPORTANTISSIMO!
-            // Creo un nuovo Thread temporaneo per eseguire HANDLE
-            // con new Thread(new Runnable(run(){ handle() }));
+                new Thread(new MessageHandlerThread(msg) {
+                    @Override
+                    public void run() {
+                        try {
+                            handle(this.getMessage());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            
         }
 
         // Appena la socket è chiusa, manda un messaggio SERVER ANNOUNCEMENT con LEFT
+        Message msgLeft = ServerAnnouncement.createLeftAnnouncement(username);
+        try {
+            send(msgLeft);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -87,39 +167,25 @@ public class RequestListener implements Runnable {
      * @throws IOException
      */
     public void handle(Message msg) throws IOException {
-        /*
-         * Il messaggio ha diversi tipi.
-         * Se è un MESSAGGIO {
-         * Handler.handleMessage(msg);
-         * } SE è UN COMANDO {
-         * Handler.handleCommand(msg);
-         * } ALTRIMENTI {
-         * Handler.handle(msg);
-         * }
-         * 
-         * // IMPORTANTE
-         * Se questi messaggi ritornano delle eccezioni, è importante gestirle!
-         */
-
         try {
             switch (msg.getType()) {
                 case COMMAND:
                     Handler.handleCommand(msg);
-                    break;
+                break;
                 case MESSAGE:
                     Handler.handleMessage(msg);
-                    break;
+                break;
                 default:
                     Handler.handle(msg);
-                    break;
-    
+                break;
             }
-        } catch (HandlerException e) {
+        } catch (HandlerException e){
+            e.print();
             send(
                 ServerAnnouncement
-                    .createServerAnnouncement(
-                        e.getServerAnnouncement(),
-                        username)
+                .createServerAnnouncement(
+                    e.getServerAnnouncement(),
+                username)
             );
         }
     }
@@ -148,8 +214,19 @@ public class RequestListener implements Runnable {
      * @throws IOException Lanciata quando il messaggio non può essere mandato
      */
     public void send(Message msg) throws IOException {
+        if(msg.getTo()==Username.everyone())
+        {
+            App.server.send(msg);
+            return;
+        }
         String str = om.writeValueAsString(msg);
         outputStream.writeBytes(str);
+    }
+
+
+    public Message read() throws IOException{
+        String read = inputStream.readLine();
+        return om.readValue(read, Message.class);
     }
 
     public boolean isAllowedToRun() {

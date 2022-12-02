@@ -59,7 +59,7 @@ public class Server
     }
 
     public void send(Message msg){
-
+        
     }
 
     public boolean isUserValid(Username username){
@@ -67,5 +67,9 @@ public class Server
             return false;
         }
         return getUsernames().contains(username);
+    }
+
+    public boolean isUserAvailable(Username username){
+        return !isUserValid(username);
     }
 }

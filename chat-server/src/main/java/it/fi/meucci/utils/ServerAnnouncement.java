@@ -1,8 +1,8 @@
 package it.fi.meucci.utils;
 
-import it.fi.meucci.Server;
-
 import java.util.ArrayList;
+
+import it.fi.meucci.Server;
 
 public enum ServerAnnouncement {
     JOINED, // Un utente entra
@@ -13,7 +13,8 @@ public enum ServerAnnouncement {
     LIST, // Lista dei partecipanti
     DEST_NOT_CORRECT, // Il destinatario del server non è corretto
     DISCONNECT,
-    COMMAND_NOT_RECOGNIZED
+    COMMAND_NOT_RECOGNIZED,
+    USERNAME_CHANGED
     ;
 
     /**
@@ -42,5 +43,27 @@ public enum ServerAnnouncement {
         Username to){
         String[] tmp = {t.toString()};
         return new Message(Type.SERVER_ANN, Username.server(), to, tmp);
+    }
+
+    public static Message createJoinedAnnouncement(
+        Username joined) {
+        String[] tmp = { ServerAnnouncement.JOINED.toString(), joined.toString()};
+        return new Message(Type.SERVER_ANN, Username.server(), Username.everyone(), tmp);
+    }
+
+    public static Message createLeftAnnouncement(
+        Username left) {
+        String[] tmp = {ServerAnnouncement.LEFT.toString(), left.toString()};
+        return new Message(Type.SERVER_ANN, Username.server(), Username.everyone(), tmp);
+    }
+
+    public static Message createUsernameChangedAnnouncement(
+        Username before,
+        Username after) {
+        String[] tmp = {
+            ServerAnnouncement.USERNAME_CHANGED.toString(),
+            before.toString(), 
+            after.toString()};
+        return new Message(Type.SERVER_ANN, Username.server(), Username.everyone(), tmp);
     }
 }

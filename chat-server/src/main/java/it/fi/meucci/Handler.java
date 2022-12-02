@@ -9,11 +9,8 @@ import it.fi.meucci.exceptions.HandlerException;
 import it.fi.meucci.exceptions.NeedNameException;
 import it.fi.meucci.utils.CommandType;
 import it.fi.meucci.utils.Message;
-import it.fi.meucci.utils.ServerAnnouncement;
 import it.fi.meucci.utils.Username;
 
-import java.io.DataOutputStream;
-import java.util.ArrayList;
 
 /**
  * Questa classe contiene tutti i metodi necessari per l'inoltro e la gestione dei messaggi.
@@ -98,7 +95,10 @@ public abstract class Handler {
 
         if(msg.getArgs()[0].equals(CommandType.DISCONNECT.toString())){
             throw new DisconnectException();
-        } else {
+        } else if (msg.getArgs()[0].equals(CommandType.CHANGE_NAME.toString())) {
+            
+        }
+        else {
             throw new CommandNotRecognizedException();
         }
 
