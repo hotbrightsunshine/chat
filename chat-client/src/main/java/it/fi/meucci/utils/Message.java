@@ -1,6 +1,6 @@
 package it.fi.meucci.utils;
 
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * I messaggi che vengono scambiati tra client e server.
@@ -8,7 +8,8 @@ import java.util.ArrayList;
  * Contengono un campo opzionale chiamato “content”, usato per vari scopi, dipendentemente dal tipo del messaggio.
  * Ha un metodo statico validate che converte l’user input in un Message.
  */
-public class Message {
+public class Message
+{
     private Type type;
     private Username from;
     private Username to;
@@ -23,36 +24,60 @@ public class Message {
      * @param args La lista di argomenti del comando o del messaggio
      * @since 1.0
      */
-    private Message(Type type, Username from, Username to, String[] args) {
+    public Message(
+        @JsonProperty("type") Type type, 
+        @JsonProperty("from") Username from,
+        @JsonProperty("to") Username to,
+        @JsonProperty("args") String[] args) {
         this.type = type;
         this.from = from;
         this.to = to;
         this.args = args;
     }
 
-    /**
-     * Valida una stringa e crea un messaggio.
-     * @param str Il messaggio di input
-     * @return Il messaggio valido oppure null.
-     */
-    public static Message validate(String str){
-        char c = str.charAt(0);
-        Type type = (c == '/') ? (Type.COMMAND) : 
-            ((c == '@') ? (Type.MESSAGE) : (null));
+    public boolean isChangeNameMessageValid(){
+        if(this.type != Type.COMMAND)
+            return false;
 
-        if (type == null) {return null;}
-        else if (type == Type.COMMAND){
-            String temp = str.substring(1);
-            String[] args = temp.split(" ");
-            return new Message(type, null, Username.server(), args);
+        if(this.args.length == 2){
+            if(!this.args[0].equals(CommandType.CHANGE_NAME.toString())){
+                return false;
+            }
         }
-        else if (type == Type.MESSAGE){
-            String temp = str.substring(1);
-            String[] message = temp.split(" ");
-            ArrayList<String> strings = // continued;
-            return new Message(type, null, args[0], );
-        }
-
         
+        return true;
+    }
+    // fare il metodo per validare il messaggio se ha i parametri sbagliati per il cambio nome
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public Username getFrom() {
+        return from;
+    }
+
+    public void setFrom(Username from) {
+        this.from = from;
+    }
+
+    public Username getTo() {
+        return to;
+    }
+
+    public void setTo(Username to) {
+        this.to = to;
+    }
+
+    public String[] getArgs() {
+        return args;
+    }
+
+    public void setArgs(String[] args) {
+        this.args = args;
     }
 }
