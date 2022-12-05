@@ -48,7 +48,9 @@ public class Client {
             e.printStackTrace();
         }
 
-        testclient();
+        ReplyListener r = new ReplyListener(this);
+        Thread t = new Thread(r);
+        t.start();
     }
 
     public void testclient() throws IOException{
@@ -83,7 +85,9 @@ public class Client {
         listener.close();
     }
 
-   
+    protected Socket getSocket(){
+        return socket;
+    }
  
 
     

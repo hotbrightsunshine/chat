@@ -48,8 +48,9 @@ public class Server
      * 
      * @return Ritorna una lista di username, cioè i client connessi che hanno un username validato
      */
-    public ArrayList<Username> getUsernames(){
-        ArrayList<Username> temp = new ArrayList<>();
+    public ArrayList<String> getUsernames(){
+
+        ArrayList<String> temp = new ArrayList<>();
         for (RequestListener r:
              listeners) {
             if (r.getUsername() != null) {
@@ -59,18 +60,26 @@ public class Server
         return temp;
     }
 
-    public void send(Message msg){
-        System.out.println("DA IMPLEMENTARE");
+    public void send(Message msg) throws IOException {
+
     }
 
-    public boolean isUserValid(Username username){
-        if(username.getUsername().equals("")){
+    public void broadcast(Message msg, RequestListener caller) throws IOException {
+
+    }
+
+    public ArrayList<RequestListener> getListeners(){
+        return listeners;
+    }
+
+    public boolean isUserValid(String username){
+        if(username.equals("")){
             return false;
         }
         return getUsernames().contains(username);
     }
 
-    public boolean isUserAvailable(Username username){
+    public boolean isUserAvailable(String username){
         return !isUserValid(username);
     }
 }

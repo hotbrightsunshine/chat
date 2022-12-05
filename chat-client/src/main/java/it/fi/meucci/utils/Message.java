@@ -1,8 +1,9 @@
 package it.fi.meucci.utils;
 
-import java.util.ArrayList;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.ArrayList;
 
 /**
  * I messaggi che vengono scambiati tra client e server.
@@ -20,9 +21,9 @@ public class Message
     /**
      * Costruttore per il messaggio.
      * È privato perché l'utente può costruire il messaggio solo con validate().
-     * @param type Il tipo del messaggio {@link it.fi.meucci.utils.Type }
-     * @param from L'username {@link it.fi.meucci.utils.Message} di provenienza
-     * @param to L'username {@link it.fi.meucci.utils.Message} di destinazione
+     * @param type Il tipo del messaggio {@link Type }
+     * @param from L'username {@link Message} di provenienza
+     * @param to L'username {@link Message} di destinazione
      * @param args La lista di argomenti del comando o del messaggio
      * @since 1.0
      */
@@ -37,6 +38,7 @@ public class Message
         this.args = args;
     }
 
+    @JsonIgnore
     public boolean isChangeNameMessageValid(){
         if(this.type != Type.COMMAND)
             return false;
@@ -81,5 +83,15 @@ public class Message
 
     public void setArgs(ArrayList<String> args) {
         this.args = args;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "type=" + type +
+                ", from='" + from + '\'' +
+                ", to='" + to + '\'' +
+                ", args=" + args +
+                '}';
     }
 }

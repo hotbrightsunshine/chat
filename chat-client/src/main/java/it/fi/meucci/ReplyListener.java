@@ -8,7 +8,9 @@ import java.net.Socket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import it.fi.meucci.utils.CommandType;
 import it.fi.meucci.utils.Message;
+import it.fi.meucci.utils.ServerAnnouncement;
 
 /**
  * -Classe deputata alla lettura dell'output del socket
@@ -24,6 +26,7 @@ public class ReplyListener implements Runnable {
 
 
     public ReplyListener(Client father){
+        this.client_socket = father.getSocket();
         this.father = father;
         try {
             input = new BufferedReader(new InputStreamReader(client_socket.getInputStream()));
@@ -48,21 +51,22 @@ public class ReplyListener implements Runnable {
             }
        }
        try {
-        close();
-    } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-    }
+            close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 /** 
  * -Riceve messaggi dal server e li gestisce
- * -Controlla il tipo di messaggio ed in base al messaggio si comporta in modo diverso
+ * -Controlla il tipo di messaggio e in base al messaggio si comporta in modo diverso
 */
     public void handle(Message message)
     {
         //controllo il tipo di messaggio inviato se è un messaggio per l'utente o se è un SERVER_ANN
         //ulteriore controllo sul tipo di SERVER_ANN
         //stampa il messaggio
+        System.out.println(message);
     }
 /**
  * Chiude la lettura dell'output del socket

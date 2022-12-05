@@ -22,14 +22,14 @@ public enum ServerAnnouncement {
      * @param utenti la lista degli utenti connessi del server
      * @return Un messaggio di tipo LIST
      */
-    public static Message createListAnnouncement(ArrayList<Username> utenti, Username to){
+    public static Message createListAnnouncement(ArrayList<String> utenti, String to){
         ArrayList<String> strings= new ArrayList<>();
-        for(Username u : utenti){
-            strings.add(u.getUsername());
+        for(String u : utenti){
+            strings.add(u);
         }
         strings.add(0, ServerAnnouncement.LIST.toString());
 
-        return new Message(Type.SERVER_ANN, Username.server(), to, strings);
+        return new Message(Type.SERVER_ANN, Username.server, to, strings);
     }
 
     /**
@@ -40,37 +40,42 @@ public enum ServerAnnouncement {
      */
     public static Message createServerAnnouncement(
         ServerAnnouncement t, 
-        Username to){
+        String to){
 
         ArrayList<String> tmp = new ArrayList<>();
         tmp.add(t.toString());
-        return new Message(Type.SERVER_ANN, Username.server(), to, tmp);
+        return new Message(Type.SERVER_ANN, Username.server, to, tmp);
     }
 
     public static Message createJoinedAnnouncement(
-        Username joined) {
+        String joined) {
+
         ArrayList<String> tmp = new ArrayList<>();
         tmp.add(ServerAnnouncement.JOINED.toString());
         tmp.add(joined.toString());
-        return new Message(Type.SERVER_ANN, Username.server(), Username.everyone(), tmp);
+        return new Message(Type.SERVER_ANN, Username.server, Username.everyone, tmp);
     }
 
     public static Message createLeftAnnouncement(
-        Username left) {
+        String left) {
+
         ArrayList<String> tmp = new ArrayList<>();
         tmp.add(ServerAnnouncement.LEFT.toString());
         tmp.add(left.toString());
-        return new Message(Type.SERVER_ANN, Username.server(), Username.everyone(), tmp);
+        return new Message(Type.SERVER_ANN, Username.server, Username.everyone, tmp);
     }
 
     public static Message createUsernameChangedAnnouncement(
-        Username before,
-        Username after) {
+        String before,
+        String after) {
 
         ArrayList<String> tmp = new ArrayList<>();
         tmp.add(ServerAnnouncement.USERNAME_CHANGED.toString());
-        tmp.add(before.toString());
+        if(before == null){
+            tmp.add("");
+        } else
+            tmp.add(before.toString());
         tmp.add(after.toString());
-        return new Message(Type.SERVER_ANN, Username.server(), Username.everyone(), tmp);
+        return new Message(Type.SERVER_ANN, Username.server, Username.everyone, tmp);
     }
 }
