@@ -1,5 +1,7 @@
 package it.fi.meucci.utils;
 
+import java.util.ArrayList;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -11,9 +13,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Message
 {
     private Type type;
-    private Username from;
-    private Username to;
-    private String[] args;
+    private String from;
+    private String to;
+    private ArrayList<String> args;
 
     /**
      * Costruttore per il messaggio.
@@ -26,9 +28,9 @@ public class Message
      */
     public Message(
         @JsonProperty("type") Type type, 
-        @JsonProperty("from") Username from,
-        @JsonProperty("to") Username to,
-        @JsonProperty("args") String[] args) {
+        @JsonProperty("from") String from,
+        @JsonProperty("to") String to,
+        @JsonProperty("args") ArrayList<String> args) {
         this.type = type;
         this.from = from;
         this.to = to;
@@ -39,8 +41,8 @@ public class Message
         if(this.type != Type.COMMAND)
             return false;
 
-        if(this.args.length == 2){
-            if(!this.args[0].equals(CommandType.CHANGE_NAME.toString())){
+        if(this.args.size() == 2){
+            if(!this.args.get(0).equals(CommandType.CHANGE_NAME.toString())){
                 return false;
             }
         }
@@ -57,27 +59,27 @@ public class Message
         this.type = type;
     }
 
-    public Username getFrom() {
+    public String getFrom() {
         return from;
     }
 
-    public void setFrom(Username from) {
+    public void setFrom(String from) {
         this.from = from;
     }
 
-    public Username getTo() {
+    public String getTo() {
         return to;
     }
 
-    public void setTo(Username to) {
+    public void setTo(String to) {
         this.to = to;
     }
 
-    public String[] getArgs() {
+    public ArrayList<String> getArgs() {
         return args;
     }
 
-    public void setArgs(String[] args) {
+    public void setArgs(ArrayList<String> args) {
         this.args = args;
     }
 }

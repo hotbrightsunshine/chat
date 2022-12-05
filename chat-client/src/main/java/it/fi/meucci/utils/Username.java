@@ -1,5 +1,7 @@
 package it.fi.meucci.utils;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *  La classe che rappresenta l’username di un utente.
  *  Serve per indirizzare i Messaggi ai propri destinatari.
@@ -13,7 +15,8 @@ public class Username {
     private String username;
     private static Username everyone = new Username("everyone");
     private static Username server = new Username("server");
-    public Username(String username){
+    public Username(
+        @JsonProperty("from") String username){
         this.username = username;
     }
 

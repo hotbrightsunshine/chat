@@ -60,7 +60,7 @@ public class Server
     }
 
     public void send(Message msg){
-        
+        System.out.println("DA IMPLEMENTARE");
     }
 
     public boolean isUserValid(Username username){

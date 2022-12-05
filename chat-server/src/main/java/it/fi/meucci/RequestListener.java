@@ -230,7 +230,7 @@ public class RequestListener implements Runnable {
             return;
         }
         String str = om.writeValueAsString(msg);
-        outputStream.writeBytes(str);
+        outputStream.writeBytes(str+"\n");
     }
 
 
