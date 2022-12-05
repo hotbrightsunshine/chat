@@ -72,6 +72,7 @@ public class RequestListener implements Runnable {
      */
     @Override
     public void run() {
+        System.out.println("Nuova connessione iniziata. ");
         try {
             // Invio al client appena connesso una lista di client attualmente connessi e abilitati.
             sendList();
@@ -95,8 +96,8 @@ public class RequestListener implements Runnable {
 
                 try {
                     // Estraggo il tipo e il parametro per leggibilità
-                    t_msg = CommandType.fromString(msg.getArgs()[0]);
-                    usr = new Username(msg.getArgs()[1]);
+                    t_msg = CommandType.fromString(msg.getArgs().get(0));
+                    usr = new Username(msg.getArgs().get(1));
                 } catch (Exception e) {
                     send(ServerAnnouncement.createServerAnnouncement(
                         ServerAnnouncement.COMMAND_NOT_RECOGNIZED, usr));
@@ -173,8 +174,8 @@ public class RequestListener implements Runnable {
         try {
             switch (msg.getType()) {
                 case COMMAND:
-                    if(msg.getArgs()[0].equals(CommandType.CHANGE_NAME.toString())){
-                        changeName(new Username(msg.getArgs()[1]));
+                    if(msg.getArgs().get(0).equals(CommandType.CHANGE_NAME.toString())){
+                        changeName(new Username(msg.getArgs().get(1)));
                     }
                     else {
                         Handler.handleCommand(msg);

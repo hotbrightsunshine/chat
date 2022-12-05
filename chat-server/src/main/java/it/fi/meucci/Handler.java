@@ -11,6 +11,8 @@ import it.fi.meucci.utils.CommandType;
 import it.fi.meucci.utils.Message;
 import it.fi.meucci.utils.Username;
 
+import java.util.ArrayList;
+
 
 /**
  * Questa classe contiene tutti i metodi necessari per l'inoltro e la gestione dei messaggi.
@@ -54,7 +56,9 @@ public abstract class Handler {
             newarg += s + " ";
         }
         // Modifico l'argomento del messaggio
-        msg.setArgs(new String[]{newarg});
+        ArrayList<String> t = new ArrayList<>();
+        t.add(newarg);
+        msg.setArgs(t);
         // Mando il messaggio
         App.server.send(msg);
     }
@@ -93,9 +97,9 @@ public abstract class Handler {
             throw new DestNotCorrectException();
         }
 
-        if(msg.getArgs()[0].equals(CommandType.DISCONNECT.toString())){
+        if(msg.getArgs().get(0).equals(CommandType.DISCONNECT.toString())){
             throw new DisconnectException();
-        } else if (msg.getArgs()[0].equals(CommandType.CHANGE_NAME.toString())) {
+        } else if (msg.getArgs().get(0).equals(CommandType.CHANGE_NAME.toString())) {
             
         }
         else {

@@ -28,8 +28,8 @@ public enum ServerAnnouncement {
             strings.add(u.getUsername());
         }
         strings.add(0, ServerAnnouncement.LIST.toString());
-        String[] tmp = (String[]) strings.toArray();
-        return new Message(Type.SERVER_ANN, Username.server(), to, tmp);
+
+        return new Message(Type.SERVER_ANN, Username.server(), to, strings);
     }
 
     /**
@@ -41,29 +41,36 @@ public enum ServerAnnouncement {
     public static Message createServerAnnouncement(
         ServerAnnouncement t, 
         Username to){
-        String[] tmp = {t.toString()};
+
+        ArrayList<String> tmp = new ArrayList<>();
+        tmp.add(t.toString());
         return new Message(Type.SERVER_ANN, Username.server(), to, tmp);
     }
 
     public static Message createJoinedAnnouncement(
         Username joined) {
-        String[] tmp = { ServerAnnouncement.JOINED.toString(), joined.toString()};
+        ArrayList<String> tmp = new ArrayList<>();
+        tmp.add(ServerAnnouncement.JOINED.toString());
+        tmp.add(joined.toString());
         return new Message(Type.SERVER_ANN, Username.server(), Username.everyone(), tmp);
     }
 
     public static Message createLeftAnnouncement(
         Username left) {
-        String[] tmp = {ServerAnnouncement.LEFT.toString(), left.toString()};
+        ArrayList<String> tmp = new ArrayList<>();
+        tmp.add(ServerAnnouncement.LEFT.toString());
+        tmp.add(left.toString());
         return new Message(Type.SERVER_ANN, Username.server(), Username.everyone(), tmp);
     }
 
     public static Message createUsernameChangedAnnouncement(
         Username before,
         Username after) {
-        String[] tmp = {
-            ServerAnnouncement.USERNAME_CHANGED.toString(),
-            before.toString(), 
-            after.toString()};
+
+        ArrayList<String> tmp = new ArrayList<>();
+        tmp.add(ServerAnnouncement.USERNAME_CHANGED.toString());
+        tmp.add(before.toString());
+        tmp.add(after.toString());
         return new Message(Type.SERVER_ANN, Username.server(), Username.everyone(), tmp);
     }
 }
