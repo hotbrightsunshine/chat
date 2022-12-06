@@ -11,6 +11,9 @@ import it.fi.meucci.utils.CommandType;
 import it.fi.meucci.utils.Message;
 import it.fi.meucci.utils.Username;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 
 /**
  * Questa classe contiene tutti i metodi necessari per l'inoltro e la gestione dei messaggi.
@@ -24,9 +27,9 @@ public abstract class Handler {
      * @param msg Il messaggio da gestire
      * @throws HandlerException Può mandare una eccezione nel caso il messaggio non sia validabile
      */
-    public static void handleMessage(Message msg) 
-    throws  NeedNameException, 
-            DestNotCorrectException {
+    public static void handleMessage(Message msg)
+            throws NeedNameException,
+            DestNotCorrectException, IOException {
         /*
          * Se mittente e destinatario sono validi:
          *      estrae il destinatario. 
@@ -39,8 +42,8 @@ public abstract class Handler {
          * Se il mittente non è negli username:
          *      Manda una eccezione ServerAnnouncement.NEED_NAME
          */
-        Username from = msg.getFrom();
-        Username to = msg.getTo();
+        String from = msg.getFrom();
+        String to = msg.getTo();
         // Se il mittente ha un username non valido oppure è vuoto:
         if (!App.server.isUserValid(from)){
             throw new NeedNameException();
@@ -54,7 +57,9 @@ public abstract class Handler {
             newarg += s + " ";
         }
         // Modifico l'argomento del messaggio
-        msg.setArgs(new String[]{newarg});
+        ArrayList<String> t = new ArrayList<>();
+        t.add(newarg);
+        msg.setArgs(t);
         // Mando il messaggio
         App.server.send(msg);
     }
@@ -85,17 +90,17 @@ public abstract class Handler {
          * CommandType.DISCONNECT
          * Se non sono questi
          */
-        Username from = msg.getFrom();
-        Username to = msg.getTo();
+        String from = msg.getFrom();
+        String to = msg.getTo();
         if(!App.server.isUserValid(from)){
             throw new NeedNameException();
         } else if(!App.server.isUserValid(to)){
             throw new DestNotCorrectException();
         }
 
-        if(msg.getArgs()[0].equals(CommandType.DISCONNECT.toString())){
+        if(msg.getArgs().get(0).equals(CommandType.DISCONNECT.toString())){
             throw new DisconnectException();
-        } else if (msg.getArgs()[0].equals(CommandType.CHANGE_NAME.toString())) {
+        } else if (msg.getArgs().get(0).equals(CommandType.CHANGE_NAME.toString())) {
             
         }
         else {
