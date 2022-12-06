@@ -13,8 +13,8 @@ import java.util.ArrayList;
 public class Message
 {
     private Type type;
-    private Username from;
-    private Username to;
+    private String from;
+    private String to;
     private ArrayList<String> args;
 
     /**
@@ -28,8 +28,8 @@ public class Message
      */
     public Message(
         @JsonProperty("type") Type type, 
-        @JsonProperty("from") Username from,
-        @JsonProperty("to") Username to,
+        @JsonProperty("from") String from,
+        @JsonProperty("to") String to,
         @JsonProperty("args") ArrayList<String> args) {
         this.type = type;
         this.from = from;
@@ -59,19 +59,21 @@ public class Message
         this.type = type;
     }
 
-    public Username getFrom() {
+    public String getFrom() {
+        if (this.from == null ) return "";
         return from;
     }
 
-    public void setFrom(Username from) {
+    public void setFrom(String from) {
         this.from = from;
     }
 
-    public Username getTo() {
+    public String getTo() {
+        if (this.to == null ) return "";
         return to;
     }
 
-    public void setTo(Username to) {
+    public void setTo(String to) {
         this.to = to;
     }
 
