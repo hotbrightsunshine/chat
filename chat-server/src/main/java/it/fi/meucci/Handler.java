@@ -44,6 +44,7 @@ public abstract class Handler {
          */
         String from = msg.getFrom();
         String to = msg.getTo();
+
         // Se il mittente ha un username non valido oppure è vuoto:
         if (!App.server.isUserValid(from)){
             throw new NeedNameException();
@@ -56,10 +57,12 @@ public abstract class Handler {
         for(String s : msg.getArgs()){
             newarg += s + " ";
         }
+
         // Modifico l'argomento del messaggio
         ArrayList<String> t = new ArrayList<>();
         t.add(newarg);
         msg.setArgs(t);
+
         // Mando il messaggio
         App.server.send(msg);
     }
@@ -94,7 +97,7 @@ public abstract class Handler {
         String to = msg.getTo();
         if(!App.server.isUserValid(from)){
             throw new NeedNameException();
-        } else if(!App.server.isUserValid(to)){
+        } else if(!to.equals(Username.server)){
             throw new DestNotCorrectException();
         }
 

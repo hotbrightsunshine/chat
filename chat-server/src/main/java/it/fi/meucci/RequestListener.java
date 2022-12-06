@@ -119,6 +119,8 @@ public class RequestListener implements Runnable {
             } catch (IndexOutOfBoundsException e) {
                 // I parametri indirizzati non sono validi per args, quindi il comando non è valido
                 e.printStackTrace();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
             }
         }
         // L'utente ha un nome. 

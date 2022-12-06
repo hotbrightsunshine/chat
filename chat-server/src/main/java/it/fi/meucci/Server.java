@@ -61,7 +61,11 @@ public class Server
     }
 
     public void send(Message msg) throws IOException {
-
+        for(RequestListener r : listeners){
+            if (r.getUsername().equals(msg.getTo())){
+                r.write(msg);
+            }
+        }
     }
 
     public void broadcast(Message msg, RequestListener caller) throws IOException {
