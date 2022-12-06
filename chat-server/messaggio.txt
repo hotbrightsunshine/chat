@@ -1,0 +1,3 @@
+{"type":"COMMAND", "from" : "", "to": "server", "args": ["CHANGE_NAME","Franchino89"]}
+{"type":"COMMAND", "from" : "", "to": "server", "args": ["CHANGE_NAME","Martina77"]}
+{"type":"MESSAGE", "from": "Franchino89", "to" : "Martina77", "args": ["Ciao come stai?"]}
