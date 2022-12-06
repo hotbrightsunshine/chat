@@ -11,6 +11,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -90,6 +91,10 @@ public class RequestListener implements Runnable {
             try {
                 // leggi il messaggio
                 Message msg = read();
+                if(msg == null){
+                    this.allowedToRun = false;
+                    break;
+                }
                 CommandType t_msg = null;
                 String usr = null;
 
@@ -119,20 +124,21 @@ public class RequestListener implements Runnable {
             } catch (IndexOutOfBoundsException e) {
                 // I parametri indirizzati non sono validi per args, quindi il comando non è valido
                 e.printStackTrace();
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
             }
         }
         // L'utente ha un nome. 
         // Dovrei aggiungere un massimo di errori per non ingolfare il server. 
 
-        // Si è connesso il client!
-        try {
-            sendBroadcast(ServerAnnouncement.createJoinedAnnouncement(username));
-        } catch (IOException e1) {
-            e1.printStackTrace();
-            return;
+        // Si è connesso il client! (se il username è giusto)
+        if (username != null){
+            try {
+                sendBroadcast(ServerAnnouncement.createJoinedAnnouncement(username));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                return;
+            }
         }
+
 
         // Inizio della procedura "ciclata"
         while (allowedToRun) { // oppure finché il socket non è chiuso
@@ -157,12 +163,17 @@ public class RequestListener implements Runnable {
         }
 
         // Appena la socket è chiusa, manda un messaggio SERVER ANNOUNCEMENT con LEFT
-        Message msgLeft = ServerAnnouncement.createLeftAnnouncement(username);
-        try {
-            sendBroadcast(msgLeft);
-        } catch (IOException e) {
-            e.printStackTrace();
+        // Questa porzione di codice è accessibile anche quando l'username è uguale a null; 
+        // Se l'username non è settato (si è chiuso prima di mettere l'username), non deve mandare il messaggio di announcement
+        if(username != null){
+            Message msgLeft = ServerAnnouncement.createLeftAnnouncement(username);
+            try {
+                sendBroadcast(msgLeft);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        System.out.println("Ho finito");
     }
 
     /**
@@ -224,9 +235,29 @@ public class RequestListener implements Runnable {
      * @param msg Il messaggio da inviare
      * @throws IOException Lanciata quando il messaggio non può essere mandato
      */
-    public void write(Message msg) throws IOException {
-        String str = om.writeValueAsString(msg);
-        outputStream.writeBytes(str+"\n");
+    public void write(Message msg) {
+        /*
+         * I have confirmed the reason. 
+         * You are writing while the other end has already closed the connection. 
+         * The fix is not to do that. As the other end isn't reading it, there isn't any point anyway. 
+         * As I also said, if this is happening there is something wrong with your application protocol specification or implementation, 
+         * most probably that you don't even have one.
+         */
+        String str = "";
+        try {
+            str = om.writeValueAsString(msg);
+        } catch (JsonProcessingException e) {
+            System.out.println(e.getStackTrace());
+        }
+        try {
+            outputStream.writeBytes(str+ '\n');
+        } catch (IOException e){
+            allowedToRun = false;
+            return;
+        } 
+        
+         
+        
     }
 
     public void send(Message msg) throws IOException {
@@ -252,6 +283,10 @@ public class RequestListener implements Runnable {
 
     public Message read() throws IOException{
         String read = inputStream.readLine();
+        if (read == null){
+            allowedToRun = false;
+            return null;
+        }
         return om.readValue(read, Message.class);
     }
 

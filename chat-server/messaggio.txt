@@ -2,4 +2,4 @@
 {"type":"COMMAND", "from" : "", "to": "server", "args": ["CHANGE_NAME","Martina77"]}
 {"type":"COMMAND", "from" : "Martina77", "to": "server", "args": ["STOP"]}
 {"type":"COMMAND", "from" : "Martina77", "to": "server", "args": ["DISCONNECT"]}
-{"type":"MESSAGE", "from": "Franchino89", "to" : "Martina77", "args": ["Ciao come stai? STRONZO"]}
+{"type":"MESSAGE", "from": "Franchino89", "to" : "Martina77", "args": ["Ciao come stai?"]}
