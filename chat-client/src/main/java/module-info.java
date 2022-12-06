@@ -1,4 +1,4 @@
-module chat.client {
+module client {
     requires javafx.controls;
     requires javafx.fxml;
     requires com.fasterxml.jackson.annotation;
