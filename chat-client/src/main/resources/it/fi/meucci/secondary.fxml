@@ -7,15 +7,14 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <right>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <top>
-            <Label prefHeight="64.0" prefWidth="192.0" text="Partecipanti" BorderPane.alignment="CENTER" />
+            <Label prefHeight="64.0" prefWidth="192.0" styleClass="labe" stylesheets="@../style.css" text="Partecipanti" BorderPane.alignment="CENTER" />
          </top>
          <center>
-            <ListView fx:id="listaPart" prefHeight="395.0" prefWidth="106.0" BorderPane.alignment="CENTER" />
+            <ListView fx:id="listaPart" prefHeight="395.0" prefWidth="106.0" styleClass="background" stylesheets="@../style.css" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </right>
@@ -24,8 +23,8 @@
          <top>
             <HBox prefHeight="65.0" prefWidth="660.0" BorderPane.alignment="CENTER">
                <children>
-                  <TextField fx:id="ip" editable="false" prefHeight="65.0" prefWidth="758.0" />
-                  <Button fx:id="leave" mnemonicParsing="false" prefHeight="66.0" prefWidth="342.0" text="Abbandona" />
+                  <TextField fx:id="ip" editable="false" prefHeight="65.0" prefWidth="758.0" styleClass="field" stylesheets="@../style.css" />
+                  <Button fx:id="leave" mnemonicParsing="false" prefHeight="66.0" prefWidth="342.0" styleClass="buttonA" stylesheets="@../style.css" text="Abbandona" />
                </children>
             </HBox>
          </top>
@@ -36,13 +35,13 @@
                      <bottom>
                         <HBox prefHeight="53.0" prefWidth="660.0" BorderPane.alignment="CENTER">
                            <children>
-                              <TextField fx:id="doveScrivi" prefHeight="53.0" prefWidth="739.0" />
-                              <Button fx:id="sendMess" mnemonicParsing="false" prefHeight="53.0" prefWidth="299.0" text="Invia" />
+                              <TextField fx:id="doveScrivi" prefHeight="53.0" prefWidth="739.0" styleClass="field" stylesheets="@../style.css" />
+                              <Button fx:id="sendMess" mnemonicParsing="false" prefHeight="53.0" prefWidth="299.0" styleClass="buttonG" stylesheets="@../style.css" text="Invia" />
                            </children>
                         </HBox>
                      </bottom>
                      <center>
-                        <ListView fx:id="chat" prefHeight="412.0" prefWidth="660.0" BorderPane.alignment="CENTER" />
+                        <ListView fx:id="chat" prefHeight="412.0" prefWidth="660.0" styleClass="background" stylesheets="@../style.css" BorderPane.alignment="CENTER" />
                      </center>
                   </BorderPane>
                </center>

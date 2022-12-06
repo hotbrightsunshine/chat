@@ -17,6 +17,7 @@ public class App extends Application {
 
     public static final int PORT = 7777;
     public static final Inet4Address ADDRESS = (Inet4Address) Inet4Address.getLoopbackAddress();
+    public static Client c;
 
     private static Scene scene;
 
@@ -36,15 +37,18 @@ public class App extends Application {
         return fxmlLoader.load();
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void connect(Inet4Address addr, int port){
         try {
-            Client c = new Client(ADDRESS, PORT);
-        } catch (ConnectException e) {
-            System.out.println("Connessione rifiutata. ");
+            c = new Client(addr, port);
+        } catch (IOException e) {
+            System.out.println("client gia esistente");
         }
+    }
 
-        //launch();
-        System.out.println("CIAO");
+    public static void main(String[] args) throws IOException {
+        //Client c = new Client(ADDRESS, PORT);
+        c = new Client(ADDRESS, PORT);
+        launch();
     }
 
 }

@@ -28,7 +28,7 @@ public class PrimaryController {
         usernameText.setVisible(true);
         utilizzaUsername.setVisible(true);
         messageView.setVisible(true);
-        App.c.
+        App.connect(null, 0);
         
         
     }

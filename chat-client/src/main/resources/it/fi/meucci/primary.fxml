@@ -11,10 +11,10 @@
    <right>
       <BorderPane prefHeight="512.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <top>
-            <Label contentDisplay="CENTER" prefHeight="64.0" prefWidth="192.0" text="Partecipanti" BorderPane.alignment="CENTER" />
+            <Label contentDisplay="CENTER" prefHeight="64.0" prefWidth="192.0" stylesheets="@../style.css" text="Partecipanti" BorderPane.alignment="CENTER" />
          </top>
          <center>
-            <ListView fx:id="paricipant" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <ListView fx:id="paricipant" prefHeight="200.0" prefWidth="200.0" styleClass="background" stylesheets="@../style.css" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </right>
@@ -23,8 +23,8 @@
          <top>
             <HBox prefHeight="64.0" prefWidth="586.0" BorderPane.alignment="CENTER">
                <children>
-                  <TextField fx:id="ipField" prefHeight="81.0" prefWidth="507.0" />
-                  <Button fx:id="connectbutton" mnemonicParsing="false" onAction="#connetti" prefHeight="64.0" prefWidth="188.0" text="connetti" />
+                  <TextField fx:id="ipField" prefHeight="81.0" prefWidth="507.0" styleClass="field" stylesheets="@../style.css" />
+                  <Button fx:id="connectbutton" mnemonicParsing="false" onAction="#connetti" prefHeight="64.0" prefWidth="188.0" styleClass="buttonG" stylesheets="@../style.css" text="connetti" />
                </children>
             </HBox>
          </top>
@@ -33,13 +33,13 @@
                <bottom>
                   <HBox prefHeight="58.0" prefWidth="596.0" BorderPane.alignment="CENTER">
                      <children>
-                        <TextField fx:id="usernameText" disable="true" prefHeight="67.0" prefWidth="297.0" />
-                        <Button fx:id="utilizzaUsername" disable="true" mnemonicParsing="false" onAction="#switchToSecondary" prefHeight="58.0" prefWidth="302.0" text="utilizza questo username" />
+                        <TextField fx:id="usernameText" disable="true" prefHeight="67.0" prefWidth="297.0" styleClass="field" stylesheets="@../style.css" />
+                        <Button fx:id="utilizzaUsername" disable="true" mnemonicParsing="false" onAction="#switchToSecondary" prefHeight="58.0" prefWidth="302.0" styleClass="buttonG" stylesheets="@../style.css" text="utilizza questo username" />
                      </children>
                   </HBox>
                </bottom>
                <center>
-                  <ListView fx:id="messageView" disable="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                  <ListView fx:id="messageView" disable="true" prefHeight="200.0" prefWidth="200.0" styleClass="background" stylesheets="@../style.css" BorderPane.alignment="CENTER" />
                </center>
             </BorderPane>
          </center>
