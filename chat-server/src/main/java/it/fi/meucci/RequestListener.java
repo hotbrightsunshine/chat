@@ -56,8 +56,8 @@ public class RequestListener implements Runnable {
             write(ServerAnnouncement
             .createServerAnnouncement(ServerAnnouncement.NAME_OK, username));
             // dico a tutti gli altri che l'utente ha cambiato nome
-            if(getUsername() != null || !getUsername().equals("")){
-                write(ServerAnnouncement
+            if(!getUsername().equals("")){
+                sendBroadcast(ServerAnnouncement
                 .createUsernameChangedAnnouncement(username, usr));
             }
             this.username = usr;
@@ -143,36 +143,40 @@ public class RequestListener implements Runnable {
         // Inizio della procedura "ciclata"
         while (allowedToRun) { // oppure finché il socket non è chiuso
             try {
+                System.out.println("Aspetto");
                 Message msg = read();
-
+                handle(msg);
+                /*
                 new Thread(new MessageHandlerThread(msg) {
                     @Override
                     public void run() {
                         try {
-                            handle(this.getMessage());
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
                 }).start();
-
+                */
             } catch (IOException e) {
                 e.printStackTrace();
             }
             
         }
-
+        
         // Appena la socket è chiusa, manda un messaggio SERVER ANNOUNCEMENT con LEFT
         // Questa porzione di codice è accessibile anche quando l'username è uguale a null; 
         // Se l'username non è settato (si è chiuso prima di mettere l'username), non deve mandare il messaggio di announcement
-        if(username != null){
-            Message msgLeft = ServerAnnouncement.createLeftAnnouncement(username);
-            try {
+        try {
+            this.socket.close();
+            if(this.username != null){
+                Message msgLeft = ServerAnnouncement.createLeftAnnouncement(username);
                 sendBroadcast(msgLeft);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        App.server.getListeners().remove(this);
         System.out.println("Ho finito");
     }
 
@@ -209,6 +213,11 @@ public class RequestListener implements Runnable {
                     e.getServerAnnouncement(),
                 username)
             );
+
+            if(e.getServerAnnouncement().equals(ServerAnnouncement.DISCONNECT)){
+                System.out.println("DEVO CHIUDERE");
+                this.allowedToRun = false;
+            }
         }
     }
 

@@ -10,8 +10,6 @@ package it.fi.meucci.utils;
  *  “everyone” manda il messaggio in broadcast.
  */
 public abstract class Username {
-    private String username;
     public final static String everyone = "everyone";
     public final static String server = "server";
-
 }
