@@ -42,8 +42,11 @@ public class Client {
             output = new DataOutputStream(socket.getOutputStream());
         } catch (Exception e) {
             // TODO: handle exception
+            e.printStackTrace();
         }
+    }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 
     } 
@@ -52,6 +55,8 @@ public class Client {
   */
 =======
 >>>>>>> c26b3894e4ccc2f4e4364e61e0115d91d223d8fc
+=======
+>>>>>>> 9e9074628607c5da8e1659d3937d66b1c0ff66ff
     public void send(Message message){
         //Serializza il messaggio
         //invia al server il messaggio

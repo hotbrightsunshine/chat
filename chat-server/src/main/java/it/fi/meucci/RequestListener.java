@@ -1,8 +1,6 @@
 package it.fi.meucci;
 
-import it.fi.meucci.exceptions.CommandNotRecognizedException;
 import it.fi.meucci.exceptions.HandlerException;
-import it.fi.meucci.exceptions.NameNotOkException;
 import it.fi.meucci.utils.CommandType;
 import it.fi.meucci.utils.Message;
 import it.fi.meucci.utils.ServerAnnouncement;
@@ -48,6 +46,11 @@ public class RequestListener implements Runnable {
     }
 
     public void changeName(Username usr) throws IOException {
+        //L'username non deve contenere spazi e non può essere vuoto
+        if(usr.getUsername().trim().equals("")){
+            send(ServerAnnouncement
+            .createServerAnnouncement(ServerAnnouncement.NAME_NOT_OK, username));
+        }
         if(App.server.isUserAvailable(usr)){
             // Mando all'utente che il nome è ok
             send(ServerAnnouncement 
@@ -94,7 +97,7 @@ public class RequestListener implements Runnable {
                     // Estraggo il tipo e il parametro per leggibilità
                     t_msg = CommandType.fromString(msg.getArgs()[0]);
                     usr = new Username(msg.getArgs()[1]);
-                } catch (IndexOutOfBoundsException e) {
+                } catch (Exception e) {
                     send(ServerAnnouncement.createServerAnnouncement(
                         ServerAnnouncement.COMMAND_NOT_RECOGNIZED, usr));
                     continue;
@@ -170,7 +173,13 @@ public class RequestListener implements Runnable {
         try {
             switch (msg.getType()) {
                 case COMMAND:
-                    Handler.handleCommand(msg);
+                    if(msg.getArgs()[0].equals(CommandType.CHANGE_NAME.toString())){
+                        changeName(new Username(msg.getArgs()[1]));
+                    }
+                    else {
+                        Handler.handleCommand(msg);
+                    }
+                    
                 break;
                 case MESSAGE:
                     Handler.handleMessage(msg);
@@ -252,4 +261,5 @@ public class RequestListener implements Runnable {
     public void setSocket(Socket socket) {
         this.socket = socket;
     }
+    //prova
 }

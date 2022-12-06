@@ -7,12 +7,11 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="603.0" prefWidth="796.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <right>
       <BorderPane prefHeight="512.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <top>
-            <Label contentDisplay="CENTER" prefHeight="62.0" prefWidth="192.0" text="Partecipanti" BorderPane.alignment="CENTER" />
+            <Label contentDisplay="CENTER" prefHeight="64.0" prefWidth="192.0" text="Partecipanti" BorderPane.alignment="CENTER" />
          </top>
          <center>
             <ListView fx:id="paricipant" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
@@ -24,7 +23,7 @@
          <top>
             <HBox prefHeight="64.0" prefWidth="586.0" BorderPane.alignment="CENTER">
                <children>
-                  <TextField fx:id="ipField" prefHeight="64.0" prefWidth="605.0" />
+                  <TextField fx:id="ipField" prefHeight="81.0" prefWidth="507.0" />
                   <Button fx:id="connectbutton" mnemonicParsing="false" onAction="#connetti" prefHeight="64.0" prefWidth="188.0" text="connetti" />
                </children>
             </HBox>
@@ -35,7 +34,7 @@
                   <HBox prefHeight="58.0" prefWidth="596.0" BorderPane.alignment="CENTER">
                      <children>
                         <TextField disable="true" prefHeight="67.0" prefWidth="297.0" />
-                        <Button fx:id="utilizzaUsername" disable="true" mnemonicParsing="false" prefHeight="58.0" prefWidth="302.0" text="utilizza questo username" />
+                        <Button fx:id="utilizzaUsername" disable="true" mnemonicParsing="false" onAction="#switchToSecondary" prefHeight="58.0" prefWidth="302.0" text="utilizza questo username" />
                      </children>
                   </HBox>
                </bottom>
