@@ -1,6 +1,8 @@
 package it.fi.meucci;
 
 import java.io.IOException;
+import java.net.Inet4Address;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -16,7 +18,8 @@ public class PrimaryController {
     @FXML ListView messageView;
     
     
-    private void switchToSecondary() throws IOException {
+    private void switchToSecondary() throws IOException 
+    {
         App.setRoot("secondary");
     }
 
@@ -25,5 +28,8 @@ public class PrimaryController {
         usernameText.setVisible(true);
         utilizzaUsername.setVisible(true);
         messageView.setVisible(true);
+        App.c.
+        
+        
     }
 }

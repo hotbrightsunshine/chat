@@ -33,13 +33,13 @@
                <bottom>
                   <HBox prefHeight="58.0" prefWidth="596.0" BorderPane.alignment="CENTER">
                      <children>
-                        <TextField disable="true" prefHeight="67.0" prefWidth="297.0" />
+                        <TextField fx:id="usernameText" disable="true" prefHeight="67.0" prefWidth="297.0" />
                         <Button fx:id="utilizzaUsername" disable="true" mnemonicParsing="false" onAction="#switchToSecondary" prefHeight="58.0" prefWidth="302.0" text="utilizza questo username" />
                      </children>
                   </HBox>
                </bottom>
                <center>
-                  <ListView disable="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                  <ListView fx:id="messageView" disable="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                </center>
             </BorderPane>
          </center>
