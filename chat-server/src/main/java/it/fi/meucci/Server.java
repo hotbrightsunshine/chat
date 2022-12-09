@@ -53,7 +53,7 @@ public class Server
         ArrayList<String> temp = new ArrayList<>();
         for (RequestListener r:
              listeners) {
-            if (r.getUsername() != null) {
+            if (r.getUsername() != null || !r.getUsername().equals("")) {
                 temp.add(r.getUsername());
             }
         }
@@ -68,8 +68,14 @@ public class Server
         }
     }
 
-    public void broadcast(Message msg, RequestListener caller) throws IOException {
-
+    public void broadcast(Message msg) throws IOException {
+        for(RequestListener r : listeners){
+            if(r.getUsername().equals(msg.getFrom())){
+                continue;
+            } else {
+                r.write(msg);
+            }
+        }
     }
 
     public ArrayList<RequestListener> getListeners(){
@@ -79,6 +85,8 @@ public class Server
     public boolean isUserValid(String username){
         if(username.equals("")){
             return false;
+        } else if(username.equals(Username.everyone)){
+            return true;
         }
         return getUsernames().contains(username);
     }

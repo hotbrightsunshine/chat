@@ -145,7 +145,12 @@ public class RequestListener implements Runnable {
             try {
                 System.out.println("Aspetto");
                 Message msg = read();
-                handle(msg);
+                if(msg == null){
+                    break; // La connessione si è chiusa
+                } else {
+                    handle(msg);
+                }
+                
             } catch (IOException e) {
                 e.printStackTrace();
             }
