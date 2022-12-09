@@ -7,3 +7,6 @@ La documentazione è inserita nella cartella [docs](https://github.com/hotbright
 - [Francesco Parisio](https://github.com/hotbrightsunshine),
 - [Lorenzo Salanitro](https://github.com/LorenzoSalanitro)
 
+# 📚 Librerie utilizzate
+- [Lanterna](https://github.com/mabe02/lanterna), una libreria Java simile a [curses](https://en.wikipedia.org/wiki/Curses_(programming_library)) per il linguaggio C,
+- [Jackson](https://github.com/FasterXML/jackson), un parser JSON - POJO.
