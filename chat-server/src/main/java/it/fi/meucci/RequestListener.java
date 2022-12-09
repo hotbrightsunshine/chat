@@ -11,6 +11,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -19,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class RequestListener implements Runnable {
 
     // L'username (Può essere nullable)
-    private Username username;
+    private String username;
 
     // La connessione con il client
     private Socket socket;
@@ -35,7 +36,6 @@ public class RequestListener implements Runnable {
      * Costruttore di RequestListener
      * 
      * @param socket Il socket
-     * @param father Il server madre
      * @throws IOException
      */
     public RequestListener(Socket socket) throws IOException {
@@ -45,24 +45,24 @@ public class RequestListener implements Runnable {
         inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
-    public void changeName(Username usr) throws IOException {
+    public void changeName(String usr) throws IOException {
         //L'username non deve contenere spazi e non può essere vuoto
-        if(usr.getUsername().trim().equals("")){
-            send(ServerAnnouncement
+        if(usr.trim().equals("")){
+            write(ServerAnnouncement
             .createServerAnnouncement(ServerAnnouncement.NAME_NOT_OK, username));
         }
         if(App.server.isUserAvailable(usr)){
             // Mando all'utente che il nome è ok
-            send(ServerAnnouncement 
+            write(ServerAnnouncement
             .createServerAnnouncement(ServerAnnouncement.NAME_OK, username));
             // dico a tutti gli altri che l'utente ha cambiato nome
-            if(username != null){
-                send(ServerAnnouncement
+            if(!getUsername().equals("")){
+                sendBroadcast(ServerAnnouncement
                 .createUsernameChangedAnnouncement(username, usr));
             }
             this.username = usr;
         } else {
-            send(ServerAnnouncement 
+            write(ServerAnnouncement
             .createServerAnnouncement(ServerAnnouncement.NAME_NOT_OK, username));
         }
     }
@@ -72,11 +72,12 @@ public class RequestListener implements Runnable {
      */
     @Override
     public void run() {
+        System.out.println("Nuova connessione iniziata. ");
         try {
             // Invio al client appena connesso una lista di client attualmente connessi e abilitati.
             sendList();
             // Dice al client che ha bisogno di un nome.
-            send(ServerAnnouncement.createServerAnnouncement(ServerAnnouncement.NEED_NAME, username));
+            write(ServerAnnouncement.createServerAnnouncement(ServerAnnouncement.NEED_NAME, username));
         } catch (JsonProcessingException e) {    
             e.printStackTrace();
             return;
@@ -90,15 +91,19 @@ public class RequestListener implements Runnable {
             try {
                 // leggi il messaggio
                 Message msg = read();
+                if(msg == null){
+                    this.allowedToRun = false;
+                    break;
+                }
                 CommandType t_msg = null;
-                Username usr = null;
+                String usr = null;
 
                 try {
                     // Estraggo il tipo e il parametro per leggibilità
-                    t_msg = CommandType.fromString(msg.getArgs()[0]);
-                    usr = new Username(msg.getArgs()[1]);
+                    t_msg = CommandType.fromString(msg.getArgs().get(0));
+                    usr = msg.getArgs().get(1);
                 } catch (Exception e) {
-                    send(ServerAnnouncement.createServerAnnouncement(
+                    write(ServerAnnouncement.createServerAnnouncement(
                         ServerAnnouncement.COMMAND_NOT_RECOGNIZED, usr));
                     continue;
                 }
@@ -109,7 +114,7 @@ public class RequestListener implements Runnable {
                     changeName(usr);
                 } else {
                     // Ha mandato un messaggio diverso da name, quindi 
-                    send(ServerAnnouncement.createServerAnnouncement(
+                    write(ServerAnnouncement.createServerAnnouncement(
                         ServerAnnouncement.NEED_NAME, usr));
                     // La richiesta effettuata dal client non viene presa in considerazione.
                 }
@@ -124,43 +129,48 @@ public class RequestListener implements Runnable {
         // L'utente ha un nome. 
         // Dovrei aggiungere un massimo di errori per non ingolfare il server. 
 
-        // Si è connesso il client!
-        try {
-            send(ServerAnnouncement.createJoinedAnnouncement(username));
-        } catch (IOException e1) {
-            e1.printStackTrace();
-            return;
+        // Si è connesso il client! (se il username è giusto)
+        if (username != null){
+            try {
+                sendBroadcast(ServerAnnouncement.createJoinedAnnouncement(username));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                return;
+            }
         }
+
 
         // Inizio della procedura "ciclata"
         while (allowedToRun) { // oppure finché il socket non è chiuso
             try {
+                System.out.println("Aspetto");
                 Message msg = read();
-
-                new Thread(new MessageHandlerThread(msg) {
-                    @Override
-                    public void run() {
-                        try {
-                            handle(this.getMessage());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
-
+                if(msg == null){
+                    break; // La connessione si è chiusa
+                } else {
+                    handle(msg);
+                }
+                
             } catch (IOException e) {
                 e.printStackTrace();
             }
             
         }
-
+        
         // Appena la socket è chiusa, manda un messaggio SERVER ANNOUNCEMENT con LEFT
-        Message msgLeft = ServerAnnouncement.createLeftAnnouncement(username);
+        // Questa porzione di codice è accessibile anche quando l'username è uguale a null; 
+        // Se l'username non è settato (si è chiuso prima di mettere l'username), non deve mandare il messaggio di announcement
         try {
-            send(msgLeft);
+            this.socket.close();
+            if(this.username != null){
+                Message msgLeft = ServerAnnouncement.createLeftAnnouncement(username);
+                sendBroadcast(msgLeft);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        App.server.getListeners().remove(this);
+        System.out.println("Ho finito");
     }
 
     /**
@@ -173,8 +183,8 @@ public class RequestListener implements Runnable {
         try {
             switch (msg.getType()) {
                 case COMMAND:
-                    if(msg.getArgs()[0].equals(CommandType.CHANGE_NAME.toString())){
-                        changeName(new Username(msg.getArgs()[1]));
+                    if(msg.getArgs().get(0).equals(CommandType.CHANGE_NAME.toString())){
+                        changeName(msg.getArgs().get(1));
                     }
                     else {
                         Handler.handleCommand(msg);
@@ -190,12 +200,17 @@ public class RequestListener implements Runnable {
             }
         } catch (HandlerException e){
             e.print();
-            send(
+            write(
                 ServerAnnouncement
                 .createServerAnnouncement(
                     e.getServerAnnouncement(),
                 username)
             );
+
+            if(e.getServerAnnouncement().equals(ServerAnnouncement.DISCONNECT)){
+                System.out.println("DEVO CHIUDERE");
+                this.allowedToRun = false;
+            }
         }
     }
 
@@ -208,12 +223,12 @@ public class RequestListener implements Runnable {
      */
     public void sendList() throws JsonProcessingException, IOException {
         // Lista di utenti autorizzati: Server.getUsername
-        ArrayList<Username> usernames = App.server.getUsernames();
+        ArrayList<String> usernames = App.server.getUsernames();
         // Generazione del messaggio ServerAnnouncement.listAnnouncement(lista di utenti
         // autorizzati)
         Message msg = ServerAnnouncement.createListAnnouncement(usernames, username);
         // send
-        send(msg);
+        write(msg);
     }
 
     /**
@@ -222,19 +237,58 @@ public class RequestListener implements Runnable {
      * @param msg Il messaggio da inviare
      * @throws IOException Lanciata quando il messaggio non può essere mandato
      */
-    public void send(Message msg) throws IOException {
-        if(msg.getTo()==Username.everyone())
-        {
-            App.server.send(msg);
-            return;
+    public void write(Message msg) {
+        /*
+         * I have confirmed the reason. 
+         * You are writing while the other end has already closed the connection. 
+         * The fix is not to do that. As the other end isn't reading it, there isn't any point anyway. 
+         * As I also said, if this is happening there is something wrong with your application protocol specification or implementation, 
+         * most probably that you don't even have one.
+         */
+        String str = "";
+        try {
+            str = om.writeValueAsString(msg);
+        } catch (JsonProcessingException e) {
+            System.out.println(e.getStackTrace());
         }
-        String str = om.writeValueAsString(msg);
-        outputStream.writeBytes(str);
+        try {
+            outputStream.writeBytes(str+ '\n');
+        } catch (IOException e){
+            allowedToRun = false;
+            return;
+        } 
+        
+         
+        
     }
 
+    public void send(Message msg) throws IOException {
+        if(msg.getTo().equals(Username.everyone)){
+            sendBroadcast(msg);
+            return;
+        }
+        ArrayList<RequestListener> r = App.server.getListeners();
+        for(RequestListener l : r){
+            if(l.username.equals(msg.getTo())){
+                l.write(msg);
+                return;
+            }
+        }
+    }
+
+    public void sendBroadcast(Message msg) throws IOException {
+        ArrayList<RequestListener> r = App.server.getListeners();
+        for(RequestListener l : r){
+                l.write(msg);
+        }
+    }
 
     public Message read() throws IOException{
         String read = inputStream.readLine();
+        if (read == null){
+            allowedToRun = false;
+            return null;
+        }
         return om.readValue(read, Message.class);
     }
 
@@ -246,11 +300,14 @@ public class RequestListener implements Runnable {
         this.allowedToRun = allowedToRun;
     }
 
-    public Username getUsername() {
+    public String getUsername() {
+        if (this.username == null){
+            return "";
+        }
         return username;
     }
 
-    public void setUsername(Username username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 

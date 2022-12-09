@@ -2,8 +2,6 @@ package it.fi.meucci.utils;
 
 import java.util.ArrayList;
 
-import it.fi.meucci.Server;
-
 public enum ServerAnnouncement {
     JOINED, // Un utente entra
     LEFT, // Un utente è uscito
@@ -71,10 +69,7 @@ public enum ServerAnnouncement {
 
         ArrayList<String> tmp = new ArrayList<>();
         tmp.add(ServerAnnouncement.USERNAME_CHANGED.toString());
-        if(before == null){
-            tmp.add("");
-        } else
-            tmp.add(before.toString());
+        tmp.add(before.toString());
         tmp.add(after.toString());
         return new Message(Type.SERVER_ANN, Username.server, Username.everyone, tmp);
     }

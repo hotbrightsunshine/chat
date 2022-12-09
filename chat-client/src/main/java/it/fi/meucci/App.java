@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.Inet4Address;
 
 /**
@@ -36,8 +37,14 @@ public class App extends Application {
     }
 
     public static void main(String[] args) throws IOException {
-       //Client c = new Client(ADDRESS, PORT);
-        launch();
+        try {
+            Client c = new Client(ADDRESS, PORT);
+        } catch (ConnectException e) {
+            System.out.println("Connessione rifiutata. ");
+        }
+
+        //launch();
+        System.out.println("CIAO");
     }
 
 }
