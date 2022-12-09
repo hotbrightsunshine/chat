@@ -146,18 +146,6 @@ public class RequestListener implements Runnable {
                 System.out.println("Aspetto");
                 Message msg = read();
                 handle(msg);
-                /*
-                new Thread(new MessageHandlerThread(msg) {
-                    @Override
-                    public void run() {
-                        try {
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
-                */
             } catch (IOException e) {
                 e.printStackTrace();
             }
