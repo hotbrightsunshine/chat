@@ -5,6 +5,8 @@ module client {
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
 
+    opens client to javafx.fxml;
+
     exports it.fi.meucci;
     exports it.fi.meucci.utils;
 }

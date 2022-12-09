@@ -101,7 +101,7 @@ public class RequestListener implements Runnable {
                 try {
                     // Estraggo il tipo e il parametro per leggibilità
                     t_msg = CommandType.fromString(msg.getArgs().get(0));
-                    usr = msg.getArgs().get(1);
+                    usr = msg.getArgs().get(0);
                 } catch (Exception e) {
                     write(ServerAnnouncement.createServerAnnouncement(
                         ServerAnnouncement.COMMAND_NOT_RECOGNIZED, usr));
@@ -112,7 +112,11 @@ public class RequestListener implements Runnable {
                 // Se il tipo di comando è CHANGE NAME
                 if(t_msg.equals(CommandType.CHANGE_NAME)){
                     changeName(usr);
-                } else {
+                } else if (t_msg.equals(CommandType.DISCONNECT)){
+                    allowedToRun = false;
+                    break;
+                }
+                else {
                     // Ha mandato un messaggio diverso da name, quindi 
                     write(ServerAnnouncement.createServerAnnouncement(
                         ServerAnnouncement.NEED_NAME, usr));
