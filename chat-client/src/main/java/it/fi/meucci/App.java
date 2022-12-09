@@ -45,6 +45,7 @@ public class App extends Application {
 
         launch();
         System.out.println("CIAO");
+        return;
     }
 
 }
