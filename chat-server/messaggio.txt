@@ -3,7 +3,6 @@
 {"type":"COMMAND", "from" : "", "to": "server", "args": ["CHANGE_NAME","Franco"]}
 {"type":"COMMAND", "from" : "Martina", "to": "server", "args": ["CHANGE_NAME","Martina"]}
 {"type":"COMMAND", "from" : "Martina", "to": "server", "args": ["CHANGE_NAME","Franco"]}
-{"type":"COMMAND", "from" : "Martina77", "to": "server", "args": ["STOP"]}
 {"type":"COMMAND", "from" : "", "to": "server", "args": ["DISCONNECT"]}
 {"type":"COMMAND", "from" : "Franchino89", "to": "server", "args": ["DISCONNECT"]}
 {"type":"MESSAGE", "from": "Franchino89", "to" : "Martina77", "args": ["Ciao come stai?"]}
