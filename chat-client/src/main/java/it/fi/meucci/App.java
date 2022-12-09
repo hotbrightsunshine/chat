@@ -43,7 +43,7 @@ public class App extends Application {
             System.out.println("Connessione rifiutata. ");
         }
 
-        //launch();
+        launch();
         System.out.println("CIAO");
     }
 
