@@ -9,25 +9,9 @@ package it.fi.meucci.utils;
  *  Intuitivamente, “server” è l’username che serve per indirizzare un messaggio al server;
  *  “everyone” manda il messaggio in broadcast.
  */
-public class Username {
-    String username;
-    private static Username everyone = new Username("everyone");
-    private static Username server = new Username("server");
-    public Username(String username){
-        this.username = username;
-    }
+public abstract class Username {
+    private String username;
+    public final static String everyone = "everyone";
+    public final static String server = "server";
 
-    /**
-     * @return L'username "everyone"
-     */
-    public static Username everyone(){
-        return Username.everyone;
-    }
-
-    /**
-     * @return L'username "server"
-     */
-    public static Username server(){
-        return Username.server;
-    }
 }

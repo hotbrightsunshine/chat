@@ -48,29 +48,50 @@ public class Server
      * 
      * @return Ritorna una lista di username, cioè i client connessi che hanno un username validato
      */
-    public ArrayList<Username> getUsernames(){
-        ArrayList<Username> temp = new ArrayList<>();
+    public ArrayList<String> getUsernames(){
+
+        ArrayList<String> temp = new ArrayList<>();
         for (RequestListener r:
              listeners) {
-            if (r.getUsername() != null) {
+            if (r.getUsername() != null || !r.getUsername().equals("")) {
                 temp.add(r.getUsername());
             }
         }
         return temp;
     }
 
-    public void send(Message msg){
-        
+    public void send(Message msg) throws IOException {
+        for(RequestListener r : listeners){
+            if (r.getUsername().equals(msg.getTo())){
+                r.write(msg);
+            }
+        }
     }
 
-    public boolean isUserValid(Username username){
-        if(username.getUsername().equals("")){
+    public void broadcast(Message msg) throws IOException {
+        for(RequestListener r : listeners){
+            if(r.getUsername().equals(msg.getFrom())){
+                continue;
+            } else {
+                r.write(msg);
+            }
+        }
+    }
+
+    public ArrayList<RequestListener> getListeners(){
+        return listeners;
+    }
+
+    public boolean isUserValid(String username){
+        if(username.equals("")){
             return false;
+        } else if(username.equals(Username.everyone)){
+            return true;
         }
         return getUsernames().contains(username);
     }
 
-    public boolean isUserAvailable(Username username){
+    public boolean isUserAvailable(String username){
         return !isUserValid(username);
     }
 }
