@@ -18,17 +18,24 @@ public class TextInterface {
         printCurrent();
     }
 
+    /**
+     * Metodo adibito al cambiare pagina
+     * @param newpage
+     */
     public static void switchTo(Page newpage){
         error = "";
         screen_index = 0;
         current = newpage;
         refresh();
     }
-
+/**
+ * Metodo adibito all'aggiornare la pagina
+ */
     public static void refresh(){
         clearScreen();
         printCurrent();
     }
+
 
     public static void clearScreen() {
         for(int i = 0; i < 20; ++i){
@@ -36,6 +43,9 @@ public class TextInterface {
         }
     }
 
+    /**
+     * Metodo adibito alla stampa della pagina corrente
+     */
     public static void printCurrent(){
         clearScreen();
         // Render screens
@@ -53,6 +63,7 @@ public class TextInterface {
         }
     }
 
+ 
     private static void print(){
         System.out.println(" + " + current.getHeader() + " (" + (screen_index+1) + "/" + screens.size() + ")");
         for(String s : screens.get(screen_index)){
