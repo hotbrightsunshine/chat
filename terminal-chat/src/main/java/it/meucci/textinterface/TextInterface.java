@@ -7,7 +7,8 @@ public class TextInterface {
     private static Page current;
     private static ArrayList<ArrayList<String>> screens = new ArrayList<ArrayList<String>>();
     private static int screen_index;
-    private static String error;
+    public static String error;
+
     // chat with the user; null if not serving anyone
     private static String serving;
     public static void start(){
@@ -59,8 +60,10 @@ public class TextInterface {
         }
         if(error == null){
             System.out.println();
+        } else if (error.replace(" ", "").equals("")) {
+            System.out.println();
         } else {
-            System.out.println(error);
+            System.out.println("Error: " + error);
         }
 
     }
@@ -101,5 +104,10 @@ public class TextInterface {
             }
             k = k + 1;
         }
+    }
+
+    public static void setError(Errors er){
+        error = er.toString();
+        refresh();
     }
 }

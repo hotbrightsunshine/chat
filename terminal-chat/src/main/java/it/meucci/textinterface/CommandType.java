@@ -6,24 +6,6 @@ public enum CommandType {
     DISCONNECT,
     PREV,
     NEXT,
+    CONNECT,
     INVALID;
-
-    public CommandType parse(String type){
-        type = type.replace(" ", "");
-        type = type.toUpperCase();
-        switch(type){
-            case "HELP":
-                return HELP;
-            case "WELCOME":
-                return WELCOME;
-            case "DISCONNECT":
-                return DISCONNECT;
-            case "PREV":
-                return PREV;
-            case "NEXT":
-                return NEXT;
-            default:
-                return INVALID;
-        }
-    }
 }

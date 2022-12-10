@@ -81,7 +81,7 @@ public class Client {
         listener.close();
     }
 
-    protected Socket getSocket(){
+    public Socket getSocket(){
         return socket;
     }
 
