@@ -12,19 +12,7 @@ public class TextInput {
     private static Runnable onRead = new Runnable() {
         @Override
         public void run() {
-            if(acquired.equals("/disconnect")){
-                disableInput();
-                TextInterface.switchTo(new DisconnectPage());
-            } else if (acquired.equals("/help")) {
-                disableInput();
-                TextInterface.switchTo(new HelpPage());
-            } else if (acquired.equals("/next")) {
-                disableInput();
-                TextInterface.nextScreen();
-            } else if (acquired.equals("/prev")) {
-                disableInput();
-                TextInterface.previousScreen();
-            }
+            System.out.println(Command.validate(acquired));
         }
     };
 

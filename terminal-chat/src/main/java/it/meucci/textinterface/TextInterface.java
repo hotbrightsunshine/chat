@@ -8,6 +8,8 @@ public class TextInterface {
     private static ArrayList<ArrayList<String>> screens = new ArrayList<ArrayList<String>>();
     private static int screen_index;
     private static String error;
+    // chat with the user; null if not serving anyone
+    private static String serving;
     public static void start(){
         screen_index = 0;
         current = new WelcomePage();
@@ -16,12 +18,12 @@ public class TextInterface {
     }
 
     public static void switchTo(Page newpage){
+        error = "";
         current = newpage;
         refresh();
     }
 
     public static void refresh(){
-        error = "";
         clearScreen();
         printCurrent();
     }
@@ -61,26 +63,23 @@ public class TextInterface {
 
     }
 
-    public static boolean nextScreen(){
+    public static void nextScreen(){
         if (screen_index+1 >= screens.size()){
             error = "No more pages!";
-            return false;
+            refresh();
         } else {
             screen_index++;
             refresh();
-            return true;
         }
     }
 
-    public static boolean previousScreen(){
-        if (screen_index-1 <= 0){
+    public static void previousScreen(){
+        if (screen_index-1 < 0){
             error = "No more pages!";
-            return false;
-
+            refresh();
         } else {
             screen_index--;
             refresh();
-            return true;
         }
     }
 

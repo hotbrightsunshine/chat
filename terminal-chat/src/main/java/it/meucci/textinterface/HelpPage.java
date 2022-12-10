@@ -16,18 +16,11 @@ public class HelpPage implements Page{
     @Override
     public ArrayList<String> getContent() {
         ArrayList<String> strings = new ArrayList<>();
-        strings.add("1");
-        strings.add("2");
-        strings.add("3");
-        strings.add("4");
-        strings.add("5");
-        strings.add("6");
-        strings.add("7");
-        strings.add("8");
-        strings.add("9");
-        strings.add("10");
-        strings.add("11");
-        strings.add("12");
+        strings.add("/connect <address>; connect to a chat server");
+        strings.add("/disconnect; disconnect and quit");
+        strings.add("/help; shows this help page");
+        strings.add("/prev; goes to the previous page");
+        strings.add("/next; goes to the next page");
         return strings;
     }
 }
