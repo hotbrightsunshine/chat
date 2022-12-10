@@ -1,6 +1,5 @@
 package it.meucci;
 
-import it.meucci.lantern.NickChooserPane;
 import it.meucci.utils.Message;
 
 import java.io.BufferedReader;
@@ -66,7 +65,6 @@ public class Client {
     public void changeUsername(String newUsername){
         System.out.println("User wants to change from " +
                 username + " to " + newUsername);
-        NickChooserPane.setIfUsernameOkay(true);
     }
 
     public Message read() throws IOException{

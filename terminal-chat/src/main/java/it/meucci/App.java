@@ -1,7 +1,8 @@
 package it.meucci;
 
-import it.meucci.lantern.GraphicalInterface;
+import it.meucci.textinterface.TextInterface;
 import it.meucci.utils.Message;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,10 +16,9 @@ public class App
 {
     public static Client client;
     public static HashMap<String, ArrayList<Message>> messages;
-    public static void main( String[] args ) throws IOException, InterruptedException {
+    public static void main( String[] args ) throws IOException {
         messages = new HashMap<>();
-        GraphicalInterface.start();
-
+        TextInterface.start();
     }
 
 }

@@ -8,7 +8,6 @@ import java.net.Socket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import it.meucci.lantern.GraphicalInterface;
 import it.meucci.utils.Message;
 import it.meucci.utils.Type;
 
@@ -69,7 +68,7 @@ public class ReplyListener implements Runnable {
         System.out.println(message);
         //ONLY FOR TESTING; TODO
         if(message.getType().equals(Type.SERVER_ANN) && message.getArgs().get(0).equals("NEED_NAME")){
-            GraphicalInterface.chooseNick();
+
         }
     }
 /**
