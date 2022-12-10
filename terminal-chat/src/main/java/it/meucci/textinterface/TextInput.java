@@ -12,7 +12,7 @@ public class TextInput {
     private static Runnable onRead = new Runnable() {
         @Override
         public void run() {
-            System.out.println(Command.validate(acquired));
+            CommandHandler.handle(Command.validate(acquired));
         }
     };
 

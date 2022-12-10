@@ -47,7 +47,6 @@ public class TextInterface {
             TextInput.stop();
             TextInput.inputCycle();
         }
-        System.out.println();
     }
 
     private static void print(){

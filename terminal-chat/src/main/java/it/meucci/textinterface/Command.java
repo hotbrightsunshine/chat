@@ -35,4 +35,12 @@ public class Command {
                 ", args=" + args +
                 '}';
     }
+
+    public CommandType getType() {
+        return type;
+    }
+
+    public ArrayList<String> getArgs() {
+        return args;
+    }
 }
