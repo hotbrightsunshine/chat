@@ -19,6 +19,7 @@ public class TextInterface {
 
     public static void switchTo(Page newpage){
         error = "";
+        screen_index = 0;
         current = newpage;
         refresh();
     }
@@ -66,7 +67,7 @@ public class TextInterface {
 
     public static void nextScreen(){
         if (screen_index+1 >= screens.size()){
-            error = "No more pages!";
+            screen_index = 0;
             refresh();
         } else {
             screen_index++;
@@ -76,7 +77,7 @@ public class TextInterface {
 
     public static void previousScreen(){
         if (screen_index-1 < 0){
-            error = "No more pages!";
+            screen_index = screens.size() - 1;
             refresh();
         } else {
             screen_index--;
