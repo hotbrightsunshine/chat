@@ -1,5 +1,11 @@
 package it.meucci.textinterface;
 
+import it.meucci.App;
+import it.meucci.Client;
+import java.io.IOException;
+import java.net.Inet4Address;
+import java.util.ArrayList;
+
 public class CommandHandler {
     public static void handle(Command c){
         switch(c.getType()){
@@ -18,10 +24,31 @@ public class CommandHandler {
             case DISCONNECT:
                 disconnect();
                 break;
+            case CONNECT:
+                connect(c.getArgs());
             default:
                 break;
 
         }
+    }
+
+    private static void connect(ArrayList<String> args){
+        if(args.size() != 1){
+            TextInterface.setError(Errors.WRONG_ARGS);
+            return;
+        } else {
+            if(App.client.getSocket().isConnected()){
+                TextInterface.setError(Errors.ALREADY_CONNECTED);
+            }
+            try{
+                Inet4Address addr = (Inet4Address) Inet4Address.getByName(args.get(0));
+                App.client = new Client(addr, 7777);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
     }
 
     private static void help(){

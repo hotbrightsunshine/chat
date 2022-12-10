@@ -23,6 +23,7 @@ public class Command {
         try{
             return new Command(CommandType.valueOf(CommandType.class, split[0].toUpperCase()), arraylist);
         } catch (Exception e){
+            TextInterface.setError(Errors.COMMAND_NOT_RECOGNIZED);
             return new Command(CommandType.INVALID, arraylist);
         }
     }
