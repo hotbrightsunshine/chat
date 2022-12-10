@@ -14,7 +14,6 @@ public class Command {
     public static Command validate(String command){
         command = command.replace("/", "");
         String split[] = command.split(" ");
-        System.out.println(split);
         ArrayList<String> arraylist = new ArrayList<>();
         if (split.length > 1){
             for(int i = 1; i < split.length; ++i){

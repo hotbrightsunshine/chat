@@ -21,6 +21,16 @@ public class HelpPage implements Page{
         strings.add("/help; shows this help page");
         strings.add("/prev; goes to the previous page");
         strings.add("/next; goes to the next page");
+        strings.add("/connect <address>; connect to a chat server");
+        strings.add("/disconnect; disconnect and quit");
+        strings.add("/help; shows this help page");
+        strings.add("/prev; goes to the previous page");
+        strings.add("/next; goes to the next page");
+        strings.add("/connect <address>; connect to a chat server");
+        strings.add("/disconnect; disconnect and quit");
+        strings.add("/help; shows this help page");
+        strings.add("/prev; goes to the previous page");
+        strings.add("/next; goes to the next page");
         return strings;
     }
 }

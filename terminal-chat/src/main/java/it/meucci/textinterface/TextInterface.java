@@ -3,7 +3,7 @@ package it.meucci.textinterface;
 import java.util.ArrayList;
 
 public class TextInterface {
-    public static final int MIN_LINES = 10;
+    public static final int LINES = 10;
     private static Page current;
     private static ArrayList<ArrayList<String>> screens = new ArrayList<ArrayList<String>>();
     private static int screen_index;
@@ -46,6 +46,8 @@ public class TextInterface {
             System.out.print(" > ");
             TextInput.stop();
             TextInput.inputCycle();
+        } else {
+            TextInput.stop();
         }
     }
 
@@ -87,7 +89,7 @@ public class TextInterface {
         screens = new ArrayList<>();
         int k = 0; int screen = -1;
         for(String i : content){
-            if(k % 10 == 0){
+            if(k % LINES == 0){
                 screen++;
             }
             try{
