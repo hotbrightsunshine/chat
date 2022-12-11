@@ -26,7 +26,6 @@ public class Client {
     private String username;
     private Socket socket;
     private ReplyListener listener;
-    private BufferedReader keyboard;
     private DataOutputStream output;
     private BufferedReader input;
     private ArrayList<String> usernames;
@@ -39,6 +38,7 @@ public class Client {
   */
     public Client(Inet4Address address, int port) throws IOException {
         socket = new Socket(address, port);
+        usernames = new ArrayList<>();
     }
 
     public void init(){
@@ -81,7 +81,6 @@ public class Client {
   */
     public void stop() throws IOException {
         socket.close();
-        listener.close();
     }
 
     public Socket getSocket(){

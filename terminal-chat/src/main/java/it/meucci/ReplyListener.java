@@ -8,6 +8,8 @@ import java.net.Socket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import it.meucci.textinterface.DisconnectPage;
+import it.meucci.textinterface.TextInterface;
 import it.meucci.utils.Message;
 import it.meucci.utils.ServerAnnouncement;
 import it.meucci.utils.Type;
@@ -41,17 +43,11 @@ public class ReplyListener implements Runnable {
                 String read = input.readLine();
                 Message m = objectmapper.readValue(read, Message.class);
                 handle(m);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            } catch (Exception e) {
+                TextInterface.switchTo(new DisconnectPage());
+                break;
             }
        }
-       try {
-            close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
 /** 
  * -Riceve messaggi dal server e li gestisce

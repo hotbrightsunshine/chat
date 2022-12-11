@@ -65,9 +65,14 @@ public class TextInterface {
 
  
     private static void print(){
-        System.out.println(" + " + current.getHeader() + " (" + (screen_index+1) + "/" + screens.size() + ")");
-        for(String s : screens.get(screen_index)){
-            System.out.println(s);
+
+        if(screens.size() != 0){
+            System.out.println(" + " + current.getHeader() + " (" + (screen_index+1) + "/" + screens.size() + ")");
+            for(String s : screens.get(screen_index)){
+                System.out.println(s);
+            }
+        } else {
+            System.out.println(" + " + current.getHeader() + " (nothing to show)");
         }
         if(error == null){
             System.out.println();
@@ -77,7 +82,6 @@ public class TextInterface {
             System.out.println("Error: " + error);
             error = "";
         }
-
     }
 
     public static void nextScreen(){

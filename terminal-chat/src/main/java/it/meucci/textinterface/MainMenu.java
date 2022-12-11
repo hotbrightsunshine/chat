@@ -21,6 +21,12 @@ public class MainMenu implements Page {
 
     @Override
     public ArrayList<String> getContent() {
-        return App.client.getUsernames();
+        ArrayList<String> content = new ArrayList<>();
+        content.add("You have successfully connected. To start talking,");
+        content.add("hit /chat <username>. ");
+        for (String username : App.client.getUsernames()){
+            content.add(" - " + username);
+        }
+        return content;
     }
 }

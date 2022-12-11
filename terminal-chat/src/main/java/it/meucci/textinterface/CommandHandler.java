@@ -93,6 +93,9 @@ public class CommandHandler {
      * Metodo per spostarsi nella pagina di disconnessione
      */
     private static void disconnect(){
+        try {
+            App.client.stop();
+        } catch (Exception e){}
         TextInterface.switchTo(new DisconnectPage());
     }
 }

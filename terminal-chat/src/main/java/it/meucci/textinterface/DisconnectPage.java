@@ -19,7 +19,7 @@ public class DisconnectPage implements Page {
      */
     @Override
     public String getHeader() {
-        return "You have disconnected.";
+        return "You have (been) disconnected.";
     }
 
 
