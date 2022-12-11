@@ -37,5 +37,6 @@ public class TextInput {
 
     public static void stop(){
         canRead = false;
+        //scanner.close();
     }
 }

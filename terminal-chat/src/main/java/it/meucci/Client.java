@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Inet4Address;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -28,6 +29,7 @@ public class Client {
     private BufferedReader keyboard;
     private DataOutputStream output;
     private BufferedReader input;
+    private ArrayList<String> usernames;
     ObjectMapper objectmapper = new ObjectMapper();
 
      /**
@@ -37,6 +39,9 @@ public class Client {
   */
     public Client(Inet4Address address, int port) throws IOException {
         socket = new Socket(address, port);
+    }
+
+    public void init(){
         try {
             output = new DataOutputStream(socket.getOutputStream());
             input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -44,12 +49,10 @@ public class Client {
             // TODO: handle exception
             e.printStackTrace();
         }
-
-        ReplyListener r = new ReplyListener(this);
-        Thread t = new Thread(r);
+        listener = new ReplyListener();
+        Thread t = new Thread(listener);
         t.start();
     }
-
 
     public void send(Message message){
         //Serializza il messaggio
@@ -90,5 +93,9 @@ public class Client {
             return "";
         }
         return username;
+    }
+
+    public ArrayList<String> getUsernames() {
+        return usernames;
     }
 }

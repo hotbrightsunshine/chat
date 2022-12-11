@@ -24,7 +24,6 @@ public class TextInterface {
      * @param newpage
      */
     public static void switchTo(Page newpage){
-        error = "";
         screen_index = 0;
         current = newpage;
         refresh();

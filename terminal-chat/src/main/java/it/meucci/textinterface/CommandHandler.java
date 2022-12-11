@@ -47,7 +47,12 @@ public class CommandHandler {
                 try{
                     Inet4Address addr = (Inet4Address) Inet4Address.getByName(args.get(0));
                     App.client = new Client(addr, 7777);
-                    //TextInterface.switchTo(TextInterface.);
+                    App.client.init();
+                    while(!App.client.getSocket().isConnected()){
+                        // timer di timeout
+                    }
+                    TextInterface.mainpage = new MainMenu();
+                    TextInterface.switchTo(TextInterface.mainpage);
                 } catch (IOException e) {
                     TextInterface.setError(Errors.UNABLE_TO_CONNECT);
                 }

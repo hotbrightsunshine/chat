@@ -1,21 +1,26 @@
 package it.meucci.textinterface;
 
+import it.meucci.App;
+
 import java.util.ArrayList;
 
-public class MainMenu implements Page{
-    // deve essere un attributo static dell'interfaccia!
+public class MainMenu implements Page {
+    public MainMenu(){
+
+    }
+
     @Override
     public boolean isTextInputEnabled() {
-        return false;
+        return true;
     }
 
     @Override
     public String getHeader() {
-        return null;
+        return "Chat List";
     }
 
     @Override
     public ArrayList<String> getContent() {
-        return null;
+        return App.client.getUsernames();
     }
 }

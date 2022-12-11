@@ -9,6 +9,7 @@ import java.net.Socket;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import it.meucci.utils.Message;
+import it.meucci.utils.ServerAnnouncement;
 import it.meucci.utils.Type;
 
 /**
@@ -16,19 +17,15 @@ import it.meucci.utils.Type;
  * -Gestisce ogni messaggio inviato
  */
 public class ReplyListener implements Runnable {
-    private Client father;
     private BufferedReader keyboard;
     private DataOutputStream output;
     private BufferedReader input;
-    private Socket client_socket;
     private ObjectMapper objectmapper = new ObjectMapper();
 
 
-    public ReplyListener(Client father){
-        this.client_socket = father.getSocket();
-        this.father = father;
+    public ReplyListener(){
         try {
-            input = new BufferedReader(new InputStreamReader(client_socket.getInputStream()));
+            input = new BufferedReader(new InputStreamReader(App.client.getSocket().getInputStream()));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -38,7 +35,7 @@ public class ReplyListener implements Runnable {
     public void run(){
        //while client.stop == false fai handle
        // sennò richiami metodo close()
-       while(!client_socket.isClosed())
+       while(!App.client.getSocket().isClosed())
        {
             try {
                 String read = input.readLine();
@@ -65,9 +62,22 @@ public class ReplyListener implements Runnable {
         //controllo il tipo di messaggio inviato se è un messaggio per l'utente o se è un SERVER_ANN
         //ulteriore controllo sul tipo di SERVER_ANN
         //stampa il messaggio
-        System.out.println(message);
-        //ONLY FOR TESTING; TODO
-        if(message.getType().equals(Type.SERVER_ANN) && message.getArgs().get(0).equals("NEED_NAME")){
+        switch (message.getType()){
+            case MESSAGE:
+                break;
+            case SERVER_ANN:
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void handleMessage(Message message){
+
+    }
+
+    private void handleServerAnn(Message message){
+        switch(ServerAnnouncement.valueOf(message.getArgs().get(0).toUpperCase())){
 
         }
     }
@@ -77,6 +87,6 @@ public class ReplyListener implements Runnable {
  */
     public void close() throws IOException{
         //chiusura socket
-        father.stop();
+        App.client.stop();
     }
 }
