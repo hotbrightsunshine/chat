@@ -76,6 +76,7 @@ public class TextInterface {
             System.out.println();
         } else {
             System.out.println("Error: " + error);
+            error = "";
         }
 
     }
