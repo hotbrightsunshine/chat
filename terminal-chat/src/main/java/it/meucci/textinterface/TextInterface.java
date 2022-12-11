@@ -8,6 +8,7 @@ public class TextInterface {
     private static ArrayList<ArrayList<String>> screens = new ArrayList<ArrayList<String>>();
     private static int screen_index;
     public static String error;
+    public static MainMenu mainpage;
 
     // chat with the user; null if not serving anyone
     private static String serving;
