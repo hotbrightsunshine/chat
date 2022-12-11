@@ -11,6 +11,11 @@ public class Command {
         this.args = args;
     }
 
+    /**
+     * Metodo adibito alla convalida di un comando
+     * @param command
+     * @return Comando validato
+     */
     public static Command validate(String command){
         command = command.replace("/", "");
         String split[] = command.split(" ");

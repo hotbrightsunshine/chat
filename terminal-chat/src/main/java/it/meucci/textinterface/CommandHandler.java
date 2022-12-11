@@ -34,6 +34,10 @@ public class CommandHandler {
         }
     }
 
+    /**
+     * Metodo adibito alla connessione del Client
+     * @param args
+     */
     private static void connect(ArrayList<String> args){
         if(args.size() != 1){
             TextInterface.setError(Errors.WRONG_ARGS);
@@ -56,18 +60,33 @@ public class CommandHandler {
 
     }
 
+    /*
+     * Metodo per spostarsi nella pagina HELP
+     */
     private static void help(){
         TextInterface.switchTo(new HelpPage());
     }
+     /*
+     * Metodo per spostarsi nella pagina successiva
+     */
     private static void next(){
         TextInterface.nextScreen();
     }
+     /*
+     * Metodo per spostarsi nella pagina precedente
+     */
     private static void prev(){
         TextInterface.previousScreen();
     }
+     /*
+     * Metodo per spostarsi nella pagina di benvenuto
+     */
     private static void welcome(){
         TextInterface.switchTo(new WelcomePage());
     }
+    /**
+     * Metodo per spostarsi nella pagina di disconnessione
+     */
     private static void disconnect(){
         TextInterface.switchTo(new DisconnectPage());
     }

@@ -1,7 +1,7 @@
 {"type":"COMMAND", "from" : "", "to": "server", "args": ["CHANGE_NAME","Franchino89"]}
 {"type":"COMMAND", "from" : "", "to": "server", "args": ["CHANGE_NAME","Martina77"]}
 {"type":"COMMAND", "from" : "", "to": "server", "args": ["CHANGE_NAME","Franco"]}
-{"type":"COMMAND", "from" : "Martina", "to": "server", "args": ["CHANGE_NAME","Martina"]}
+{"type":"COMMAND", "from" : "Martina77", "to": "server", "args": ["CHANGE_NAME","Martina"]}
 {"type":"COMMAND", "from" : "Martina", "to": "server", "args": ["CHANGE_NAME","Franco"]}
 {"type":"COMMAND", "from" : "", "to": "server", "args": ["DISCONNECT"]}
 {"type":"COMMAND", "from" : "Franchino89", "to": "server", "args": ["DISCONNECT"]}
