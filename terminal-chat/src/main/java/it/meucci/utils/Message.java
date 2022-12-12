@@ -2,8 +2,11 @@ package it.meucci.utils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.meucci.App;
 
 import java.util.ArrayList;
+
+import static it.meucci.utils.CommandType.CHANGE_NAME;
 
 /**
  * I messaggi che vengono scambiati tra client e server.
@@ -44,7 +47,7 @@ public class Message
             return false;
 
         if(this.args.size() == 2){
-            if(!this.args.get(0).equals(CommandType.CHANGE_NAME.toString())){
+            if(!this.args.get(0).equals(CHANGE_NAME.toString())){
                 return false;
             }
         }
@@ -85,5 +88,13 @@ public class Message
 
     public void setArgs(ArrayList<String> args) {
         this.args = args;
+    }
+
+    public static Message createChangeNameCommand(String oldName, String newName){
+        ArrayList<String> args = new ArrayList<>();
+        args.add(CHANGE_NAME.toString());
+        args.add(oldName);
+        args.add(newName);
+        return new Message(Type.COMMAND, App.client.getUsername(), Username.server, args);
     }
 }

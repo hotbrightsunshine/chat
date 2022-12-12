@@ -2,6 +2,9 @@ package it.meucci.textinterface;
 
 import it.meucci.App;
 import it.meucci.Client;
+import it.meucci.ReplyListener;
+import it.meucci.utils.Message;
+import it.meucci.utils.ServerAnnouncement;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
@@ -9,6 +12,7 @@ import java.net.Inet4Address;
 import java.util.ArrayList;
 
 public class CommandHandler {
+
     public static void handle(Command c){
         switch(c.getType()){
             case HELP:
@@ -35,6 +39,7 @@ public class CommandHandler {
             case CHAT:
                 break;
             case NICK:
+                nick(c.getArgs());
                 break;
             default:
                 break;
@@ -113,6 +118,30 @@ public class CommandHandler {
         } else {
             TextInterface.switchTo(TextInterface.mainpage);
             TextInterface.refresh();
+        }
+    }
+
+    private static void nick(ArrayList<String> args){
+        try {
+            if(App.client.getSocket().isConnected()) {
+                App.client.send(Message.createChangeNameCommand(App.client.getUsername(), args.get(0)));
+                while(App.client.getLastAnnouncement() != ServerAnnouncement.NAME_OK ||
+                        App.client.getLastAnnouncement() != ServerAnnouncement.NAME_NOT_OK){
+
+                }
+                switch(App.client.getLastAnnouncement()){
+                    case NAME_OK:
+                        App.client.changeUsername(args.get(0));
+                        TextInterface.refresh();
+                        // TODO to optimize :|||||
+                    case NAME_NOT_OK:
+                        TextInterface.setError(Errors.NAME_NOT_AVAILABLE);
+                }
+            }
+        } catch (IndexOutOfBoundsException e){
+            TextInterface.setError(Errors.WRONG_ARGS);
+        } catch (NullPointerException e){
+            TextInterface.setError(Errors.NOT_CONNECTED_YET);
         }
     }
 }

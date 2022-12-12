@@ -10,6 +10,8 @@ public class TextInterface {
     public static String error;
     public static MainMenu mainpage;
 
+    // TODO Consider adding a notification arraylist to print out things
+
     // chat with the user; null if not serving anyone
     public static void start(){
         screen_index = 0;
@@ -124,5 +126,9 @@ public class TextInterface {
     public static void setError(Errors er){
         error = er.toString();
         refresh();
+    }
+
+    public static Page getCurrent() {
+        return current;
     }
 }

@@ -101,7 +101,7 @@ public class RequestListener implements Runnable {
                 try {
                     // Estraggo il tipo e il parametro per leggibilità
                     t_msg = CommandType.fromString(msg.getArgs().get(0));
-                    usr = msg.getArgs().get(0);
+                    usr = msg.getArgs().get(1);
                 } catch (Exception e) {
                     write(ServerAnnouncement.createServerAnnouncement(
                         ServerAnnouncement.COMMAND_NOT_RECOGNIZED, usr));

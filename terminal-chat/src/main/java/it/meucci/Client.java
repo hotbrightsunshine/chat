@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.meucci.utils.ServerAnnouncement;
 import it.meucci.utils.Username;
 
 /**
@@ -68,8 +69,7 @@ public class Client {
     }
 
     public void changeUsername(String newUsername){
-        System.out.println("User wants to change from " +
-                username + " to " + newUsername);
+        this.username = newUsername;
     }
 
     public Message read() throws IOException{
@@ -98,5 +98,9 @@ public class Client {
 
     public boolean isReadyForTextInterface(){
         return this.socket.isConnected() && this.userMessagesList.contains(Username.everyone);
+    }
+
+    public ServerAnnouncement getLastAnnouncement(){
+        return listener.getLastAnnouncement();
     }
 }

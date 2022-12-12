@@ -23,7 +23,8 @@ public class MainMenu implements Page {
     public ArrayList<String> getContent() {
         ArrayList<String> content = new ArrayList<>();
         content.add("You have successfully connected. To start talking,");
-        content.add("hit /chat <username>. ");
+        content.add("hit /chat <username>. Chats do not refresh automatically: ");
+        content.add("to check if someone has entered, hit /chats again.");
         for (String username : App.client.userMessagesList.getUsernames()){
             content.add(" - " + username);
         }
