@@ -39,6 +39,7 @@ public class CommandHandler {
                 chats();
                 break;
             case CHAT:
+                // TODO
                 break;
             case NICK:
                 nick(c.getArgs());
@@ -125,11 +126,18 @@ public class CommandHandler {
 
     private static void nick(ArrayList<String> args){
         try {
-            if(App.client.getSocket().isConnected()) {
+            if(args.size() == 1) {
+                // TODO controllo subito se l'username che l'utente vuole mettere è server o everyone e lo fermo, impendendo di sprecare banda
                 App.client.send(Message.createChangeNameCommand(App.client.getUsername(), args.get(0)));
+                App.client.setPendingUsername(args.get(0));
+                // Quando il pending username torna a "" allora è finito lo scambio e si può controllare.
+                while(!App.client.getPendingUsername().equals("")){
+
+                }
+                TextInterface.refresh();
+            } else {
+                TextInterface.setError(Errors.WRONG_ARGS);
             }
-        } catch (IndexOutOfBoundsException e){
-            TextInterface.setError(Errors.WRONG_ARGS);
         } catch (NullPointerException e){
             TextInterface.setError(Errors.NOT_CONNECTED_YET);
         }

@@ -7,5 +7,6 @@ public enum Errors {
     ALREADY_CONNECTED,
     NOT_CONNECTED_YET,
     NAME_NOT_AVAILABLE,
+    NEED_A_NAME,
 
 }

@@ -18,24 +18,17 @@ import it.meucci.utils.ServerAnnouncement;
  * -Gestisce ogni messaggio inviato
  */
 public class ReplyListener implements Runnable {
-    private BufferedReader keyboard;
-    private DataOutputStream output;
     private BufferedReader input;
     private ObjectMapper objectmapper = new ObjectMapper();
-
+    private String pendingUsername;
 
     public ReplyListener(){
         try {
             input = new BufferedReader(new InputStreamReader(App.client.getSocket().getInputStream()));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        } catch (IOException e) {}
     }
 
     public void run(){
-       //while client.stop == false fai handle
-       // sennò richiami metodo close()
        while(!App.client.getSocket().isClosed())
        {
             try {
@@ -114,13 +107,5 @@ public class ReplyListener implements Runnable {
                 HandleMethods.usernameChanged(args.get(0), args.get(1));
                 break;
         }
-    }
-/**
- * Chiude la lettura dell'output del socket
- * @throws IOException
- */
-    public void close() throws IOException{
-        //chiusura socket
-        App.client.stop();
     }
 }

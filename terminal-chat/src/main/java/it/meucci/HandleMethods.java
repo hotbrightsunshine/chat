@@ -1,5 +1,7 @@
 package it.meucci;
 
+import it.meucci.textinterface.Errors;
+import it.meucci.textinterface.TextInterface;
 import it.meucci.utils.Username;
 
 import java.util.ArrayList;
@@ -17,12 +19,14 @@ public abstract class HandleMethods {
 
     static void nameOk()
     {
-
+        App.client.changeUsername(App.client.getPendingUsername());
+        App.client.setPendingUsername("");
     }
 
     static void nameNotOk()
     {
-
+        TextInterface.setError(Errors.NAME_NOT_AVAILABLE);
+        App.client.setPendingUsername("");
     }
 
     static void needName()

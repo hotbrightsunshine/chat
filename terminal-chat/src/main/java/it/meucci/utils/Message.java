@@ -93,8 +93,19 @@ public class Message
     public static Message createChangeNameCommand(String oldName, String newName){
         ArrayList<String> args = new ArrayList<>();
         args.add(CHANGE_NAME.toString());
-        args.add(oldName);
         args.add(newName);
-        return new Message(Type.COMMAND, App.client.getUsername(), Username.server, args);
+        Message m = new Message(Type.COMMAND, App.client.getUsername(), Username.server, args);
+        //System.out.println(m);
+        return m;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "type=" + type +
+                ", from='" + from + '\'' +
+                ", to='" + to + '\'' +
+                ", args=" + args +
+                '}';
     }
 }

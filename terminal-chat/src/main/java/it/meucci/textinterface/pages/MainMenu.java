@@ -26,7 +26,11 @@ public class MainMenu implements Page {
         content.add("hit /chat <username>. Chats do not refresh automatically: ");
         content.add("to check if someone has entered, hit /chats again.");
         for (String username : App.client.userMessagesList.getUsernames()){
-            content.add(" - " + username);
+            if(username.equals(App.client.getUsername())){
+                content.add(" - " + username + " (You)");
+            } else {
+                content.add(" - " + username);
+            }
         }
         return content;
     }

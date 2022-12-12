@@ -10,5 +10,6 @@ public enum CommandType {
     NICK,
     CHATS,
     CHAT,
+    SEND, //TODO
     INVALID;
 }

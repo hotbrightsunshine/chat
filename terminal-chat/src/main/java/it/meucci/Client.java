@@ -27,6 +27,7 @@ import it.meucci.utils.Username;
 
 public class Client {
     private String username;
+    private String pendingUsername;
     private Socket socket;
     private ReplyListener listener;
     private DataOutputStream output;
@@ -60,7 +61,7 @@ public class Client {
         try {
             output.writeBytes(objectmapper.writeValueAsString(message) + '\n');
         } catch (IOException e) {
-            e.printStackTrace();
+            // TODO e.printStackTrace();
         }
     }
 
@@ -92,4 +93,11 @@ public class Client {
         return this.socket.isConnected() && this.userMessagesList.contains(Username.everyone);
     }
 
+    public String getPendingUsername() {
+        return pendingUsername;
+    }
+
+    public void setPendingUsername(String pendingUsername) {
+        this.pendingUsername = pendingUsername;
+    }
 }
