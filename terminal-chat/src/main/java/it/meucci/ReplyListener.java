@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import it.meucci.textinterface.DisconnectPage;
+import it.meucci.textinterface.pages.DisconnectPage;
 import it.meucci.textinterface.TextInterface;
 import it.meucci.utils.Message;
 import it.meucci.utils.ServerAnnouncement;

@@ -1,11 +1,13 @@
-package it.meucci.textinterface;
+package it.meucci.textinterface.commands;
 
 import it.meucci.App;
 import it.meucci.Client;
-import it.meucci.ReplyListener;
+import it.meucci.textinterface.*;
+import it.meucci.textinterface.pages.DisconnectPage;
+import it.meucci.textinterface.pages.HelpPage;
+import it.meucci.textinterface.pages.MainMenu;
+import it.meucci.textinterface.pages.WelcomePage;
 import it.meucci.utils.Message;
-import it.meucci.utils.ServerAnnouncement;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.net.Inet4Address;
@@ -125,18 +127,6 @@ public class CommandHandler {
         try {
             if(App.client.getSocket().isConnected()) {
                 App.client.send(Message.createChangeNameCommand(App.client.getUsername(), args.get(0)));
-                while(App.client.getLastAnnouncement() != ServerAnnouncement.NAME_OK ||
-                        App.client.getLastAnnouncement() != ServerAnnouncement.NAME_NOT_OK){
-
-                }
-                switch(App.client.getLastAnnouncement()){
-                    case NAME_OK:
-                        App.client.changeUsername(args.get(0));
-                        TextInterface.refresh();
-                        // TODO to optimize :|||||
-                    case NAME_NOT_OK:
-                        TextInterface.setError(Errors.NAME_NOT_AVAILABLE);
-                }
             }
         } catch (IndexOutOfBoundsException e){
             TextInterface.setError(Errors.WRONG_ARGS);

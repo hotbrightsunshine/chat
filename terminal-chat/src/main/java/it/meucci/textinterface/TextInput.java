@@ -1,6 +1,7 @@
 package it.meucci.textinterface;
 
-import org.w3c.dom.Text;
+import it.meucci.textinterface.commands.Command;
+import it.meucci.textinterface.commands.CommandHandler;
 
 import java.util.Scanner;
 

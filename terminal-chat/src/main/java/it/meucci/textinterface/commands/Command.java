@@ -1,4 +1,7 @@
-package it.meucci.textinterface;
+package it.meucci.textinterface.commands;
+
+import it.meucci.textinterface.Errors;
+import it.meucci.textinterface.TextInterface;
 
 import java.util.ArrayList;
 

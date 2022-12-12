@@ -49,7 +49,6 @@ public class Client {
             output = new DataOutputStream(socket.getOutputStream());
             input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
         listener = new ReplyListener();
@@ -58,14 +57,11 @@ public class Client {
     }
 
     public void send(Message message){
-        //Serializza il messaggio
-        //invia al server il messaggio
         try {
             output.writeBytes(objectmapper.writeValueAsString(message) + '\n');
         } catch (IOException e) {
             e.printStackTrace();
         }
- 
     }
 
     public void changeUsername(String newUsername){
@@ -77,10 +73,6 @@ public class Client {
         return objectmapper.readValue(str, Message.class);
     }
 
-       /**
-    * - Il client termina la connessione con il server
-    * @throws IOException
-  */
     public void stop() throws IOException {
         socket.close();
     }
@@ -100,7 +92,4 @@ public class Client {
         return this.socket.isConnected() && this.userMessagesList.contains(Username.everyone);
     }
 
-    public ServerAnnouncement getLastAnnouncement(){
-        return listener.getLastAnnouncement();
-    }
 }

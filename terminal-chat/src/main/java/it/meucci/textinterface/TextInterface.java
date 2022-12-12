@@ -1,5 +1,9 @@
 package it.meucci.textinterface;
 
+import it.meucci.textinterface.pages.MainMenu;
+import it.meucci.textinterface.pages.Page;
+import it.meucci.textinterface.pages.WelcomePage;
+
 import java.util.ArrayList;
 
 public class TextInterface {

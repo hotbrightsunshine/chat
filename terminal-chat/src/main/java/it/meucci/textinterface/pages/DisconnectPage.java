@@ -1,4 +1,4 @@
-package it.meucci.textinterface;
+package it.meucci.textinterface.pages;
 
 import java.util.ArrayList;
 

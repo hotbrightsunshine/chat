@@ -1,7 +1,5 @@
 package it.meucci;
 
-import it.meucci.textinterface.MainMenu;
-import it.meucci.textinterface.TextInterface;
 import it.meucci.utils.Username;
 
 import java.util.ArrayList;
