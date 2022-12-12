@@ -50,12 +50,12 @@ public class RequestListener implements Runnable {
         if(usr.trim().equals("")){
             write(ServerAnnouncement
             .createServerAnnouncement(ServerAnnouncement.NAME_NOT_OK, username));
-        }
+        } else 
         if(App.server.isUserAvailable(usr)){
             // Mando all'utente che il nome è ok
             write(ServerAnnouncement
             .createServerAnnouncement(ServerAnnouncement.NAME_OK, username));
-            // dico a tutti gli altri che l'utente ha cambiato nome
+            // dico a tutti gli altri che l'utente ha cambiato nome, solo se quello di prima non era "", altrimenti vuol dire che è entrato
             if(!getUsername().equals("")){
                 sendBroadcast(ServerAnnouncement
                 .createUsernameChangedAnnouncement(username, usr));
@@ -65,6 +65,7 @@ public class RequestListener implements Runnable {
             write(ServerAnnouncement
             .createServerAnnouncement(ServerAnnouncement.NAME_NOT_OK, username));
         }
+        System.out.println(this.username);
     }
 
     /**
