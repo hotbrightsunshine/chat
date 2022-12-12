@@ -11,7 +11,6 @@ public class TextInterface {
     public static MainMenu mainpage;
 
     // chat with the user; null if not serving anyone
-    private static String serving;
     public static void start(){
         screen_index = 0;
         current = new WelcomePage();

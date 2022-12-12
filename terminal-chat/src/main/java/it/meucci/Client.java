@@ -9,8 +9,10 @@ import java.io.InputStreamReader;
 import java.net.Inet4Address;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.meucci.utils.Username;
 
 /**
 * Rappresenta il Client.
@@ -28,8 +30,8 @@ public class Client {
     private ReplyListener listener;
     private DataOutputStream output;
     private BufferedReader input;
-    private ArrayList<String> usernames;
     ObjectMapper objectmapper = new ObjectMapper();
+    public UserMessagesList userMessagesList;
 
      /**
   * - Costruttore che avvia in automatico la connessione.
@@ -38,10 +40,10 @@ public class Client {
   */
     public Client(Inet4Address address, int port) throws IOException {
         socket = new Socket(address, port);
-        usernames = new ArrayList<>();
     }
 
     public void init(){
+        userMessagesList = new UserMessagesList();
         try {
             output = new DataOutputStream(socket.getOutputStream());
             input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -94,7 +96,7 @@ public class Client {
         return username;
     }
 
-    public ArrayList<String> getUsernames() {
-        return usernames;
+    public boolean isReadyForTextInterface(){
+        return this.socket.isConnected() && this.userMessagesList.contains(Username.everyone);
     }
 }

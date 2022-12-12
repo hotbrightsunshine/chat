@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.Socket;
+import java.util.ArrayList;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -12,7 +12,6 @@ import it.meucci.textinterface.DisconnectPage;
 import it.meucci.textinterface.TextInterface;
 import it.meucci.utils.Message;
 import it.meucci.utils.ServerAnnouncement;
-import it.meucci.utils.Type;
 
 /**
  * -Classe deputata alla lettura dell'output del socket
@@ -60,8 +59,10 @@ public class ReplyListener implements Runnable {
         //stampa il messaggio
         switch (message.getType()){
             case MESSAGE:
+                handleMessage(message);
                 break;
             case SERVER_ANN:
+                handleServerAnn(message);
                 break;
             default:
                 break;
@@ -69,12 +70,49 @@ public class ReplyListener implements Runnable {
     }
 
     private void handleMessage(Message message){
-
+        App.client.userMessagesList.addMessage(message);
+        // refresh page if that's what textinterface is serving
     }
 
     private void handleServerAnn(Message message){
-        switch(ServerAnnouncement.valueOf(message.getArgs().get(0).toUpperCase())){
-
+        ServerAnnouncement sa = null;
+        ArrayList<String> args = new ArrayList<>();
+        try {
+            sa = ServerAnnouncement.valueOf(message.getArgs().get(0).toString().toUpperCase());
+            args = message.getArgs();
+            args.remove(0);
+        } catch(Exception e){}
+        switch (sa){
+            case JOINED:
+                HandleMethods.join(args.get(0));
+                break;
+            case LEFT:
+                HandleMethods.left(args.get(0));
+                break;
+            case NAME_OK:
+                HandleMethods.nameOk();
+                break;
+            case NAME_NOT_OK:
+                HandleMethods.nameNotOk();
+                break;
+            case NEED_NAME:
+                HandleMethods.needName();
+                break;
+            case LIST:
+                HandleMethods.list(args);
+                break;
+            case DEST_NOT_CORRECT:
+                HandleMethods.destNotOk();
+                break;
+            case DISCONNECT:
+                HandleMethods.disconnect();
+                break;
+            case COMMAND_NOT_RECOGNIZED:
+                HandleMethods.commandNotRecognized();
+                break;
+            case USERNAME_CHANGED:
+                HandleMethods.usernameChanged(args.get(0), args.get(1));
+                break;
         }
     }
 /**

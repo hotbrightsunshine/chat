@@ -1,62 +1,57 @@
 package it.meucci;
 
+import it.meucci.utils.Username;
+
+import java.util.ArrayList;
+
 public abstract class HandleMethods {
-
-    private static String stampa;
-
-    static boolean left(String username)
+    static void left(String username)
     {
-        return App.client.getUsernames().remove(username);
+        App.client.userMessagesList.removeUser(username);
     }
 
-    static boolean join(String username)
+    static void join(String username)
     {
-        return App.client.getUsernames().add(username);
+        App.client.userMessagesList.addUser(username);
     }
 
-    static void name(String username)
+    static void nameOk()
     {
-        if (App.client.getUsernames().equals(username))
-        {
-            System.out.println("username gia presente");
+
+    }
+
+    static void nameNotOk()
+    {
+
+    }
+
+    static void needName()
+    {
+
+    }
+
+    static void list(ArrayList<String> usernames)
+    {
+        App.client.userMessagesList.addUser(Username.everyone);
+        for (String username : usernames) {
+            join(username);
         }
-        else
-        {
-            App.client.getUsernames().add(username);
-        }
     }
 
-    static void needName(String username)
-    {
-        if (App.client.getUsernames().equals(null)) 
-        {
-            System.out.println("inserire username");
-        }
-    }
-
-    static String list()
-    {
-        for (int i = 0; i < App.client.getUsernames().size(); i++)
-        {
-            stampa = App.client.getUsernames().get(i);
-        }
-        
-        return stampa;
-    }
-
-    static void desNotOk()
+    static void destNotOk()
     {
 
     }
 
     static void disconnect()
     {
-        App.client.getUsernames();
+        // TODO
     }
 
-    static void usernameChanged(String newUsername)
+    static void usernameChanged(String oldUsername, String newUsername)
     {
-        
-        
+        App.client.userMessagesList.updateUser(oldUsername, newUsername);
     }
+
+    static void commandNotRecognized(){}
 }

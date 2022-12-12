@@ -7,5 +7,8 @@ public enum CommandType {
     PREV,
     NEXT,
     CONNECT,
+    NICK,
+    CHATS,
+    CHAT,
     INVALID;
 }

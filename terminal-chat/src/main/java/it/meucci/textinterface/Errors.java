@@ -5,5 +5,6 @@ public enum Errors {
     UNABLE_TO_CONNECT,
     WRONG_ARGS,
     ALREADY_CONNECTED,
+    NOT_CONNECTED_YET,
 
 }

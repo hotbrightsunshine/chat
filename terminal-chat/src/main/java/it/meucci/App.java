@@ -15,9 +15,8 @@ import java.util.HashMap;
 public class App 
 {
     public static Client client;
-    public static HashMap<String, ArrayList<Message>> messages;
+
     public static void main( String[] args ) throws IOException {
-        messages = new HashMap<>();
         TextInterface.start();
     }
 

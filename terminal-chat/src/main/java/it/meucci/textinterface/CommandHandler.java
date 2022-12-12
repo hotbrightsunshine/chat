@@ -28,6 +28,14 @@ public class CommandHandler {
                 break;
             case CONNECT:
                 connect(c.getArgs());
+                break;
+            case CHATS:
+                chats();
+                break;
+            case CHAT:
+                break;
+            case NICK:
+                break;
             default:
                 break;
 
@@ -48,7 +56,7 @@ public class CommandHandler {
                     Inet4Address addr = (Inet4Address) Inet4Address.getByName(args.get(0));
                     App.client = new Client(addr, 7777);
                     App.client.init();
-                    while(!App.client.getSocket().isConnected()){
+                    while(!App.client.isReadyForTextInterface()){
                         // timer di timeout
                     }
                     TextInterface.mainpage = new MainMenu();
@@ -97,5 +105,14 @@ public class CommandHandler {
             App.client.stop();
         } catch (Exception e){}
         TextInterface.switchTo(new DisconnectPage());
+    }
+
+    private static void chats(){
+        if(App.client == null || !App.client.getSocket().isConnected()){
+            TextInterface.setError(Errors.NOT_CONNECTED_YET);
+        } else {
+            TextInterface.switchTo(TextInterface.mainpage);
+            TextInterface.refresh();
+        }
     }
 }

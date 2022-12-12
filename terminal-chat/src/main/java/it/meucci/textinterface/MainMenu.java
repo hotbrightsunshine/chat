@@ -24,7 +24,7 @@ public class MainMenu implements Page {
         ArrayList<String> content = new ArrayList<>();
         content.add("You have successfully connected. To start talking,");
         content.add("hit /chat <username>. ");
-        for (String username : App.client.getUsernames()){
+        for (String username : App.client.userMessagesList.getUsernames()){
             content.add(" - " + username);
         }
         return content;
