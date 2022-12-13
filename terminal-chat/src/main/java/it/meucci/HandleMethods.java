@@ -1,7 +1,6 @@
 package it.meucci;
 
-import it.meucci.textinterface.Errors;
-import it.meucci.textinterface.TextInterface;
+import it.meucci.utils.Errors;
 import it.meucci.utils.Username;
 
 import java.util.ArrayList;
@@ -28,14 +27,14 @@ public abstract class HandleMethods
 
     static void nameNotOk()
     {
-        TextInterface.setError(Errors.NAME_NOT_AVAILABLE);
+        App.print(Errors.NAME_NOT_AVAILABLE);
         App.client.setPendingUsername("");
     }
 
     static void needName()
     {
         //errore needname
-        TextInterface.setError(Errors.NEED_A_NAME);
+        App.print(Errors.NEED_A_NAME);
         
     }
 
@@ -51,12 +50,12 @@ public abstract class HandleMethods
 
     static void destNotOk()
     {
-        TextInterface.setError(Errors.DEST_NOT_CORRECT);
+        App.print(Errors.DEST_NOT_CORRECT);
     }
 
     static void disconnect()
     {
-        // TO DO
+        // TODO
     }
 
     static void usernameChanged(String oldUsername, String newUsername)
@@ -67,6 +66,6 @@ public abstract class HandleMethods
 
     static void commandNotRecognized()
     {
-        TextInterface.setError(Errors.COMMAND_NOT_RECOGNIZED);
+        App.print(Errors.COMMAND_NOT_RECOGNIZED);
     }
 }
