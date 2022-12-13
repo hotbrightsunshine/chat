@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.meucci.utils.ServerAnnouncement;
 import it.meucci.utils.Username;
@@ -44,24 +45,19 @@ public class Client {
         socket = new Socket(address, port);
     }
 
-    public void init(){
+    public void init() throws IOException {
         userMessagesList = new UserMessagesList();
-        try {
             output = new DataOutputStream(socket.getOutputStream());
             input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        listener = new ReplyListener();
-        Thread t = new Thread(listener);
-        t.start();
     }
 
     public void send(Message message){
         try {
             output.writeBytes(objectmapper.writeValueAsString(message) + '\n');
-        } catch (IOException e) {
+        } catch (JsonProcessingException e) {
             // TODO e.printStackTrace();
+        } catch (IOException e){
+            //TODO
         }
     }
 

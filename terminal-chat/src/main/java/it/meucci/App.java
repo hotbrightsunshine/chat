@@ -13,7 +13,11 @@ public class App
     public static Client client;
 
     public static void main( String[] args ) throws IOException {
-        TextInterface.start();
+        System.out.println(args);
+        //client = new Client(null, 7777);
     }
 
+    public static void welcome(){
+        System.out.println("");
+    }
 }
