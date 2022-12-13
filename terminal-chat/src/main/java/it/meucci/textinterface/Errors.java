@@ -8,5 +8,6 @@ public enum Errors {
     NOT_CONNECTED_YET,
     NAME_NOT_AVAILABLE,
     NEED_A_NAME,
+    DEST_NOT_CORRECT,
 
 }
