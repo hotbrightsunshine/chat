@@ -2,12 +2,6 @@ package it.meucci.commands;
 
 import it.meucci.App;
 import it.meucci.Client;
-import it.meucci.textinterface.*;
-import it.meucci.textinterface.pages.ChatPage;
-import it.meucci.textinterface.pages.DisconnectPage;
-import it.meucci.textinterface.pages.HelpPage;
-import it.meucci.textinterface.pages.MainMenu;
-import it.meucci.textinterface.pages.WelcomePage;
 import it.meucci.utils.Errors;
 import it.meucci.utils.Message;
 
@@ -22,12 +16,6 @@ public class CommandHandler {
             case HELP:
                 help();
                 break;
-            case NEXT:
-                next();
-                break;
-            case PREV:
-                prev();
-                break;
             case WELCOME:
                 welcome();
                 break;
@@ -37,11 +25,8 @@ public class CommandHandler {
             case CONNECT:
                 connect(c.getArgs());
                 break;
-            case CHATS:
-                chats();
-                break;
-            case CHAT:
-                chat(c.getArgs());
+            case WHO:
+                who();
                 break;
             case SEND:
                 send();
@@ -61,7 +46,7 @@ public class CommandHandler {
      */
     private static void connect(ArrayList<String> args){
         if(args.size() != 1){
-            TextInterface.setError(Errors.WRONG_ARGS);
+            App.print(Errors.WRONG_ARGS);
             return;
         } else {
             if (App.client == null || App.client.getSocket() == null){
@@ -74,16 +59,13 @@ public class CommandHandler {
                         // timer di timeout
                     }
                     //System.out.println("dopo while");
-                    TextInterface.mainpage = new MainMenu();
-                    //System.out.println("dopo mainpage");
-                    TextInterface.switchTo(TextInterface.mainpage);
-                    //System.out.println("dopo switchTo");
+                    App.print("connesso");
                 } catch (Throwable e) {
-                    TextInterface.setError(Errors.UNABLE_TO_CONNECT);
+                   App.print(Errors.UNABLE_TO_CONNECT);
                 }
             }
             else if(App.client.getSocket().isConnected()){
-                TextInterface.setError(Errors.ALREADY_CONNECTED);
+                App.print(Errors.ALREADY_CONNECTED);
             }
 
         }
@@ -94,25 +76,14 @@ public class CommandHandler {
      * Metodo per spostarsi nella pagina HELP
      */
     private static void help(){
-        TextInterface.switchTo(new HelpPage());
+        App.print("help");
     }
-     /*
-     * Metodo per spostarsi nella pagina successiva
-     */
-    private static void next(){
-        TextInterface.nextScreen();
-    }
-     /*
-     * Metodo per spostarsi nella pagina precedente
-     */
-    private static void prev(){
-        TextInterface.previousScreen();
-    }
+
      /*
      * Metodo per spostarsi nella pagina di benvenuto
      */
     private static void welcome(){
-        TextInterface.switchTo(new WelcomePage());
+        App.print("ciao");
     }
     /**
      * Metodo per spostarsi nella pagina di disconnessione
@@ -121,15 +92,14 @@ public class CommandHandler {
         try {
             App.client.stop();
         } catch (Exception e){}
-        TextInterface.switchTo(new DisconnectPage());
+        App.print("disconnesso");
     }
 
-    private static void chats(){
+    private static void who(){
         if(App.client == null || !App.client.getSocket().isConnected()){
-            TextInterface.setError(Errors.NOT_CONNECTED_YET);
+            App.print(Errors.NOT_CONNECTED_YET);
         } else {
-            TextInterface.switchTo(TextInterface.mainpage);
-            TextInterface.refresh();
+            App.print("lista utenti");
         }
     }
 
@@ -143,25 +113,11 @@ public class CommandHandler {
                 while(!App.client.getPendingUsername().equals("")){
 
                 }
-                TextInterface.refresh();
             } else {
-                TextInterface.setError(Errors.WRONG_ARGS);
+                App.print(Errors.WRONG_ARGS);
             }
         } catch (NullPointerException e){
-            TextInterface.setError(Errors.NOT_CONNECTED_YET);
-        }
-    }
-
-    public static void chat(ArrayList<String> args){
-        String username = null;
-        if(args.size() != 0){
-            username = args.get(0);
-        }
-        
-        if(App.client.userMessagesList.getUsernames().contains(username)){
-            TextInterface.switchTo(new ChatPage(username));
-        } else {
-            TextInterface.setError(Errors.DEST_NOT_CORRECT);
+            App.print(Errors.NOT_CONNECTED_YET);
         }
     }
 
