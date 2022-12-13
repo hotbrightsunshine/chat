@@ -8,8 +8,6 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import it.meucci.textinterface.pages.DisconnectPage;
-import it.meucci.textinterface.TextInterface;
 import it.meucci.utils.Message;
 import it.meucci.utils.ServerAnnouncement;
 
@@ -38,7 +36,7 @@ public class ReplyListener implements Runnable {
                 Message m = objectmapper.readValue(read, Message.class);
                 handle(m);
             } catch (Exception e) {
-                TextInterface.switchTo(new DisconnectPage());
+                App.print("Disconnect");
                 break;
             }
        }
