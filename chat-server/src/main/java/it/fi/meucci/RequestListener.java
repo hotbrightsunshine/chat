@@ -73,6 +73,7 @@ public class RequestListener implements Runnable {
      */
     @Override
     public void run() {
+        int counter = 0;
         System.out.println("Nuova connessione iniziata. ");
         try {
             // Invio al client appena connesso una lista di client attualmente connessi e abilitati.
@@ -109,8 +110,9 @@ public class RequestListener implements Runnable {
                     continue;
                 }
                 
-
-                // Se il tipo di comando è CHANGE NAME
+                if(counter < 15)
+                {
+                        // Se il tipo di comando è CHANGE NAME
                 if(t_msg.equals(CommandType.CHANGE_NAME)){
                     changeName(usr);
                 } else if (t_msg.equals(CommandType.DISCONNECT)){
@@ -121,7 +123,15 @@ public class RequestListener implements Runnable {
                     // Ha mandato un messaggio diverso da name, quindi 
                     write(ServerAnnouncement.createServerAnnouncement(
                         ServerAnnouncement.NEED_NAME, usr));
+                        counter++;
                     // La richiesta effettuata dal client non viene presa in considerazione.
+                }
+                }
+                else
+                {
+                    //Creare un serverAnn per inviare il messaggio di troppi tentativi
+                    allowedToRun = false;
+                    break;
                 }
 
             } catch (IOException e) {
