@@ -28,18 +28,14 @@ public class Server
     public void accept() throws IOException {
         while(true){
             System.out.println("In attesa di una nuova connessione...");
-            // Metodo accept del serversocket
             Socket s = serverSocket.accept();
 
-            // Creazione del Thread e del RequestListener
             RequestListener r = new RequestListener(s);
             Thread t = new Thread(r);
 
-            // Aggiungo il Request Listener alla lista di listener 
             listeners.add(r);
             threads.add(t);
 
-            // Faccio partire il Thread
             t.start();
         }
     }
@@ -51,8 +47,7 @@ public class Server
     public ArrayList<String> getUsernames(){
 
         ArrayList<String> temp = new ArrayList<>();
-        for (RequestListener r:
-             listeners) {
+        for (RequestListener r: listeners) {
             if (r.getUsername() != null || !r.getUsername().equals("")) {
                 temp.add(r.getUsername());
             }
@@ -83,7 +78,7 @@ public class Server
     }
 
     public boolean isUserValid(String username){
-        if(username.equals("")){
+        if(username == null || username.equals("")){
             return false;
         } else if(username.equals(Username.everyone)){
             return true;

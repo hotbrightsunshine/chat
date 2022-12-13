@@ -9,6 +9,7 @@ import it.fi.meucci.exceptions.HandlerException;
 import it.fi.meucci.exceptions.NeedNameException;
 import it.fi.meucci.utils.CommandType;
 import it.fi.meucci.utils.Message;
+import it.fi.meucci.utils.ServerAnnouncement;
 import it.fi.meucci.utils.Username;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
  */
 public abstract class Handler {
     public static ObjectMapper om = new ObjectMapper();
-
+    private static String username;
     /**
      * Gestisce un messaggio, lo valida logicamente (se gli username sono corretti) e lo invia se è corretto.
      * @param msg Il messaggio da gestire
@@ -98,9 +99,8 @@ public abstract class Handler {
          */
         String from = msg.getFrom();
         String to = msg.getTo();
-        if(!App.server.isUserValid(from)){
-            throw new NeedNameException();
-        } else if(!to.equals(Username.server)){
+        // il comando non ha bisogno di username
+        if(!to.equals(Username.server)){
             throw new DestNotCorrectException();
         }
 
