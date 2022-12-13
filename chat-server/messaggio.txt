@@ -6,5 +6,5 @@
 {"type":"COMMAND", "from" : "", "to": "server", "args": ["DISCONNECT"]}
 {"type":"COMMAND", "from" : "Franchino89", "to": "server", "args": ["DISCONNECT"]}
 {"type":"MESSAGE", "from": "Franchino89", "to" : "Martina77", "args": ["Ciao come stai?"]}
-{"type":"MESSAGE", "from": "Franchino89", "to" : "everyone", "args": ["Ciao come stai?"]}
+{"type":"MESSAGE", "from": "Franchino89", "to" : "ciao", "args": ["Ciao come stai?"]}
 {"type":"MESSAGE", "from": "Martina77", "to" : "Franchino89", "args": ["Ciao come stai? STRONZO DI MERDA"]}

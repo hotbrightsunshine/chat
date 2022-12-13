@@ -51,4 +51,12 @@ public class UserMessagesList {
     public boolean contains(String username){
         return this.messages.keySet().contains(username);
     }
+
+    public ArrayList<Message> getMessagesFrom(String username){
+        if(messages.containsKey(username)){
+            return messages.get(username);
+        } else {
+            return new ArrayList<>();
+        }
+    }
 }

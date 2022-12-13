@@ -3,6 +3,7 @@ package it.meucci.textinterface.commands;
 import it.meucci.App;
 import it.meucci.Client;
 import it.meucci.textinterface.*;
+import it.meucci.textinterface.pages.ChatPage;
 import it.meucci.textinterface.pages.DisconnectPage;
 import it.meucci.textinterface.pages.HelpPage;
 import it.meucci.textinterface.pages.MainMenu;
@@ -39,7 +40,10 @@ public class CommandHandler {
                 chats();
                 break;
             case CHAT:
-                // TODO
+                chat(c.getArgs());
+                break;
+            case SEND:
+                send();
                 break;
             case NICK:
                 nick(c.getArgs());
@@ -145,5 +149,23 @@ public class CommandHandler {
         } catch (NullPointerException e){
             TextInterface.setError(Errors.NOT_CONNECTED_YET);
         }
+    }
+
+    public static void chat(ArrayList<String> args){
+        String username = null;
+        if(args.size() != 0){
+            username = args.get(0);
+        }
+        
+        if(App.client.userMessagesList.getUsernames().contains(username)){
+            TextInterface.switchTo(new ChatPage(username));
+        } else {
+            TextInterface.setError(Errors.DEST_NOT_CORRECT);
+        }
+    }
+
+    public static void send(){
+        // TODO aggiunge il messaggio alla lista quando viene inviato altrimenti non lo visualizzo
+        
     }
 }
