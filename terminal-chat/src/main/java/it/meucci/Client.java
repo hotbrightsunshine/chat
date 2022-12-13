@@ -90,6 +90,7 @@ public class Client {
     }
 
     public boolean isReadyForTextInterface(){
+        //System.out.println(this.socket.isConnected() + " " + this.userMessagesList.contains(Username.everyone));
         return this.socket.isConnected() && this.userMessagesList.contains(Username.everyone);
     }
 

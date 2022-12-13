@@ -59,17 +59,21 @@ public class CommandHandler {
             TextInterface.setError(Errors.WRONG_ARGS);
             return;
         } else {
-            if (App.client == null){
+            if (App.client == null || App.client.getSocket() == null){
                 try{
                     Inet4Address addr = (Inet4Address) Inet4Address.getByName(args.get(0));
                     App.client = new Client(addr, 7777);
                     App.client.init();
                     while(!App.client.isReadyForTextInterface()){
+                        //Thread.sleep(100);
                         // timer di timeout
                     }
+                    //System.out.println("dopo while");
                     TextInterface.mainpage = new MainMenu();
+                    //System.out.println("dopo mainpage");
                     TextInterface.switchTo(TextInterface.mainpage);
-                } catch (IOException e) {
+                    //System.out.println("dopo switchTo");
+                } catch (Throwable e) {
                     TextInterface.setError(Errors.UNABLE_TO_CONNECT);
                 }
             }

@@ -29,10 +29,12 @@ public class ReplyListener implements Runnable {
     }
 
     public void run(){
+        System.out.println("ReplyListener app client closed" + App.client.getSocket().isClosed());
        while(!App.client.getSocket().isClosed())
        {
             try {
                 String read = input.readLine();
+                //System.out.println("ReplyListener run read" + read);
                 Message m = objectmapper.readValue(read, Message.class);
                 handle(m);
             } catch (Exception e) {

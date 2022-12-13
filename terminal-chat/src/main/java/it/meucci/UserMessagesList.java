@@ -3,13 +3,15 @@ package it.meucci;
 import it.meucci.utils.Message;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 public class UserMessagesList {
-    private HashMap<String, ArrayList<Message>> messages;
+    private Map<String, ArrayList<Message>> messages;
 
     public UserMessagesList(){
-        messages = new HashMap<>();
+        messages = Collections.synchronizedMap(new HashMap<>());
     }
 
     public ArrayList<String> getUsernames() {
