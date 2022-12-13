@@ -28,7 +28,6 @@ import it.meucci.utils.Username;
 
 public class Client {
     private String username;
-    private String pendingUsername;
     private Socket socket;
     private ReplyListener listener;
     private DataOutputStream output;
@@ -43,12 +42,9 @@ public class Client {
   */
     public Client(Inet4Address address, int port) throws IOException {
         socket = new Socket(address, port);
-    }
-
-    public void init() throws IOException {
         userMessagesList = new UserMessagesList();
-            output = new DataOutputStream(socket.getOutputStream());
-            input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        output = new DataOutputStream(socket.getOutputStream());
+        input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
     public void send(Message message){
@@ -88,13 +84,5 @@ public class Client {
     public synchronized boolean isReadyForTextInterface(){
         //System.out.println(this.socket.isConnected() + " " + this.userMessagesList.contains(Username.everyone));
         return this.socket.isConnected() && this.userMessagesList.contains(Username.everyone);
-    }
-
-    public synchronized String getPendingUsername() {
-        return pendingUsername;
-    }
-
-    public synchronized void setPendingUsername(String pendingUsername) {
-        this.pendingUsername = pendingUsername;
     }
 }

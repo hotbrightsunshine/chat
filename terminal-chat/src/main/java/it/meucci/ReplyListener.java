@@ -68,6 +68,7 @@ public class ReplyListener implements Runnable {
     }
 
     private void handleServerAnn(Message message){
+        App.print(message);
         ServerAnnouncement sa = null;
         ArrayList<String> args = new ArrayList<>();
         try {

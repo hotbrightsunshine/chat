@@ -67,7 +67,7 @@ public class RequestListener implements Runnable {
             write(ServerAnnouncement
             .createServerAnnouncement(ServerAnnouncement.NAME_NOT_OK, username));
         }
-        Log.print(LogType.INFO, this.toString() + "Il nome utente dopo il Change Name è" + username);
+        Log.print(LogType.INFO, this.toString() + "Il nome utente dopo il Change Name è " + username);
     }
 
     /**

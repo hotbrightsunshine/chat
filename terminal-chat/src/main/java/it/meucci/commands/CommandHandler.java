@@ -53,7 +53,6 @@ public class CommandHandler {
                 try{
                     Inet4Address addr = (Inet4Address) Inet4Address.getByName(args.get(0));
                     App.client = new Client(addr, 7777);
-                    App.client.init();
                     while(!App.client.isReadyForTextInterface()){
                         //Thread.sleep(100);
                         // timer di timeout
@@ -106,13 +105,9 @@ public class CommandHandler {
     private static void nick(ArrayList<String> args){
         try {
             if(args.size() == 1) {
+                App.print("Va bene");
                 // TODO controllo subito se l'username che l'utente vuole mettere è server o everyone e lo fermo, impendendo di sprecare banda
                 App.client.send(Message.createChangeNameCommand(App.client.getUsername(), args.get(0)));
-                App.client.setPendingUsername(args.get(0));
-                // Quando il pending username torna a "" allora è finito lo scambio e si può controllare.
-                while(!App.client.getPendingUsername().equals("")){
-
-                }
             } else {
                 App.print(Errors.WRONG_ARGS);
             }

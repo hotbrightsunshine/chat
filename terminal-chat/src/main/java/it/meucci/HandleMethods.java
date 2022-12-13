@@ -21,14 +21,13 @@ public abstract class HandleMethods
 
     static void nameOk()
     {
-        App.client.changeUsername(App.client.getPendingUsername());
-        App.client.setPendingUsername("");
+        App.print("ok");
     }
 
     static void nameNotOk()
     {
+        App.print("no ok");
         App.print(Errors.NAME_NOT_AVAILABLE);
-        App.client.setPendingUsername("");
     }
 
     static void needName()
