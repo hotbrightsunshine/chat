@@ -66,7 +66,7 @@ public abstract class Handler {
 
         // Mando il messaggio
         if(msg.getTo().equals(Username.everyone)){
-            App.server.broadcast(msg);
+            App.server.sendBroadcast(msg);
         } else 
             App.server.send(msg);
     }
@@ -81,38 +81,17 @@ public abstract class Handler {
             DestNotCorrectException, 
             DisconnectException, 
             CommandNotRecognizedException {
-        /*
-         * Se il mittente è valido:
-         *      Allora va bene. 
-         *      GOTO CONTROLLO Argomenti
-         * Se non è valido:
-         *      Male, manda una eccezione.
-         *
-         * CONTROLLO argomenti
-         * // Ogni comando ha argomenti diversi. Comandi come /stop non li hanno, ma comandi come
-         * // /nick si, e ne hanno uno.
-         * Bisogna fare uno switch sul tipo di comando, che viene estratto dal primissimo parametro!
-         * I comandi possono essere:
-         * CommandType.CHANGE_NAME
-         * CommandType.DISCONNECT
-         * Se non sono questi
-         */
-        String from = msg.getFrom();
+
         String to = msg.getTo();
-        // il comando non ha bisogno di username
         if(!to.equals(Username.server)){
             throw new DestNotCorrectException();
         }
 
         if(msg.getArgs().get(0).equals(CommandType.DISCONNECT.toString())){
             throw new DisconnectException();
-        } else if (msg.getArgs().get(0).equals(CommandType.CHANGE_NAME.toString())) {
-            
-        }
-        else {
+        } else {
             throw new CommandNotRecognizedException();
         }
-
     }
 
     public static void handle(Message msg) throws HandlerException {

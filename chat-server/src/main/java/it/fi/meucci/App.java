@@ -22,7 +22,6 @@ public class App
         // Crea un server
         // Lo avvia
         App.server = new Server(PORT);
-        System.out.println("Avvio del server...");
         server.accept();
     }
 }

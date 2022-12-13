@@ -5,6 +5,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import it.fi.meucci.logger.Log;
+import it.fi.meucci.logger.LogType;
 import it.fi.meucci.utils.Message;
 import it.fi.meucci.utils.Username;
 
@@ -19,6 +21,7 @@ public class Server
 
     public Server(int port) throws IOException {
         serverSocket = new ServerSocket(port);
+        Log.print(LogType.INFO, "Una nuova istanza del server è stata creata");
     }
 
     /**
@@ -27,7 +30,7 @@ public class Server
      */
     public void accept() throws IOException {
         while(true){
-            System.out.println("In attesa di una nuova connessione...");
+            Log.print(LogType.INFO, "In attesa di una nuova connessione");
             Socket s = serverSocket.accept();
 
             RequestListener r = new RequestListener(s);
@@ -63,7 +66,7 @@ public class Server
         }
     }
 
-    public void broadcast(Message msg) throws IOException {
+    public void sendBroadcast(Message msg) throws IOException {
         for(RequestListener r : listeners){
             if(r.getUsername().equals(msg.getFrom())){
                 continue;
