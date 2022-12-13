@@ -1,6 +1,8 @@
 package it.fi.meucci;
 
 import it.fi.meucci.exceptions.HandlerException;
+import it.fi.meucci.logger.Log;
+import it.fi.meucci.logger.LogType;
 import it.fi.meucci.utils.CommandType;
 import it.fi.meucci.utils.Message;
 import it.fi.meucci.utils.ServerAnnouncement;
@@ -65,7 +67,7 @@ public class RequestListener implements Runnable {
             write(ServerAnnouncement
             .createServerAnnouncement(ServerAnnouncement.NAME_NOT_OK, username));
         }
-        System.out.println(username);
+        Log.print(LogType.LOG, usr);
     }
 
     /**
@@ -198,7 +200,7 @@ public class RequestListener implements Runnable {
         try {
             str = om.writeValueAsString(msg);
         } catch (JsonProcessingException e) {
-            System.out.println(e.getStackTrace());
+            Log.print(LogType.ERROR, str);
         }
         try {
             outputStream.writeBytes(str+ '\n');
