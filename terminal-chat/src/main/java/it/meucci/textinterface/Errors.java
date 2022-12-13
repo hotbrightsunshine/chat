@@ -9,8 +9,4 @@ public enum Errors {
     NAME_NOT_AVAILABLE,
     NEED_A_NAME,
     DEST_NOT_CORRECT,
-<<<<<<< HEAD
-=======
-
->>>>>>> 23a3470f87bf336decf59fb3378d0aeac7ccdc72
 }

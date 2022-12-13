@@ -79,6 +79,7 @@ public class TextInterface {
         } else {
             System.out.println(" + " + current.getHeader() + " (nothing to show)");
         }
+        
         if(error == null){
             System.out.println();
         } else if (error.replace(" ", "").equals("")) {

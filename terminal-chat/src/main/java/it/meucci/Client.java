@@ -78,27 +78,27 @@ public class Client {
         socket.close();
     }
 
-    public Socket getSocket(){
+    public synchronized Socket getSocket(){
         return socket;
     }
 
-    public String getUsername() {
+    public synchronized String getUsername() {
         if(username == null){
             return "";
         }
         return username;
     }
 
-    public boolean isReadyForTextInterface(){
+    public synchronized boolean isReadyForTextInterface(){
         //System.out.println(this.socket.isConnected() + " " + this.userMessagesList.contains(Username.everyone));
         return this.socket.isConnected() && this.userMessagesList.contains(Username.everyone);
     }
 
-    public String getPendingUsername() {
+    public synchronized String getPendingUsername() {
         return pendingUsername;
     }
 
-    public void setPendingUsername(String pendingUsername) {
+    public synchronized void setPendingUsername(String pendingUsername) {
         this.pendingUsername = pendingUsername;
     }
 }
