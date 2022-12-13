@@ -83,7 +83,7 @@ public class Server
     }
 
     public boolean isUserValid(String username){
-        if(username.equals("")){
+        if(username == null || username.equals("")){
             return false;
         } else if(username.equals(Username.everyone)){
             return true;
