@@ -50,6 +50,12 @@ public class Client {
         new Thread(new ReplyListener()).start();
     }
 
+
+
+    /**
+     * 
+     * @param message
+    */
     public void send(Message message){
         try {
             output.writeBytes(objectmapper.writeValueAsString(message) + '\n');
@@ -60,6 +66,10 @@ public class Client {
         }
     }
 
+    /**
+     * 
+     * @param newUsername
+     */
     public void changeUsername(String newUsername){
         this.username = newUsername;
     }

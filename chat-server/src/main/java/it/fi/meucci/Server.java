@@ -31,6 +31,7 @@ public class Server
     public void accept() throws IOException {
         while(true){
             Log.print(LogType.INFO, "In attesa di una nuova connessione");
+            Log.print(LogType.INFO, "Usernames: " + this.getUsernames());
             Socket s = serverSocket.accept();
 
             RequestListener r = new RequestListener(s);
@@ -55,6 +56,7 @@ public class Server
                 temp.add(r.getUsername());
             }
         }
+
         return temp;
     }
 

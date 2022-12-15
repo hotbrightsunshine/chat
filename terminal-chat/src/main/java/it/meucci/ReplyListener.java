@@ -35,6 +35,8 @@ public class ReplyListener implements Runnable {
                 Message m = objectmapper.readValue(read, Message.class);
                 handle(m);
             } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("MMMH");
                 App.print("Disconnect");
                 break;
             }
@@ -43,6 +45,7 @@ public class ReplyListener implements Runnable {
 /** 
  * -Riceve messaggi dal server e li gestisce
  * -Controlla il tipo di messaggio e in base al messaggio si comporta in modo diverso
+ * @param message
 */
     public void handle(Message message)
     {
@@ -67,6 +70,10 @@ public class ReplyListener implements Runnable {
         // refresh page if that's what textinterface is serving
     }
 
+    /**
+     * 
+     * @param message
+     */
     private void handleServerAnn(Message message){
 
         ServerAnnouncement sa = null;

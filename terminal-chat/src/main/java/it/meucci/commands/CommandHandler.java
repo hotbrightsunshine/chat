@@ -2,12 +2,14 @@ package it.meucci.commands;
 
 import it.meucci.App;
 import it.meucci.Client;
+import it.meucci.UserMessagesList;
 import it.meucci.utils.Errors;
 import it.meucci.utils.Message;
 
 import java.io.IOException;
 import java.net.Inet4Address;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CommandHandler {
 
@@ -28,6 +30,9 @@ public class CommandHandler {
             case NICK:
                 nick(c.getArgs());
                 break;
+            case ME:
+                me();
+                break;
             default:
                 break;
 
@@ -37,9 +42,16 @@ public class CommandHandler {
     /*
      * Metodo per spostarsi nella pagina HELP
      */
-    private static void help(){
-        App.print("help");
+    public static void help(){
+        System.out.println("Here are some useful commands :)");
+        System.out.println("- /disconnect  for disconnecting");
+        System.out.println("- /who  print the list of users connected");
+        System.out.println("- /nick <your name> for change your nickname");
+        System.out.println("- /me print your nickname");
+        System.out.println("- @<username> for send message to who you want");
+        System.out.println("- @everyone to send your message to everybody that are connected");
     }
+
 
     /**
      * Metodo per spostarsi nella pagina di disconnessione
@@ -49,31 +61,43 @@ public class CommandHandler {
             App.client.stop();
             App.stop();
         } catch (Exception e){}
-        App.print("disconnesso");
     }
 
     private static void who(){
         if(App.client == null || !App.client.getSocket().isConnected()){
-            App.print(Errors.NOT_CONNECTED_YET);
+            System.out.println(Errors.NOT_CONNECTED_YET);
         } else {
-            App.print("lista utenti");
+            System.out.println("Here is the list of users:");
+            System.out.println(App.client.userMessagesList.getUsernames());
         }
+    }
+    private static void me()
+    {
+        System.out.println("Your nickname is: " + App.client.getUsername());
     }
 
     private static void nick(ArrayList<String> args){
         try {
             if(args.size() == 1) {
-                App.print("Va bene");
+                System.out.println("Va bene");
                 App.client.send(Message.createChangeNameCommand(App.client.getUsername(), args.get(0)));
+                App.client.changeUsername(args.get(0));
             } else {
-                App.print(Errors.WRONG_ARGS);
+                System.out.println(Errors.WRONG_ARGS);
             }
         } catch (NullPointerException e){
-            App.print(Errors.NOT_CONNECTED_YET);
+            System.out.println(Errors.NOT_CONNECTED_YET);
         }
     }
 
     public static void send(ArrayList<String> args){
-        App.client.send(Message.createMessage(args.get(0), args.get(1)));
+        String dest = args.get(0);
+        args.remove(0);
+
+        String content = "";
+        for (String string : args) {
+            content += string + " ";
+        }
+        App.client.send(Message.createMessage(dest, content));
     }
 }

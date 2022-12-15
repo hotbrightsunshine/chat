@@ -3,6 +3,8 @@ package it.fi.meucci.utils;
 import java.util.ArrayList;
 
 import it.fi.meucci.Server;
+//import it.fi.meucci.logger.Log;
+//import it.fi.meucci.logger.LogType;
 
 public enum ServerAnnouncement {
     JOINED, // Un utente entra
@@ -27,8 +29,9 @@ public enum ServerAnnouncement {
         for(String u : utenti){
             strings.add(u);
         }
+        strings.remove("");
         strings.add(0, ServerAnnouncement.LIST.toString());
-
+        System.out.println("CANCELLA " + strings); // TODO
         return new Message(Type.SERVER_ANN, Username.server, to, strings);
     }
 

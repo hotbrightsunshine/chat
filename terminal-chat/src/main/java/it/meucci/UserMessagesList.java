@@ -1,6 +1,7 @@
 package it.meucci;
 
 import it.meucci.utils.Message;
+import it.meucci.utils.Username;
 
 import java.util.ArrayList;
 import java.util.Collections;

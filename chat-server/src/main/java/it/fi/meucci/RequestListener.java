@@ -99,6 +99,7 @@ public class RequestListener implements Runnable {
             Log.print(LogType.WARNING, this.toString() + ": IOException");
             allowedToRun = false;
         }   catch (Throwable e){
+            e.printStackTrace();
             Log.print(LogType.ERROR, this.toString() + ": Errore non riconociuto");
         } finally {
             App.server.getListeners().remove(this);

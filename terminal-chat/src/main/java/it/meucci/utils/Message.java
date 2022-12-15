@@ -1,6 +1,7 @@
 package it.meucci.utils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.meucci.App;
 
@@ -52,7 +53,7 @@ public class Message
     }
 
     @JsonIgnore
-    public static boolean isChangeNameMessageValid(Message message){
+    public boolean isChangeNameMessageValid(Message message){
         if(message.type != Type.COMMAND)
             return false;
 
