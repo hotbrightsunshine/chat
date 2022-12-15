@@ -18,7 +18,6 @@ import it.meucci.utils.ServerAnnouncement;
 public class ReplyListener implements Runnable {
     private BufferedReader input;
     private ObjectMapper objectmapper = new ObjectMapper();
-    private String pendingUsername;
 
     public ReplyListener(){
         try {
@@ -28,10 +27,11 @@ public class ReplyListener implements Runnable {
 
     public void run(){
         System.out.println("ReplyListener app client closed" + App.client.getSocket().isClosed());
-       while(!App.client.getSocket().isClosed())
-       {
+        while(!App.client.getSocket().isClosed())
+        {
             try {
                 String read = input.readLine();
+                System.out.println(read);
                 //System.out.println("ReplyListener run read" + read);
                 Message m = objectmapper.readValue(read, Message.class);
                 handle(m);
@@ -39,7 +39,7 @@ public class ReplyListener implements Runnable {
                 App.print("Disconnect");
                 break;
             }
-       }
+        }
     }
 /** 
  * -Riceve messaggi dal server e li gestisce
@@ -47,6 +47,7 @@ public class ReplyListener implements Runnable {
 */
     public void handle(Message message)
     {
+
         //controllo il tipo di messaggio inviato se è un messaggio per l'utente o se è un SERVER_ANN
         //ulteriore controllo sul tipo di SERVER_ANN
         //stampa il messaggio
@@ -68,7 +69,7 @@ public class ReplyListener implements Runnable {
     }
 
     private void handleServerAnn(Message message){
-        App.print(message);
+
         ServerAnnouncement sa = null;
         ArrayList<String> args = new ArrayList<>();
         try {

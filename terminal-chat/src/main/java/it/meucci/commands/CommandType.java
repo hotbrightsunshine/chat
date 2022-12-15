@@ -2,11 +2,10 @@ package it.meucci.commands;
 
 public enum CommandType {
     HELP,
-    WELCOME,
     DISCONNECT,
-    CONNECT,
     NICK,
     WHO,
+    ME,
     SEND, //TODO
     INVALID;
 }

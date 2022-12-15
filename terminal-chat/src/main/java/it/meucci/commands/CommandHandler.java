@@ -90,6 +90,7 @@ public class CommandHandler {
     private static void disconnect(){
         try {
             App.client.stop();
+            App.stop();
         } catch (Exception e){}
         App.print("disconnesso");
     }
@@ -106,7 +107,6 @@ public class CommandHandler {
         try {
             if(args.size() == 1) {
                 App.print("Va bene");
-                // TODO controllo subito se l'username che l'utente vuole mettere è server o everyone e lo fermo, impendendo di sprecare banda
                 App.client.send(Message.createChangeNameCommand(App.client.getUsername(), args.get(0)));
             } else {
                 App.print(Errors.WRONG_ARGS);

@@ -29,7 +29,6 @@ import it.meucci.utils.Username;
 public class Client {
     private String username;
     private Socket socket;
-    private ReplyListener listener;
     private DataOutputStream output;
     private BufferedReader input;
     ObjectMapper objectmapper = new ObjectMapper();
@@ -45,6 +44,10 @@ public class Client {
         userMessagesList = new UserMessagesList();
         output = new DataOutputStream(socket.getOutputStream());
         input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    }
+
+    public void initListener(){
+        new Thread(new ReplyListener()).start();
     }
 
     public void send(Message message){
