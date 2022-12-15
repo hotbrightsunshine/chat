@@ -14,10 +14,10 @@ import it.meucci.commands.CommandHandler;
 public class App 
 {
     public static Client client;
-    public static int port;
-    public static Inet4Address addr;
-    public static boolean allowed = true;
-    public static Scanner scanner;
+    private static int port;
+    private static Inet4Address addr;
+    private static boolean allowed = true;
+    private static Scanner scanner;
 
     public static void main( String[] args ) throws IOException {
         try {
@@ -28,10 +28,13 @@ public class App
             App.port = Integer.parseInt(port);
         } catch (Exception e){
             System.out.println("I parametri non sono corretti. Lanciare il programma con ./_.jar <addr> <port>");
+            return;
         }
 
         client = new Client(addr, port);
+        client.initListener();
         scanner = new Scanner(System.in);
+        System.out.println("welcome");
         
         do {
             String read = scanner.nextLine();
@@ -42,5 +45,9 @@ public class App
 
     public static void print(Object o){
         System.out.println(o.toString());
+    }
+
+    public static void stop(){
+        allowed = false;
     }
 }

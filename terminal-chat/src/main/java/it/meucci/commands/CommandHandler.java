@@ -16,14 +16,8 @@ public class CommandHandler {
             case HELP:
                 help();
                 break;
-            case WELCOME:
-                welcome();
-                break;
             case DISCONNECT:
                 disconnect();
-                break;
-            case CONNECT:
-                connect(c.getArgs());
                 break;
             case WHO:
                 who();
@@ -75,21 +69,22 @@ public class CommandHandler {
      * Metodo per spostarsi nella pagina HELP
      */
     private static void help(){
-        App.print("help");
+        System.out.println("Here are some useful commands :)");
+        System.out.println("- /disconnect  for disconnecting");
+        System.out.println("- /who  print you nickname");
+        System.out.println("- /nick <your name> for change your nickname");
+        System.out.println("- @<username> for send message to who you want");
+        System.out.println("- @everyone to send your message to everybody that are connected");
     }
 
-     /*
-     * Metodo per spostarsi nella pagina di benvenuto
-     */
-    private static void welcome(){
-        App.print("ciao");
-    }
+
     /**
      * Metodo per spostarsi nella pagina di disconnessione
      */
     private static void disconnect(){
         try {
             App.client.stop();
+            App.stop();
         } catch (Exception e){}
         App.print("disconnesso");
     }
@@ -98,7 +93,7 @@ public class CommandHandler {
         if(App.client == null || !App.client.getSocket().isConnected()){
             App.print(Errors.NOT_CONNECTED_YET);
         } else {
-            App.print("lista utenti");
+            App.print("Your nickname is: " + App.client.getUsername());
         }
     }
 
@@ -106,7 +101,6 @@ public class CommandHandler {
         try {
             if(args.size() == 1) {
                 App.print("Va bene");
-                // TODO controllo subito se l'username che l'utente vuole mettere è server o everyone e lo fermo, impendendo di sprecare banda
                 App.client.send(Message.createChangeNameCommand(App.client.getUsername(), args.get(0)));
             } else {
                 App.print(Errors.WRONG_ARGS);
