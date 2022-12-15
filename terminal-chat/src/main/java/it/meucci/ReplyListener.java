@@ -35,9 +35,6 @@ public class ReplyListener implements Runnable {
                 Message m = objectmapper.readValue(read, Message.class);
                 handle(m);
             } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("MMMH");
-                App.print("Disconnect");
                 break;
             }
         }

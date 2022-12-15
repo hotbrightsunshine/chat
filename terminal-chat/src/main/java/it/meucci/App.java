@@ -37,12 +37,14 @@ public class App
         System.out.println("welcome");
         
         CommandHandler.help();
-        
+
         do {
             String read = scanner.nextLine();
             Command cmd = Command.validate(read);
             CommandHandler.handle(cmd);
         } while(allowed);
+
+        System.out.println("disconnesso");
     }
 
     public static void print(Object o){
