@@ -36,6 +36,7 @@ public class App
         scanner = new Scanner(System.in);
         System.out.println("welcome");
         
+        CommandHandler.help();
         do {
             String read = scanner.nextLine();
             Command cmd = Command.validate(read);
