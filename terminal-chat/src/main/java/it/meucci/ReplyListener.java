@@ -30,9 +30,7 @@ public class ReplyListener implements Runnable {
         {
             try {
                 String read = input.readLine();
-                //System.out.println("ReplyListener run read" + read);
                 Message m = objectmapper.readValue(read, Message.class);
-                printMessage(m);
                 handle(m);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -65,6 +63,7 @@ public class ReplyListener implements Runnable {
         switch (message.getType()){
             case MESSAGE:
                 handleMessage(message);
+                printMessage(message);
                 break;
             case SERVER_ANN:
                 handleServerAnn(message);

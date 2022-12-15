@@ -2,6 +2,8 @@ package it.meucci.utils;
 
 import java.util.ArrayList;
 
+import it.meucci.App;
+
 public enum ServerAnnouncement {
     JOINED, // Un utente entra
     LEFT, // Un utente è uscito
@@ -76,4 +78,6 @@ public enum ServerAnnouncement {
         tmp.add(after.toString());
         return new Message(Type.SERVER_ANN, Username.server, Username.everyone, tmp);
     }
+
+  
 }
