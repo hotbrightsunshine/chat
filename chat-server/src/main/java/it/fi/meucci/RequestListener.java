@@ -1,13 +1,10 @@
 package it.fi.meucci;
-
 import it.fi.meucci.exceptions.HandlerException;
 import it.fi.meucci.logger.Log;
 import it.fi.meucci.logger.LogType;
 import it.fi.meucci.utils.CommandType;
 import it.fi.meucci.utils.Message;
 import it.fi.meucci.utils.ServerAnnouncement;
-import it.fi.meucci.utils.Username;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
