@@ -44,6 +44,7 @@ public class ReplyListener implements Runnable {
 /** 
  * -Riceve messaggi dal server e li gestisce
  * -Controlla il tipo di messaggio e in base al messaggio si comporta in modo diverso
+ * @param message
 */
     public void handle(Message message)
     {
@@ -67,6 +68,10 @@ public class ReplyListener implements Runnable {
         // refresh page if that's what textinterface is serving
     }
 
+    /**
+     * 
+     * @param message
+     */
     private void handleServerAnn(Message message){
         App.print(message);
         ServerAnnouncement sa = null;

@@ -7,12 +7,20 @@ import java.util.ArrayList;
 
 public abstract class HandleMethods 
 {
+    /**
+     * 
+     * @param username
+     */
     static void left(String username)
     {
         //rimuove un utente dalla lista
         App.client.userMessagesList.removeUser(username);
     }
 
+    /**
+     * 
+     * @param username
+     */
     static void join(String username)
     {
         //aggiunge un utente alla lista
@@ -37,6 +45,10 @@ public abstract class HandleMethods
         
     }
 
+    /**
+     * 
+     * @param usernames
+     */
     static void list(ArrayList<String> usernames)
     {
         //restituisce la lista appena connesso
@@ -57,6 +69,11 @@ public abstract class HandleMethods
         // TODO
     }
 
+    /**
+     * 
+     * @param oldUsername
+     * @param newUsername
+     */
     static void usernameChanged(String oldUsername, String newUsername)
     {
         //cambia l'username dei client
