@@ -19,7 +19,14 @@ public class Command {
      * @param command
      * @return Comando validato
      */
+
     public static Command validate(String command){
+        if(command.charAt(0) == '/') return validateCommand(command);
+        else if (command.charAt(0) == '@') return validateMessage(command);
+        else return new Command(CommandType.INVALID, null);
+    }
+
+    private static Command validateCommand(String command){
         command = command.replace("/", "");
         String split[] = command.split(" ");
         ArrayList<String> arraylist = new ArrayList<>();
@@ -32,7 +39,25 @@ public class Command {
             return new Command(CommandType.valueOf(CommandType.class, split[0].toUpperCase()), arraylist);
         } catch (Exception e){
             App.print(Errors.COMMAND_NOT_RECOGNIZED);
-            return new Command(CommandType.INVALID, arraylist);
+            return new Command(CommandType.INVALID, null);
+        }
+    }
+
+    private static Command validateMessage(String command){
+        command = command.replace("@", "");
+        String words[] = command.split(" ", 2);
+        ArrayList<String> args = new ArrayList<>();
+
+        try{
+            args.add(words[0]);
+            args.add(words[1]);   
+            return new Command(CommandType.SEND, args);
+        } catch (ArrayIndexOutOfBoundsException e){
+            App.print(Errors.WRONG_ARGS);
+            return new Command(CommandType.INVALID, null);
+        } catch (Exception e){
+            App.print(Errors.COMMAND_NOT_RECOGNIZED);
+            return new Command(CommandType.INVALID, null);
         }
     }
 

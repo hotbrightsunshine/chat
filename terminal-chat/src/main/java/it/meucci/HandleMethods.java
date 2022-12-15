@@ -54,7 +54,7 @@ public abstract class HandleMethods
 
     static void disconnect()
     {
-        // TODO
+
     }
 
     static void usernameChanged(String oldUsername, String newUsername)

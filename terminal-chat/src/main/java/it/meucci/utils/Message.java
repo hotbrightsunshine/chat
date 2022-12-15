@@ -41,13 +41,23 @@ public class Message
         this.args = args;
     }
 
+    public static Message createMessage(String to, String content){
+        ArrayList<String> args  = new ArrayList<>();
+        args.add(content);
+        return new Message(
+            Type.MESSAGE, 
+            App.client.getUsername(), 
+            to, 
+            args);
+    }
+
     @JsonIgnore
-    public boolean isChangeNameMessageValid(){
-        if(this.type != Type.COMMAND)
+    public static boolean isChangeNameMessageValid(Message message){
+        if(message.type != Type.COMMAND)
             return false;
 
-        if(this.args.size() == 2){
-            if(!this.args.get(0).equals(CHANGE_NAME.toString())){
+        if(message.args.size() == 2){
+            if(!message.args.get(0).equals(CHANGE_NAME.toString())){
                 return false;
             }
         }

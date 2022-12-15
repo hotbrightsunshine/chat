@@ -26,7 +26,6 @@ public class ReplyListener implements Runnable {
     }
 
     public void run(){
-        System.out.println("ReplyListener app client closed" + App.client.getSocket().isClosed());
         while(!App.client.getSocket().isClosed())
         {
             try {

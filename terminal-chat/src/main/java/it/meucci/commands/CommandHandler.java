@@ -16,20 +16,14 @@ public class CommandHandler {
             case HELP:
                 help();
                 break;
-            case WELCOME:
-                welcome();
-                break;
             case DISCONNECT:
                 disconnect();
-                break;
-            case CONNECT:
-                connect(c.getArgs());
                 break;
             case WHO:
                 who();
                 break;
             case SEND:
-                send();
+                send(c.getArgs());
                 break;
             case NICK:
                 nick(c.getArgs());
@@ -40,37 +34,6 @@ public class CommandHandler {
         }
     }
 
-    /**
-     * Metodo adibito alla connessione del Client
-     * @param args
-     */
-    private static void connect(ArrayList<String> args){
-        if(args.size() != 1){
-            App.print(Errors.WRONG_ARGS);
-            return;
-        } else {
-            if (App.client == null || App.client.getSocket() == null){
-                try{
-                    Inet4Address addr = (Inet4Address) Inet4Address.getByName(args.get(0));
-                    App.client = new Client(addr, 7777);
-                    while(!App.client.isReadyForTextInterface()){
-                        //Thread.sleep(100);
-                        // timer di timeout
-                    }
-                    //System.out.println("dopo while");
-                    App.print("connesso");
-                } catch (Throwable e) {
-                   App.print(Errors.UNABLE_TO_CONNECT);
-                }
-            }
-            else if(App.client.getSocket().isConnected()){
-                App.print(Errors.ALREADY_CONNECTED);
-            }
-
-        }
-
-    }
-
     /*
      * Metodo per spostarsi nella pagina HELP
      */
@@ -78,12 +41,6 @@ public class CommandHandler {
         App.print("help");
     }
 
-     /*
-     * Metodo per spostarsi nella pagina di benvenuto
-     */
-    private static void welcome(){
-        App.print("ciao");
-    }
     /**
      * Metodo per spostarsi nella pagina di disconnessione
      */
@@ -116,8 +73,7 @@ public class CommandHandler {
         }
     }
 
-    public static void send(){
-        // TODO aggiunge il messaggio alla lista quando viene inviato altrimenti non lo visualizzo
-        
+    public static void send(ArrayList<String> args){
+        App.client.send(Message.createMessage(args.get(0), args.get(1)));
     }
 }
