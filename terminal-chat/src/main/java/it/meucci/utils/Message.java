@@ -75,6 +75,7 @@ public class Message
         this.type = type;
     }
 
+
     public String getFrom() {
         if (this.from == null ) return "";
         return from;
@@ -128,7 +129,7 @@ public class Message
             case MESSAGE:
             return humanizeMessage(m);
             case SERVER_ANN:
-              
+            return humanizeServerAnn(m.getType().., m);
             default:
                 break;
             
@@ -146,7 +147,7 @@ public class Message
         }
         return s;
     }
-    private static String humanizeServerAnn(ServerAnnouncement s)
+    private static String humanizeServerAnn(ServerAnnouncement s, Message m)
     {
 
 
@@ -160,11 +161,11 @@ public class Message
             case DISCONNECT:
                 break; //TODO
             case JOINED:
-                break; //TODO
+                return m.from + " [JOINED]";
             case LEFT:
-                break; //TODO
+            return m.from + " [LEFT THE CHAT]";
             case LIST:
-                break;
+                return "This is the list of people connected" + App.client.userMessagesList.getUsernames();
             case NAME_NOT_OK:
                 return "[WARNING] The name that you choose is not suitable";
             case NAME_OK:
