@@ -1,6 +1,6 @@
 package it.fi.meucci.logger;
 
-import java.time.LocalTime;
+
 import java.util.Calendar;
 
 public class Log {

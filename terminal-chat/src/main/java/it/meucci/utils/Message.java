@@ -119,4 +119,64 @@ public class Message
                 ", args=" + args +
                 '}';
     }
+    public static String humanize(Message m)
+    {
+        switch(m.getType())
+        {
+            case COMMAND:
+                break;
+            case MESSAGE:
+            return humanizeMessage(m);
+            case SERVER_ANN:
+              
+            default:
+                break;
+            
+        }
+        
+    }
+
+    private static String humanizeMessage(Message m)
+    {
+        String s;
+        s = "<"+m.from+"> "+m.args.get(0);
+        if(m.to.equals(Username.everyone))
+        {
+            return "[GLOBAL] " + s;
+        }
+        return s;
+    }
+    private static String humanizeServerAnn(ServerAnnouncement s)
+    {
+
+
+        switch(s)
+        {
+            case COMMAND_NOT_RECOGNIZED:
+            
+                return "[WARNING] The command that you wrote is not recognized";
+            case DEST_NOT_CORRECT:
+                return "[WARNING] The addressee that you wrote is incorrect";
+            case DISCONNECT:
+                break; //TODO
+            case JOINED:
+                break; //TODO
+            case LEFT:
+                break; //TODO
+            case LIST:
+                break;
+            case NAME_NOT_OK:
+                return "[WARNING] The name that you choose is not suitable";
+            case NAME_OK:
+                return "Correct name";
+            case NEED_NAME:
+                return "[WARNING] Type your nickname, space cannot be used for nickname";
+            case USERNAME_CHANGED:
+                return "Username changed correctly";
+            default:
+                break;
+            
+        }
+       
+    }
 }

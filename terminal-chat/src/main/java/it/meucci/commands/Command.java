@@ -38,7 +38,7 @@ public class Command {
         try{
             return new Command(CommandType.valueOf(CommandType.class, split[0].toUpperCase()), arraylist);
         } catch (Exception e){
-            App.print(Errors.COMMAND_NOT_RECOGNIZED);
+            System.out.println(Errors.COMMAND_NOT_RECOGNIZED);
             return new Command(CommandType.INVALID, null);
         }
     }
@@ -53,10 +53,10 @@ public class Command {
             args.add(words[1]);   
             return new Command(CommandType.SEND, args);
         } catch (ArrayIndexOutOfBoundsException e){
-            App.print(Errors.WRONG_ARGS);
+            System.out.println(Errors.WRONG_ARGS);
             return new Command(CommandType.INVALID, null);
         } catch (Exception e){
-            App.print(Errors.COMMAND_NOT_RECOGNIZED);
+            System.out.println(Errors.COMMAND_NOT_RECOGNIZED);
             return new Command(CommandType.INVALID, null);
         }
     }

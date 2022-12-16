@@ -1,7 +1,6 @@
 package it.meucci;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import it.meucci.utils.Message;
 import it.meucci.utils.ServerAnnouncement;
+import it.meucci.utils.Username;
 
 /**
  * -Classe deputata alla lettura dell'output del socket
@@ -30,14 +30,24 @@ public class ReplyListener implements Runnable {
         {
             try {
                 String read = input.readLine();
-                System.out.println(read);
-                //System.out.println("ReplyListener run read" + read);
                 Message m = objectmapper.readValue(read, Message.class);
                 handle(m);
             } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Disconnect");
                 break;
             }
         }
+    }
+
+    public void printMessage(Message m)
+    {
+        if(m.getTo().equals(Username.everyone))
+        {
+            System.out.println("[GLOBAL] <" + m.getFrom() + "> " +  m.getArgs().get(0) );
+        }
+        else
+        {System.out.println("<" + m.getFrom() + ">"   + m.getArgs().get(0));}
     }
 /** 
  * -Riceve messaggi dal server e li gestisce
@@ -53,6 +63,7 @@ public class ReplyListener implements Runnable {
         switch (message.getType()){
             case MESSAGE:
                 handleMessage(message);
+                printMessage(message);
                 break;
             case SERVER_ANN:
                 handleServerAnn(message);

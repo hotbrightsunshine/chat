@@ -29,19 +29,19 @@ public abstract class HandleMethods
 
     static void nameOk()
     {
-        App.print("ok");
+        //System.out.println("ok");
     }
 
     static void nameNotOk()
     {
-        App.print("no ok");
-        App.print(Errors.NAME_NOT_AVAILABLE);
+       // System.out.println("no ok");
+        System.out.println(Errors.NAME_NOT_AVAILABLE);
     }
 
     static void needName()
     {
         //errore needname
-        App.print(Errors.NEED_A_NAME);
+        System.out.println(Errors.NEED_A_NAME);
         
     }
 
@@ -61,7 +61,7 @@ public abstract class HandleMethods
 
     static void destNotOk()
     {
-        App.print(Errors.DEST_NOT_CORRECT);
+        System.out.println(Errors.DEST_NOT_CORRECT);
     }
 
     static void disconnect()
@@ -82,6 +82,6 @@ public abstract class HandleMethods
 
     static void commandNotRecognized()
     {
-        App.print(Errors.COMMAND_NOT_RECOGNIZED);
+        System.out.println(Errors.COMMAND_NOT_RECOGNIZED);
     }
 }

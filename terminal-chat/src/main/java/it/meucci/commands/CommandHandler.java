@@ -1,15 +1,9 @@
 package it.meucci.commands;
 
 import it.meucci.App;
-import it.meucci.Client;
-import it.meucci.UserMessagesList;
 import it.meucci.utils.Errors;
 import it.meucci.utils.Message;
-
-import java.io.IOException;
-import java.net.Inet4Address;
 import java.util.ArrayList;
-import java.util.List;
 
 public class CommandHandler {
 
@@ -79,7 +73,6 @@ public class CommandHandler {
     private static void nick(ArrayList<String> args){
         try {
             if(args.size() == 1) {
-                System.out.println("Va bene");
                 App.client.send(Message.createChangeNameCommand(App.client.getUsername(), args.get(0)));
                 App.client.changeUsername(args.get(0));
             } else {
