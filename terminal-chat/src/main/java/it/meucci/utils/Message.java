@@ -169,7 +169,7 @@ public class Message
             case NAME_NOT_OK:
                 return "[WARNING] The name that you choose is not suitable";
             case NAME_OK:
-                return "Correct name";
+                break;
             case NEED_NAME:
                 return "[WARNING] Type your nickname, space cannot be used for nickname";
             case USERNAME_CHANGED:

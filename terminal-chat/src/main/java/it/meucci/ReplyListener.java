@@ -31,7 +31,9 @@ public class ReplyListener implements Runnable {
             try {
                 String read = input.readLine();
                 Message m = objectmapper.readValue(read, Message.class);
+                System.out.println( Message.humanize(m));
                 handle(m);
+
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Disconnect");
@@ -40,15 +42,6 @@ public class ReplyListener implements Runnable {
         }
     }
 
-    public void printMessage(Message m)
-    {
-        if(m.getTo().equals(Username.everyone))
-        {
-            System.out.println("[GLOBAL] <" + m.getFrom() + "> " +  m.getArgs().get(0) );
-        }
-        else
-        {System.out.println("<" + m.getFrom() + ">"   + m.getArgs().get(0));}
-    }
 /** 
  * -Riceve messaggi dal server e li gestisce
  * -Controlla il tipo di messaggio e in base al messaggio si comporta in modo diverso
@@ -63,11 +56,9 @@ public class ReplyListener implements Runnable {
         switch (message.getType()){
             case MESSAGE:
                 handleMessage(message);
-                Message.humanize(message);
                 break;
             case SERVER_ANN:
                 handleServerAnn(message);
-                Message.humanize(message);
                 break;
             default:
                 break;
@@ -76,6 +67,7 @@ public class ReplyListener implements Runnable {
 
     private void handleMessage(Message message){
         App.client.userMessagesList.addMessage(message);
+
         // refresh page if that's what textinterface is serving
     }
 
