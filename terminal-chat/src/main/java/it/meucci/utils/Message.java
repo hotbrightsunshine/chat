@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.meucci.App;
-
+import it.meucci.utils.ServerAnnouncement;
 import java.util.ArrayList;
 
 import static it.meucci.utils.CommandType.CHANGE_NAME;
@@ -129,12 +129,12 @@ public class Message
             case MESSAGE:
             return humanizeMessage(m);
             case SERVER_ANN:
-            return humanizeServerAnn(m.getType().., m);
+            return humanizeServerAnn(m);
             default:
                 break;
             
         }
-        
+        return "";
     }
 
     private static String humanizeMessage(Message m)
@@ -147,11 +147,11 @@ public class Message
         }
         return s;
     }
-    private static String humanizeServerAnn(ServerAnnouncement s, Message m)
+    private static String humanizeServerAnn(Message m)
     {
 
-
-        switch(s)
+        
+        switch(ServerAnnouncement.valueOf(m.getArgs().get(0)))
         {
             case COMMAND_NOT_RECOGNIZED:
             
@@ -178,6 +178,6 @@ public class Message
                 break;
             
         }
-       
+        return "";
     }
 }

@@ -63,10 +63,11 @@ public class ReplyListener implements Runnable {
         switch (message.getType()){
             case MESSAGE:
                 handleMessage(message);
-                printMessage(message);
+                Message.humanize(message);
                 break;
             case SERVER_ANN:
                 handleServerAnn(message);
+                Message.humanize(message);
                 break;
             default:
                 break;
