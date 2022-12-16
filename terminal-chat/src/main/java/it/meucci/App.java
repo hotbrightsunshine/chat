@@ -27,7 +27,7 @@ public class App
             App.addr = (Inet4Address) Inet4Address.getByName(ip);
             App.port = Integer.parseInt(port);
         } catch (Exception e){
-            System.out.println("I parametri non sono corretti. Lanciare il programma con ./_.jar <addr> <port>");
+            System.out.println("The parameters are incorrect. Launch the program with ./_.jar <addr> <port>");
             return;
         }
 
@@ -44,7 +44,7 @@ public class App
             CommandHandler.handle(cmd);
         } while(allowed);
 
-        System.out.println("disconnesso");
+        System.out.println("disconnect");
     }
 
     public static void print(Object o){

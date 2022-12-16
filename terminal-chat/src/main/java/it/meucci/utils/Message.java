@@ -131,10 +131,10 @@ public class Message
             case SERVER_ANN:
             return humanizeServerAnn(m);
             default:
-                break;
+            break;
             
         }
-        return "";
+        return null;
     }
 
     private static String humanizeMessage(Message m)
@@ -161,15 +161,20 @@ public class Message
             case DISCONNECT:
                 break; //TODO
             case JOINED:
-                return m.from + " [JOINED]";
+                return m.getArgs().get(1) + " [JOINED]";
             case LEFT:
-            return m.from + " [LEFT THE CHAT]";
+            return m.getArgs().get(1) + " [LEFT THE CHAT]";
             case LIST:
-                return "This is the list of people connected" + App.client.userMessagesList.getUsernames();
+                ArrayList <String> list = (ArrayList<String>) m.args.clone();
+                list.remove(0);
+                String s = "";
+                for(String u : list)
+                {
+                    s += u + " ";
+                }
+                return "This is the list of people connected " + s;
             case NAME_NOT_OK:
                 return "[WARNING] The name that you choose is not suitable";
-            case NAME_OK:
-                break;
             case NEED_NAME:
                 return "[WARNING] Type your nickname, space cannot be used for nickname";
             case USERNAME_CHANGED:
@@ -178,6 +183,6 @@ public class Message
                 break;
             
         }
-        return "";
+        return null;
     }
 }

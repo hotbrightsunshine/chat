@@ -76,7 +76,7 @@ public class CommandHandler {
                 App.client.send(Message.createChangeNameCommand(App.client.getUsername(), args.get(0)));
                 App.client.changeUsername(args.get(0));
             } else {
-                System.out.println(Errors.WRONG_ARGS);
+                System.out.println(Errors.humanizeError(Errors.WRONG_ARGS));
             }
         } catch (NullPointerException e){
             System.out.println(Errors.NOT_CONNECTED_YET);
@@ -93,4 +93,5 @@ public class CommandHandler {
         }
         App.client.send(Message.createMessage(dest, content));
     }
+  
 }

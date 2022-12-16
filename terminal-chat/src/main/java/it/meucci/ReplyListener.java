@@ -31,12 +31,16 @@ public class ReplyListener implements Runnable {
             try {
                 String read = input.readLine();
                 Message m = objectmapper.readValue(read, Message.class);
-                System.out.println( Message.humanize(m));
+                if(Message.humanize(m)!=null)
+                {
+                    System.out.println( Message.humanize(m));
+                    
+                }
                 handle(m);
 
             } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("Disconnect");
+              
+              
                 break;
             }
         }
