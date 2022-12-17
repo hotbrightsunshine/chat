@@ -43,11 +43,7 @@ public class App
             CommandHandler.handle(cmd);
         } while(allowed);
 
-<<<<<<< HEAD
         System.out.println("You have been successfully disconnected.");
-=======
-        System.out.println("disconnect");
->>>>>>> 257f73d7f5a49dd724b0f032dd424823ecf8088c
     }
 
     public static void print(Object o){
