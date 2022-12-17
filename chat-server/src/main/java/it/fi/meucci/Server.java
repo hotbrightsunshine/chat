@@ -62,7 +62,6 @@ public class Server
         for(RequestListener r : listeners) {
             if (r.getUsername().equals(msg.getTo())) {
                 r.write(msg);
-                // TODO Mmh... maybe!
             } else if (r.getUsername().equals(msg.getFrom())) {
                 r.write(msg);
             }

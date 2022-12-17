@@ -54,11 +54,7 @@ public class Client {
     public void send(Message message) {
         try {
             output.writeBytes(objectmapper.writeValueAsString(message) + '\n');
-        } catch (JsonProcessingException e) {
-            // TODO e.printStackTrace();
-        } catch (IOException e) {
-            //TODO
-        }
+        } catch (Throwable e) {}
     }
 
     /**
