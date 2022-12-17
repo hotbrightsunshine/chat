@@ -12,7 +12,7 @@ public abstract class HandlerException extends Exception {
         s = getServerAnnouncement();
     }
     
-    public HandlerException(ServerAnnouncement s){
+    public HandlerException(ServerAnnouncement s) {
         super();
         this.s = s;
     }
@@ -24,7 +24,7 @@ public abstract class HandlerException extends Exception {
         return "HandlerException: " + getServerAnnouncement().toString() + " was issued.";
     }
 
-    public void print(){
+    public void print() {
         System.out.println(this.toString());
     }
 }

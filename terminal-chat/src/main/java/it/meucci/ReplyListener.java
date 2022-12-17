@@ -19,13 +19,13 @@ public class ReplyListener implements Runnable {
     private BufferedReader input;
     private ObjectMapper objectmapper = new ObjectMapper();
 
-    public ReplyListener(){
+    public ReplyListener() {
         try {
             input = new BufferedReader(new InputStreamReader(App.client.getSocket().getInputStream()));
         } catch (IOException e) {}
     }
 
-    public void run(){
+    public void run() {
         while(!App.client.getSocket().isClosed())
         {
             try {
@@ -44,18 +44,14 @@ public class ReplyListener implements Runnable {
         }
     }
 
-/** 
- * -Riceve messaggi dal server e li gestisce
- * -Controlla il tipo di messaggio e in base al messaggio si comporta in modo diverso
- * @param message
-*/
+    /** 
+     * -Riceve messaggi dal server e li gestisce
+     * -Controlla il tipo di messaggio e in base al messaggio si comporta in modo diverso
+     * @param message
+    */
     public void handle(Message message)
     {
-
-        //controllo il tipo di messaggio inviato se è un messaggio per l'utente o se è un SERVER_ANN
-        //ulteriore controllo sul tipo di SERVER_ANN
-        //stampa il messaggio
-        switch (message.getType()){
+        switch (message.getType()) {
             case MESSAGE:
                 handleMessage(message);
                 break;
@@ -67,7 +63,7 @@ public class ReplyListener implements Runnable {
         }
     }
 
-    private void handleMessage(Message message){
+    private void handleMessage(Message message) {
         App.client.userMessagesList.addMessage(message);
 
         // refresh page if that's what textinterface is serving
@@ -77,7 +73,7 @@ public class ReplyListener implements Runnable {
      * 
      * @param message
      */
-    private void handleServerAnn(Message message){
+    private void handleServerAnn(Message message) {
         // Methods here are NOT to be printed because they are printed immediately after
         ServerAnnouncement sa = null;
         ArrayList<String> args = new ArrayList<>();
@@ -85,8 +81,8 @@ public class ReplyListener implements Runnable {
             sa = ServerAnnouncement.valueOf(message.getArgs().get(0).toString().toUpperCase());
             args = message.getArgs();
             args.remove(0);
-        } catch(Exception e){}
-        switch (sa){
+        } catch(Exception e) {}
+        switch (sa) {
             case JOINED:
                 App.client.userMessagesList.addUser(args.get(0));
                 break;

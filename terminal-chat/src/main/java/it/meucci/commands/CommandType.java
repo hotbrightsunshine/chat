@@ -6,6 +6,6 @@ public enum CommandType {
     NICK,
     WHO,
     ME,
-    SEND, //TODO
+    SEND,
     INVALID;
 }

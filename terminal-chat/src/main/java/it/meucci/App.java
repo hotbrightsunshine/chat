@@ -26,7 +26,7 @@ public class App
             
             App.addr = (Inet4Address) Inet4Address.getByName(ip);
             App.port = Integer.parseInt(port);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("The parameters are incorrect. Launch the program with ./_.jar <addr> <port>");
             return;
         }
@@ -46,11 +46,11 @@ public class App
         System.out.println("You have been successfully disconnected.");
     }
 
-    public static void print(Object o){
+    public static void print(Object o) {
         System.out.println(o.toString());
     }
 
-    public static void stop(){
+    public static void stop() {
         allowed = false;
     }
 }

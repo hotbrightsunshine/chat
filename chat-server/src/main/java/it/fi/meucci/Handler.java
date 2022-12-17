@@ -45,15 +45,15 @@ public abstract class Handler {
         String to = msg.getTo();
 
         // Se il mittente ha un username non valido oppure è vuoto:
-        if (!App.server.isUserValid(from)){
+        if (!App.server.isUserValid(from)) {
             throw new NeedNameException();
-        } else if (!App.server.isUserValid(to)){
+        } else if (!App.server.isUserValid(to)) {
             throw new DestNotCorrectException();
         }
 
         // Confermo che ci sia un solo argomento per il messaggio
         String newarg = "";
-        for(String s : msg.getArgs()){
+        for(String s : msg.getArgs()) {
             newarg += s + " ";
         }
 
@@ -81,11 +81,11 @@ public abstract class Handler {
             CommandNotRecognizedException {
 
         String to = msg.getTo();
-        if(!to.equals(Username.server)){
+        if(!to.equals(Username.server)) {
             throw new DestNotCorrectException();
         }
 
-        if(msg.getArgs().get(0).equals(CommandType.DISCONNECT.toString())){
+        if(msg.getArgs().get(0).equals(CommandType.DISCONNECT.toString())) {
             throw new DisconnectException();
         } else {
             throw new CommandNotRecognizedException();

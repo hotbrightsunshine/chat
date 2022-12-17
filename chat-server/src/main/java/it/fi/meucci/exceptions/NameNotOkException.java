@@ -4,7 +4,7 @@ import it.fi.meucci.utils.ServerAnnouncement;
 
 public class NameNotOkException extends HandlerException{
     
-    public NameNotOkException(){
+    public NameNotOkException() {
         super();
     }
 

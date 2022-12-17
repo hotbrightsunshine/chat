@@ -40,7 +40,7 @@ public class Message
         this.args = args;
     }
 
-    public static Message createMessage(String to, String content){
+    public static Message createMessage(String to, String content) {
         ArrayList<String> args  = new ArrayList<>();
         args.add(content);
         return new Message(
@@ -51,12 +51,12 @@ public class Message
     }
 
     @JsonIgnore
-    public boolean isChangeNameMessageValid(Message message){
+    public boolean isChangeNameMessageValid(Message message) {
         if(message.type != Type.COMMAND)
             return false;
 
-        if(message.args.size() == 2){
-            if(!message.args.get(0).equals(CHANGE_NAME.toString())){
+        if(message.args.size() == 2) {
+            if(!message.args.get(0).equals(CHANGE_NAME.toString())) {
                 return false;
             }
         }
@@ -100,7 +100,7 @@ public class Message
         this.args = args;
     }
 
-    public static Message createChangeNameCommand(String oldName, String newName){
+    public static Message createChangeNameCommand(String oldName, String newName) {
         ArrayList<String> args = new ArrayList<>();
         args.add(CHANGE_NAME.toString());
         args.add(newName);
@@ -118,10 +118,8 @@ public class Message
                 ", args=" + args +
                 '}';
     }
-    public static String humanize(Message m)
-    {
-        switch(m.getType())
-        {
+    public static String humanize(Message m) {
+        switch(m.getType()) {
             case COMMAND:
                 break;
             case MESSAGE:
@@ -135,46 +133,49 @@ public class Message
         return null;
     }
 
-    private static String humanizeMessage(Message m)
-    {
+    private static String humanizeMessage(Message m) {
         return "<" + m.from + " to " + m.to + "> "+m.args.get(0);
     }
 
-    private static String humanizeServerAnn(Message m)
-    {
-
-        
-        switch(ServerAnnouncement.valueOf(m.getArgs().get(0)))
-        {
+    private static String humanizeServerAnn(Message m) {
+        switch(ServerAnnouncement.valueOf(m.getArgs().get(0))) {
             case COMMAND_NOT_RECOGNIZED:
                 return "The command that you wrote is not recognized.";
+
             case DEST_NOT_CORRECT:
                 return "The addressee that you wrote is incorrect";
+
             case DISCONNECT:
-                break; //TODO
+                return "Disconnecting...";
+
             case JOINED:
                 return "`" + m.getArgs().get(1) + "` joined.";
+
             case LEFT:
                 return "`" + m.getArgs().get(1) + "` left.";
+
             case LIST:
                 ArrayList<String> usernames = App.client.userMessagesList.getUsernames();
-                if(usernames.size() == 0){
+                if(usernames.size() == 0) {
                     return "No one else is connected to the server.";
                 } else  {
                     return "People connected ATM: " + usernames.toString().replace('[', ' ').replace(']', ' ');
                 }
-                
+            
             case NAME_NOT_OK:
                 return "The name you choose is not available.";
+
             case NAME_OK:
                 return "Your name has been successfully set.";
+
             case NEED_NAME:
                 return "Your nickname is not set. Please provide one typing /nick <name>.";
+
             case USERNAME_CHANGED:
                 return "`" + m.getArgs().get(1) + "` changed its username to `" + m.getArgs().get(2) + "`";
+
             default:
                 break;
-            
         }
         return null;
     }

@@ -20,9 +20,9 @@ public enum ServerAnnouncement {
      * @param utenti la lista degli utenti connessi del server
      * @return Un messaggio di tipo LIST
      */
-    public static Message createListAnnouncement(ArrayList<String> utenti, String to){
+    public static Message createListAnnouncement(ArrayList<String> utenti, String to) {
         ArrayList<String> strings= new ArrayList<>();
-        for(String u : utenti){
+        for(String u : utenti) {
             strings.add(u);
         }
         strings.remove("");
@@ -38,7 +38,7 @@ public enum ServerAnnouncement {
      */
     public static Message createServerAnnouncement(
         ServerAnnouncement t, 
-        String to){
+        String to) {
 
         ArrayList<String> tmp = new ArrayList<>();
         tmp.add(t.toString());
@@ -67,7 +67,7 @@ public enum ServerAnnouncement {
 
         ArrayList<String> tmp = new ArrayList<>();
         tmp.add(ServerAnnouncement.USERNAME_CHANGED.toString());
-        if(before == null){
+        if(before == null) {
             tmp.add("");
         } else
             tmp.add(before.toString());

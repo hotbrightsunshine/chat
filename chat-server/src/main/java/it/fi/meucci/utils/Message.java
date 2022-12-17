@@ -40,12 +40,12 @@ public class Message
     }
 
     @JsonIgnore @JsonIgnoreProperties
-    public boolean isChangeNameMessageValid(){
+    public boolean isChangeNameMessageValid() {
         if(this.type != Type.COMMAND)
             return false;
 
-        if(this.args.size() == 2){
-            if(!this.args.get(0).equals(CommandType.CHANGE_NAME.toString())){
+        if(this.args.size() == 2) {
+            if(!this.args.get(0).equals(CommandType.CHANGE_NAME.toString())) {
                 return false;
             }
         }

@@ -27,7 +27,7 @@ public class Server
      * Ha un ciclo che accetta continuamente nuove connessioni, creando per loro dei Thread. 
      */
     public void accept() throws IOException {
-        while(true){
+        while(true) {
             Log.print(LogType.INFO, "In attesa di una nuova connessione");
             Log.print(LogType.INFO, "Connessi: " + this.getUsernames());
             Socket s = serverSocket.accept();
@@ -46,7 +46,7 @@ public class Server
      * 
      * @return Ritorna una lista di username, cioè i client connessi che hanno un username validato
      */
-    public ArrayList<String> getUsernames(){
+    public ArrayList<String> getUsernames() {
 
         ArrayList<String> temp = new ArrayList<>();
         for (RequestListener r: listeners) {
@@ -59,36 +59,36 @@ public class Server
     }
 
     public void send(Message msg) throws IOException {
-        for(RequestListener r : listeners){
-            if (r.getUsername().equals(msg.getTo())){
+        for(RequestListener r : listeners) {
+            if (r.getUsername().equals(msg.getTo())) {
                 r.write(msg);
                 // TODO Mmh... maybe!
-            } else if (r.getUsername().equals(msg.getFrom())){
+            } else if (r.getUsername().equals(msg.getFrom())) {
                 r.write(msg);
             }
         }
     }
 
     public void sendBroadcast(Message msg) throws IOException {
-        for(RequestListener r : listeners){
+        for(RequestListener r : listeners) {
             r.write(msg);
         }
     }
 
-    public ArrayList<RequestListener> getListeners(){
+    public ArrayList<RequestListener> getListeners() {
         return listeners;
     }
 
-    public boolean isUserValid(String username){
-        if(username == null || username.equals("")){
+    public boolean isUserValid(String username) {
+        if(username == null || username.equals("")) {
             return false;
-        } else if(username.equals(Username.everyone)){
+        } else if(username.equals(Username.everyone)) {
             return true;
         }
         return getUsernames().contains(username);
     }
 
-    public boolean isUserAvailable(String username){
+    public boolean isUserAvailable(String username) {
         return !isUserValid(username);
     }
 }

@@ -30,7 +30,7 @@ public class RequestListener implements Runnable {
     private  ObjectMapper om = new ObjectMapper();
     private  DataOutputStream outputStream;
     private  BufferedReader inputStream;
-    
+
     /**
      * Costruttore di RequestListener
      * 
@@ -46,15 +46,15 @@ public class RequestListener implements Runnable {
 
     public void changeName(String usr) throws IOException {
         //L'username non deve contenere spazi e non può essere vuoto
-        if(usr.trim().equals("")){
+        if(usr.trim().equals("")) {
             write(ServerAnnouncement
             .createServerAnnouncement(ServerAnnouncement.NAME_NOT_OK, username));
-        } else if(App.server.isUserAvailable(usr)){
+        } else if(App.server.isUserAvailable(usr)) {
             // Mando all'utente che il nome è ok
             write(ServerAnnouncement
             .createServerAnnouncement(ServerAnnouncement.NAME_OK, username));
             // dico a tutti gli altri che l'utente ha cambiato nome, solo se quello di prima non era "", altrimenti vuol dire che è entrato
-            if(!getUsername().equals("")){
+            if(!getUsername().equals("")) {
                 App.server.sendBroadcast(ServerAnnouncement
                 .createUsernameChangedAnnouncement(username, usr));
             } else {
@@ -86,17 +86,17 @@ public class RequestListener implements Runnable {
 
             Log.print(LogType.INFO, this.toString() + ": Comunicazione in conclusione");
             this.socket.close();
-            if(this.username != null){
+            if(this.username != null) {
                 Message msgLeft = ServerAnnouncement.createLeftAnnouncement(username);
                 App.server.sendBroadcast(msgLeft);
             }
 
         } catch (JsonProcessingException e) {
             Log.print(LogType.ERROR, this.toString() + ": JsonProcessingException");
-        } catch (IOException e){
+        } catch (IOException e) {
             Log.print(LogType.WARNING, this.toString() + ": IOException");
             allowedToRun = false;
-        }   catch (Throwable e){
+        }   catch (Throwable e) {
             e.printStackTrace();
             Log.print(LogType.ERROR, this.toString() + ": Errore non riconociuto");
         } finally {
@@ -116,7 +116,7 @@ public class RequestListener implements Runnable {
             switch (msg.getType()) {
                 case COMMAND:
                     Log.print(LogType.INFO, this.toString() + " : Gestione di un comando");
-                    if(msg.getArgs().get(0).equals(CommandType.CHANGE_NAME.toString())){
+                    if(msg.getArgs().get(0).equals(CommandType.CHANGE_NAME.toString())) {
                         
                         changeName(msg.getArgs().get(1));
                     }
@@ -133,7 +133,7 @@ public class RequestListener implements Runnable {
                     Handler.handle(msg);
                 break;
             }
-        } catch (HandlerException e){
+        } catch (HandlerException e) {
             Log.print(LogType.INFO, this.toString() + ": Errore durante la gestione di un comando. Tipo: " + e.getServerAnnouncement().toString());
             e.print();
             write(
@@ -143,7 +143,7 @@ public class RequestListener implements Runnable {
                 username)
             );
 
-            if(e.getServerAnnouncement().equals(ServerAnnouncement.DISCONNECT)){
+            if(e.getServerAnnouncement().equals(ServerAnnouncement.DISCONNECT)) {
                 this.allowedToRun = false;
             }
         }
@@ -175,7 +175,7 @@ public class RequestListener implements Runnable {
             outputStream.writeBytes(str+ '\n');
         } catch (JsonProcessingException e) {
             Log.print(LogType.ERROR, str);
-        } catch (IOException e){
+        } catch (IOException e) {
             Log.print(LogType.WARNING, this.toString() + ": Chiusura forzata del thread durante la scrittura a causa di un errore IO");
             allowedToRun = false;
             return;
@@ -184,7 +184,7 @@ public class RequestListener implements Runnable {
 
     public  Message read() throws IOException {
         String read = inputStream.readLine();
-        if (read == null){
+        if (read == null) {
             allowedToRun = false;
             return null;
         }
@@ -196,7 +196,7 @@ public class RequestListener implements Runnable {
     }
 
     public String getUsername() {
-        if (username == null){
+        if (username == null) {
             return "";
         }
         return username;

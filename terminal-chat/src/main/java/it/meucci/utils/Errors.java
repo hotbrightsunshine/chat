@@ -11,10 +11,8 @@ public enum Errors {
     DEST_NOT_CORRECT;
 
 
-    public static String humanizeError(Errors e)
-    {
-        switch(e)
-        {
+    public static String humanizeError(Errors e) {
+        switch(e) {
             case COMMAND_NOT_RECOGNIZED:
                 return "[WARNING]The comand is not recognized";
             case WRONG_ARGS:

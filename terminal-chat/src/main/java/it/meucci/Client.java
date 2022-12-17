@@ -31,11 +31,11 @@ public class Client {
     ObjectMapper objectmapper = new ObjectMapper();
     public UserMessagesList userMessagesList;
 
-     /**
-  * - Costruttore che avvia in automatico la connessione.
-  * - Deve inizializzare le *stream* del socket
-  * @throws IOException
-  */
+    /**
+    * - Costruttore che avvia in automatico la connessione.
+    * - Deve inizializzare le *stream* del socket
+    * @throws IOException
+    */
     public Client(Inet4Address address, int port) throws IOException {
         socket = new Socket(address, port);
         userMessagesList = new UserMessagesList();
@@ -43,22 +43,20 @@ public class Client {
         input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
-    public void initListener(){
+    public void initListener() {
         new Thread(new ReplyListener()).start();
     }
-
-
 
     /**
      * 
      * @param message
     */
-    public void send(Message message){
+    public void send(Message message) {
         try {
             output.writeBytes(objectmapper.writeValueAsString(message) + '\n');
         } catch (JsonProcessingException e) {
             // TODO e.printStackTrace();
-        } catch (IOException e){
+        } catch (IOException e) {
             //TODO
         }
     }
@@ -67,7 +65,7 @@ public class Client {
      * 
      * @param newUsername
      */
-    public void changeUsername(String newUsername){
+    public void changeUsername(String newUsername) {
         this.username = newUsername;
     }
 
@@ -80,18 +78,18 @@ public class Client {
         socket.close();
     }
 
-    public synchronized Socket getSocket(){
+    public synchronized Socket getSocket() {
         return socket;
     }
 
     public synchronized String getUsername() {
-        if(username == null){
+        if(username == null) {
             return "";
         }
         return username;
     }
 
-    public synchronized boolean isReadyForTextInterface(){
+    public synchronized boolean isReadyForTextInterface() {
         //System.out.println(this.socket.isConnected() + " " + this.userMessagesList.contains(Username.everyone));
         return this.socket.isConnected() && this.userMessagesList.contains(Username.everyone);
     }

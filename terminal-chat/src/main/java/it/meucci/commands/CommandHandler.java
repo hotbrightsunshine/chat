@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class CommandHandler {
 
-    public static void handle(Command c){
-        switch(c.getType()){
+    public static void handle(Command c) {
+        switch(c.getType()) {
             case HELP:
                 help();
                 break;
@@ -34,14 +34,13 @@ public class CommandHandler {
                 break;
             default:
                 break;
-
         }
     }
 
     /*
      * Metodo per spostarsi nella pagina HELP
      */
-    private static void help(){
+    private static void help() {
         System.out.println("List of some useful commands :)");
         System.out.println("- /disconnect to disconnect");
         System.out.println("- /who print the list of users currently connected");
@@ -51,22 +50,22 @@ public class CommandHandler {
         System.out.println("- @everyone to send a message to everybody");
     }
 
-    private static void invalid(){
+    private static void invalid() {
         System.out.println("The command you typed is not valid. ");
     }
 
     /**
      * Metodo per spostarsi nella pagina di disconnessione
      */
-    private static void disconnect(){
+    private static void disconnect() {
         try {
             App.client.stop();
             App.stop();
-        } catch (Exception e){}
+        } catch (Exception e) {}
     }
 
-    private static void who(){
-        if(App.client == null || !App.client.getSocket().isConnected()){
+    private static void who() {
+        if(App.client == null || !App.client.getSocket().isConnected()) {
             System.out.println(Errors.NOT_CONNECTED_YET);
         } else {
             ArrayList<String> usernames_clone = (ArrayList<String>) App.client.userMessagesList.getUsernames().clone();
@@ -75,19 +74,18 @@ public class CommandHandler {
                 System.out.println("No one else is connected to the server.");
             } else {
                 System.out.println("Users currently connected: ");
-                for(String s : usernames_clone){
+                for(String s : usernames_clone) {
                     System.out.println("- " + s);
                 }
             }
         }
     }
 
-    private static void me()
-    {
+    private static void me() {
         System.out.println("Your nickname is `" + App.client.getUsername() + "`.");
     }
 
-    private static void nick(ArrayList<String> args){
+    private static void nick(ArrayList<String> args) {
         try {
             if(args.size() == 1) {
                 App.client.send(Message.createChangeNameCommand(App.client.getUsername(), args.get(0)));
@@ -95,12 +93,12 @@ public class CommandHandler {
             } else {
                 System.out.println(Errors.humanizeError(Errors.WRONG_ARGS));
             }
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println(Errors.NOT_CONNECTED_YET);
         }
     }
 
-    public static void send(ArrayList<String> args){
+    public static void send(ArrayList<String> args) {
         String dest = args.get(0);
         args.remove(0);
 
