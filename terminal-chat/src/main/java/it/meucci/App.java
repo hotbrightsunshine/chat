@@ -46,10 +46,6 @@ public class App
         System.out.println("You have been successfully disconnected.");
     }
 
-    public static void print(Object o) {
-        System.out.println(o.toString());
-    }
-
     public static void stop() {
         allowed = false;
     }

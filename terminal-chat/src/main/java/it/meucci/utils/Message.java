@@ -50,54 +50,17 @@ public class Message
             args);
     }
 
-    @JsonIgnore
-    public boolean isChangeNameMessageValid(Message message) {
-        if(message.type != Type.COMMAND)
-            return false;
-
-        if(message.args.size() == 2) {
-            if(!message.args.get(0).equals(CHANGE_NAME.toString())) {
-                return false;
-            }
-        }
-        
-        return true;
-    }
-    // fare il metodo per validare il messaggio se ha i parametri sbagliati per il cambio nome
-
     public Type getType() {
         return type;
     }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-
 
     public String getFrom() {
         if (this.from == null ) return "";
         return from;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public String getTo() {
-        if (this.to == null ) return "";
-        return to;
-    }
-
-    public void setTo(String to) {
-        this.to = to;
-    }
-
     public ArrayList<String> getArgs() {
         return args;
-    }
-
-    public void setArgs(ArrayList<String> args) {
-        this.args = args;
     }
 
     public static Message createChangeNameCommand(String oldName, String newName) {

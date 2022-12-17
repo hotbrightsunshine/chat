@@ -9,20 +9,12 @@ import java.io.InputStreamReader;
 import java.net.Inet4Address;
 import java.net.Socket;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.meucci.utils.Username;
 
 /**
-* Rappresenta il Client.
-* - Si connette al server
-* - Ha un ciclo che consente la lettura continua da tastiera (verrà sostituito e modificato all'implementazione di JavaFX)
-* - Valida i messaggi scritti dall'utente (String -> Pojo)
-* - Parsa il Pojo Message in una stringa JSON
-* - Spedisce il messaggio validato JSON sul canale di Output del Socket
-* - Ha un metodo per arrestare l'esecuzione
+ * Represents client. Has some methods to write/send message from/to the Socket's input and output streams. 
  */
-
 public class Client {
     private String username;
     private Socket socket;
@@ -74,19 +66,14 @@ public class Client {
         socket.close();
     }
 
-    public synchronized Socket getSocket() {
+    public Socket getSocket() {
         return socket;
     }
 
-    public synchronized String getUsername() {
+    public String getUsername() {
         if(username == null) {
             return "";
         }
         return username;
-    }
-
-    public synchronized boolean isReadyForTextInterface() {
-        //System.out.println(this.socket.isConnected() + " " + this.userMessagesList.contains(Username.everyone));
-        return this.socket.isConnected() && this.userMessagesList.contains(Username.everyone);
     }
 }

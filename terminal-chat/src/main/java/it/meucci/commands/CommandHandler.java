@@ -65,18 +65,14 @@ public class CommandHandler {
     }
 
     private static void who() {
-        if(App.client == null || !App.client.getSocket().isConnected()) {
-            System.out.println(Errors.NOT_CONNECTED_YET);
+        ArrayList<String> usernames_clone = (ArrayList<String>) App.client.userMessagesList.getUsernames().clone();
+        usernames_clone.remove(Username.everyone);
+        if (usernames_clone.size() == 0) {
+            System.out.println("No one else is connected to the server.");
         } else {
-            ArrayList<String> usernames_clone = (ArrayList<String>) App.client.userMessagesList.getUsernames().clone();
-            usernames_clone.remove(Username.everyone);
-            if (usernames_clone.size() == 0) {
-                System.out.println("No one else is connected to the server.");
-            } else {
-                System.out.println("Users currently connected: ");
-                for(String s : usernames_clone) {
-                    System.out.println("- " + s);
-                }
+            System.out.println("Users currently connected: ");
+            for(String s : usernames_clone) {
+                System.out.println("- " + s);
             }
         }
     }
@@ -86,15 +82,11 @@ public class CommandHandler {
     }
 
     private static void nick(ArrayList<String> args) {
-        try {
-            if(args.size() == 1) {
-                App.client.send(Message.createChangeNameCommand(App.client.getUsername(), args.get(0)));
-                App.client.changeUsername(args.get(0));
-            } else {
-                System.out.println(Errors.humanizeError(Errors.WRONG_ARGS));
-            }
-        } catch (NullPointerException e) {
-            System.out.println(Errors.NOT_CONNECTED_YET);
+        if(args.size() == 1) {
+            App.client.send(Message.createChangeNameCommand(App.client.getUsername(), args.get(0)));
+            App.client.changeUsername(args.get(0));
+        } else {
+            System.out.println(Errors.humanizeError(Errors.WRONG_ARGS));
         }
     }
 
