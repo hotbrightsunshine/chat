@@ -139,14 +139,9 @@ public class Message
 
     private static String humanizeMessage(Message m)
     {
-        String s;
-        s = "<"+m.from+"> "+m.args.get(0);
-        if(m.to.equals(Username.everyone))
-        {
-            return "[GLOBAL] " + s;
-        }
-        return s;
+        return "<" + m.from + " to " + m.to + "> "+m.args.get(0);
     }
+
     private static String humanizeServerAnn(Message m)
     {
 
@@ -155,25 +150,31 @@ public class Message
         {
             case COMMAND_NOT_RECOGNIZED:
             
-                return "[WARNING] The command that you wrote is not recognized";
+                return "The command that you wrote is not recognized.";
             case DEST_NOT_CORRECT:
-                return "[WARNING] The addressee that you wrote is incorrect";
+                return "The addressee that you wrote is incorrect";
             case DISCONNECT:
                 break; //TODO
             case JOINED:
-                return m.from + " [JOINED]";
+                return "`" + m.getArgs().get(1) + "` joined.";
             case LEFT:
-            return m.from + " [LEFT THE CHAT]";
+                return "`" + m.getArgs().get(1) + "` left.";
             case LIST:
-                return "This is the list of people connected" + App.client.userMessagesList.getUsernames();
+                ArrayList<String> usernames = App.client.userMessagesList.getUsernames();
+                if(usernames.size() == 0){
+                    return "No one else is connected to the server.";
+                } else  {
+                    return "People connected ATM: " + usernames.toString().replace('[', ' ').replace(']', ' ');
+                }
+                
             case NAME_NOT_OK:
-                return "[WARNING] The name that you choose is not suitable";
+                return "The name you choose is not available.";
             case NAME_OK:
-                break;
+                return "Your name has been successfully set.";
             case NEED_NAME:
-                return "[WARNING] Type your nickname, space cannot be used for nickname";
+                return "Your nickname is not set. Please provide one typing /nick <name>.";
             case USERNAME_CHANGED:
-                return "Username changed correctly";
+                return "`" + m.getArgs().get(1) + "` changed its username to `" + m.getArgs().get(2) + "`";
             default:
                 break;
             

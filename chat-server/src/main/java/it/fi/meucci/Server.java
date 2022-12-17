@@ -31,7 +31,7 @@ public class Server
     public void accept() throws IOException {
         while(true){
             Log.print(LogType.INFO, "In attesa di una nuova connessione");
-            Log.print(LogType.INFO, "Usernames: " + this.getUsernames());
+            Log.print(LogType.INFO, "Connessi: " + this.getUsernames());
             Socket s = serverSocket.accept();
 
             RequestListener r = new RequestListener(s);
@@ -64,17 +64,16 @@ public class Server
         for(RequestListener r : listeners){
             if (r.getUsername().equals(msg.getTo())){
                 r.write(msg);
+                // TODO Mmh... maybe!
+            } else if (r.getUsername().equals(msg.getFrom())){
+                r.write(msg);
             }
         }
     }
 
     public void sendBroadcast(Message msg) throws IOException {
         for(RequestListener r : listeners){
-            if(r.getUsername().equals(msg.getFrom())){
-                continue;
-            } else {
-                r.write(msg);
-            }
+            r.write(msg);
         }
     }
 

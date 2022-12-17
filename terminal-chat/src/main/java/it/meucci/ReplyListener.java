@@ -35,8 +35,6 @@ public class ReplyListener implements Runnable {
                 handle(m);
 
             } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("Disconnect");
                 break;
             }
         }
@@ -98,7 +96,8 @@ public class ReplyListener implements Runnable {
                 HandleMethods.nameNotOk();
                 break;
             case NEED_NAME:
-                HandleMethods.needName();
+                // TODO write better; need name is already printed by System.out.println( Message.humanize(m)); @ line 34
+                //HandleMethods.needName();
                 break;
             case LIST:
                 HandleMethods.list(args);

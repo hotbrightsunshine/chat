@@ -27,16 +27,15 @@ public class App
             App.addr = (Inet4Address) Inet4Address.getByName(ip);
             App.port = Integer.parseInt(port);
         } catch (Exception e){
-            System.out.println("I parametri non sono corretti. Lanciare il programma con ./_.jar <addr> <port>");
+            System.out.println("Command line parameters are not corrected. Consider launching the client with ./_.jar <addr> <port>.");
             return;
         }
 
         client = new Client(addr, port);
         client.initListener();
         scanner = new Scanner(System.in);
-        System.out.println("welcome");
-        
-        CommandHandler.help();
+
+        System.out.println("Successfully connected. Type /help for a list of commands.");
 
         do {
             String read = scanner.nextLine();
@@ -44,7 +43,7 @@ public class App
             CommandHandler.handle(cmd);
         } while(allowed);
 
-        System.out.println("disconnesso");
+        System.out.println("You have been successfully disconnected.");
     }
 
     public static void print(Object o){

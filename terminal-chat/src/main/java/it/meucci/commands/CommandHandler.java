@@ -3,6 +3,8 @@ package it.meucci.commands;
 import it.meucci.App;
 import it.meucci.utils.Errors;
 import it.meucci.utils.Message;
+import it.meucci.utils.Username;
+
 import java.util.ArrayList;
 
 public class CommandHandler {
@@ -27,6 +29,9 @@ public class CommandHandler {
             case ME:
                 me();
                 break;
+            case INVALID:
+                invalid();
+                break;
             default:
                 break;
 
@@ -36,16 +41,19 @@ public class CommandHandler {
     /*
      * Metodo per spostarsi nella pagina HELP
      */
-    public static void help(){
-        System.out.println("Here are some useful commands :)");
-        System.out.println("- /disconnect  for disconnecting");
-        System.out.println("- /who  print the list of users connected");
-        System.out.println("- /nick <your name> for change your nickname");
-        System.out.println("- /me print your nickname");
-        System.out.println("- @<username> for send message to who you want");
-        System.out.println("- @everyone to send your message to everybody that are connected");
+    private static void help(){
+        System.out.println("List of some useful commands :)");
+        System.out.println("- /disconnect to disconnect");
+        System.out.println("- /who print the list of users currently connected");
+        System.out.println("- /nick <your name> to change your nickname");
+        System.out.println("- /me to print your nickname");
+        System.out.println("- @<username> to send a message to `username` you want");
+        System.out.println("- @everyone to send a message to everybody");
     }
 
+    private static void invalid(){
+        System.out.println("The command you typed is not valid. ");
+    }
 
     /**
      * Metodo per spostarsi nella pagina di disconnessione
@@ -61,13 +69,22 @@ public class CommandHandler {
         if(App.client == null || !App.client.getSocket().isConnected()){
             System.out.println(Errors.NOT_CONNECTED_YET);
         } else {
-            System.out.println("Here is the list of users:");
-            System.out.println(App.client.userMessagesList.getUsernames());
+            ArrayList<String> usernames_clone = (ArrayList<String>) App.client.userMessagesList.getUsernames().clone();
+            usernames_clone.remove(Username.everyone);
+            if (usernames_clone.size() == 0) {
+                System.out.println("No one else is connected to the server.");
+            } else {
+                System.out.println("Users currently connected: ");
+                for(String s : usernames_clone){
+                    System.out.println("- " + s);
+                }
+            }
         }
     }
+
     private static void me()
     {
-        System.out.println("Your nickname is: " + App.client.getUsername());
+        System.out.println("Your nickname is `" + App.client.getUsername() + "`.");
     }
 
     private static void nick(ArrayList<String> args){
@@ -91,6 +108,8 @@ public class CommandHandler {
         for (String string : args) {
             content += string + " ";
         }
-        App.client.send(Message.createMessage(dest, content));
+        Message msg = Message.createMessage(dest, content);
+        App.client.send(msg);
+        // System.out.println(Message.humanize(msg));
     }
 }

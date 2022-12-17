@@ -29,20 +29,14 @@ public abstract class HandleMethods
 
     static void nameOk()
     {
+        // TODO
         //System.out.println("ok");
     }
 
     static void nameNotOk()
     {
-       // System.out.println("no ok");
-        System.out.println(Errors.NAME_NOT_AVAILABLE);
-    }
-
-    static void needName()
-    {
-        //errore needname
-        System.out.println(Errors.NEED_A_NAME);
-        
+        // TODO
+        //System.out.println(Errors.NAME_NOT_AVAILABLE);
     }
 
     /**

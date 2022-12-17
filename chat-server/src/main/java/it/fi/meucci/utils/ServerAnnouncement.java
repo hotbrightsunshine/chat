@@ -31,7 +31,6 @@ public enum ServerAnnouncement {
         }
         strings.remove("");
         strings.add(0, ServerAnnouncement.LIST.toString());
-        System.out.println("CANCELLA " + strings); // TODO
         return new Message(Type.SERVER_ANN, Username.server, to, strings);
     }
 

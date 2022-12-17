@@ -21,6 +21,12 @@ public class Command {
      */
 
     public static Command validate(String command){
+        // TODO this method is horrifying!
+        if(command.length() == 0) return new Command(CommandType.INVALID, null);
+        if(command.startsWith("/send")) {
+            System.out.println("Command /send <username> <content...> is currently not supported. Use @<username> <content...> instead.");
+            return new Command(CommandType.INVALID, null);
+        }
         if(command.charAt(0) == '/') return validateCommand(command);
         else if (command.charAt(0) == '@') return validateMessage(command);
         else return new Command(CommandType.INVALID, null);
