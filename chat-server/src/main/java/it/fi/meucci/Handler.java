@@ -12,56 +12,55 @@ import it.fi.meucci.utils.Username;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
 /**
- * Questa classe contiene tutti i metodi necessari per l'inoltro e la gestione dei messaggi.
- * Sono chiamati dai Request Listener. NON può essere istanziata.
+ * This class contains all the methods needed to send and to manage messages.
+ * They are called by Request Listener class and can't be instantiated.
  */
 public abstract class Handler {
 
+    /**
+     * Handles a Message
+     * @param msg The message to be handled
+     * @throws NeedNameException When the message does not have a valid sender
+     * @throws DestNotCorrectException When the message does not have a valid receiver
+     * @throws IOException When it's unable to send the message on the socket's output stream
+     */
     public static void handleMessage(Message msg)
             throws NeedNameException,
             DestNotCorrectException, IOException {
-        /*
-         * Se mittente e destinatario sono validi:
-         *      estrae il destinatario. 
-         *      App.server.send(msg)
 
-         * Se il destinatario non è valido:
-         *      Manda una eccezione ServerAnnouncement.DEST_NOT_CORRECT
-         */
-        /*
-         * Se il mittente non è negli username:
-         *      Manda una eccezione ServerAnnouncement.NEED_NAME
-         */
         String from = msg.getFrom();
         String to = msg.getTo();
 
-        // Se il mittente ha un username non valido oppure è vuoto:
         if (!App.server.isUserValid(from)) {
             throw new NeedNameException();
         } else if (!App.server.isUserValid(to)) {
             throw new DestNotCorrectException();
         }
 
-        // Confermo che ci sia un solo argomento per il messaggio
         String newarg = "";
         for(String s : msg.getArgs()) {
             newarg += s + " ";
         }
 
-        // Modifico l'argomento del messaggio
         ArrayList<String> t = new ArrayList<>();
         t.add(newarg);
         msg.setArgs(t);
 
-        // Mando il messaggio
         if(msg.getTo().equals(Username.everyone))
             App.server.sendBroadcast(msg);
         else 
             App.server.send(msg);
     }
 
+    /**
+     * Handles a Command
+     * @param msg The command to be handled
+     * @throws NeedNameException When the name does not have a valid sender
+     * @throws DestNotCorrectException When the name does not have a valid addressee
+     * @throws DisconnectException When the user asked to disconnect
+     * @throws CommandNotRecognizedException When the command sent by the user is not valid
+     */
     public static void handleCommand(Message msg) 
     throws  NeedNameException, 
             DestNotCorrectException, 

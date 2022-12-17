@@ -16,15 +16,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RequestListener implements Runnable {
-
-    // L'username (Può essere nullable)
     private  String username;
-
-    // La connessione con il client
     private final Socket socket;
 
-    // Dice se il thread può andare oppure no
-    // è falso quando c'è un'eccezione, il socket si chiude etc.
+    /**
+     * Says whether this instance of Request Listener is allowed to run
+     */
     public  boolean allowedToRun;
 
     private  final ObjectMapper om = new ObjectMapper();
@@ -32,9 +29,7 @@ public class RequestListener implements Runnable {
     private  final BufferedReader inputStream;
 
     /**
-     * Costruttore di RequestListener
-     * 
-     * @param socket Il socket
+     * @param socket Socket to be handled
      */
     public RequestListener(Socket socket) throws IOException {
         this.socket = socket;
@@ -43,6 +38,11 @@ public class RequestListener implements Runnable {
         inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
+    /**
+     * Changes name if available
+     * @param usr the new username
+     * @throws IOException when it's unable to send errors to the socket's output stream
+     */
     public void changeName(String usr) throws IOException {
         //L'username non deve contenere spazi e non può essere vuoto
         if(usr.trim().equals("")) {
@@ -68,7 +68,9 @@ public class RequestListener implements Runnable {
     }
 
     /**
-     * Implementazione del metodo Thread.run()
+     *  Thread.run() implementation.
+     *  Starts the communication with a List message and a Need Name Message
+     *  Catches a bunch of exceptions
      */
     @Override
     public void run() {
@@ -105,9 +107,9 @@ public class RequestListener implements Runnable {
     }
 
     /**
-     * In base al messaggio ricevuto, ha un comportamento diverso.
-     * 
-     * @param msg È il messaggio appena ricevuto
+     * Handles the received message
+     * @param msg The message to be handled
+     * @throws IOException when it's impossible to write to the socket's output stream
      */
     public void handle(Message msg) throws IOException {
         try {
@@ -115,13 +117,11 @@ public class RequestListener implements Runnable {
                 case COMMAND:
                     Log.print(LogType.INFO, this + " : Gestione di un comando");
                     if(msg.getArgs().get(0).equals(CommandType.CHANGE_NAME.toString())) {
-                        
                         changeName(msg.getArgs().get(1));
                     }
                     else {
                         Handler.handleCommand(msg);
                     }
-                    
                 break;
                 case MESSAGE:
                     Log.print(LogType.INFO, this + ": Gestione di un messaggio");
@@ -138,8 +138,7 @@ public class RequestListener implements Runnable {
                 ServerAnnouncement
                 .createServerAnnouncement(
                     e.getServerAnnouncement(),
-                username)
-            );
+                username));
 
             if(e.getServerAnnouncement().equals(ServerAnnouncement.DISCONNECT)) {
                 this.allowedToRun = false;
@@ -148,11 +147,9 @@ public class RequestListener implements Runnable {
     }
 
     /**
-     * Manda al client un messaggio con dentro la lista degli utenti
-     * 
-     * @throws JsonProcessingException Lanciata quando il parsing non riesce
-     * @throws IOException             Lanciata quando non il mandato non può essere
-     *                                 inviato
+     * Sends to the client a list of connected users
+     * @throws JsonProcessingException When parsing fails
+     * @throws IOException             When writing to the socket's output stream fails
      */
     public void sendList() throws JsonProcessingException, IOException {
         ArrayList<String> usernames = App.server.getUsernames();
@@ -161,9 +158,8 @@ public class RequestListener implements Runnable {
     }
 
     /**
-     * Manda un messaggio al client
-     * 
-     * @param msg Il messaggio da inviare
+     * Sends the message to the output stream
+     * @param msg The message to be sent
      */
     public  void write(Message msg) {
         String str = "";
@@ -178,6 +174,11 @@ public class RequestListener implements Runnable {
         } 
     }
 
+    /**
+     * Reads from the socket's input stream
+     * @return The just read message
+     * @throws IOException When it's impossible to read from the socket's input stream
+     */
     public  Message read() throws IOException {
         String read = inputStream.readLine();
         if (read == null) {
@@ -187,6 +188,9 @@ public class RequestListener implements Runnable {
         return om.readValue(read, Message.class);
     }
 
+    /**
+     * @return the client's username
+     */
     public String getUsername() {
         if (username == null) {
             return "";

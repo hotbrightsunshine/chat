@@ -4,22 +4,62 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public enum ServerAnnouncement {
-    JOINED, // Un utente entra
-    LEFT, // Un utente è uscito
-    NAME_OK, // Il nome inserito va bene
-    NAME_NOT_OK, // Il nome inserito non va bene
-    NEED_NAME, // Il client non ha un nome
-    LIST, // Lista dei partecipanti
-    DEST_NOT_CORRECT, // Il destinatario del server non è corretto
+    /**
+     * Sent when a new user joins the server
+     */
+    JOINED,
+
+    /**
+     * Sent when a user lefts the server
+     */
+    LEFT,
+
+    /**
+     * Sent when the user requesting a new username has inserted a valid one.
+     */
+    NAME_OK,
+
+    /**
+     * Sent when the user requesting a new username has inserted a not valid one.
+     */
+    NAME_NOT_OK,
+
+    /**
+     * Sent when the user attempting to send a message doesn't have a valid username set.
+     */
+    NEED_NAME,
+
+    /**
+     * Sent when the server sends a list of connected usernames
+     */
+    LIST,
+
+    /**
+     * Sent when a message doesn't have a valid addressee
+     */
+    DEST_NOT_CORRECT,
+
+    /**
+     * Sent as a confirmation to the `DISCONNECT` command {@link it.fi.meucci.utils.CommandType }
+     */
     DISCONNECT,
+
+    /**
+     * Sent when the command issued by the user is not valid nor recognized
+     */
     COMMAND_NOT_RECOGNIZED,
+
+    /**
+     * Sent when the username of a user successfully changed
+     */
     USERNAME_CHANGED
     ;
 
     /**
-     * Crea un messaggio di tipo LIST
-     * @param utenti la lista degli utenti connessi del server
-     * @return Un messaggio di tipo LIST
+     * Creates a new LIST announcement
+     * @param utenti the list of usernames currently connected
+     * @param to The addressee
+     * @return A LIST message
      */
     public static Message createListAnnouncement(ArrayList<String> utenti, String to) {
         ArrayList<String> strings= new ArrayList<>();
@@ -30,10 +70,10 @@ public enum ServerAnnouncement {
     }
 
     /**
-     * Crea un messaggio con un solo argomento (il tipo)
-     * @param t Type of the ServerAnnouncement
-     * @param to A chi è direzionato il messaggio
-     * @return un messaggio di tipo NEED_NAME
+     * Creates a new Server announcement
+     * @param t The Type of the announcement {@link it.fi.meucci.utils.ServerAnnouncement}
+     * @param to The addressee
+     * @return The newly created announcement
      */
     public static Message createServerAnnouncement(
         ServerAnnouncement t, 
@@ -44,6 +84,11 @@ public enum ServerAnnouncement {
         return new Message(Type.SERVER_ANN, Username.server, to, tmp);
     }
 
+    /**
+     * Creates a new JOINED message
+     * @param joined the string of the new user's username
+     * @return a JOINED message
+     */
     public static Message createJoinedAnnouncement(String joined) {
 
         ArrayList<String> tmp = new ArrayList<>();
@@ -52,6 +97,11 @@ public enum ServerAnnouncement {
         return new Message(Type.SERVER_ANN, Username.server, Username.everyone, tmp);
     }
 
+    /**
+     * Creates a LEFT message
+     * @param left the left user's username
+     * @return a LEFT message
+     */
     public static Message createLeftAnnouncement(String left) {
 
         ArrayList<String> tmp = new ArrayList<>();
@@ -60,6 +110,12 @@ public enum ServerAnnouncement {
         return new Message(Type.SERVER_ANN, Username.server, Username.everyone, tmp);
     }
 
+    /**
+     *
+     * @param before
+     * @param after
+     * @return
+     */
     public static Message createUsernameChangedAnnouncement(
         String before,
         String after) {
