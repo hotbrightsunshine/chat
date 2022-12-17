@@ -2,10 +2,6 @@ package it.fi.meucci.utils;
 
 import java.util.ArrayList;
 
-import it.fi.meucci.Server;
-//import it.fi.meucci.logger.Log;
-//import it.fi.meucci.logger.LogType;
-
 public enum ServerAnnouncement {
     JOINED, // Un utente entra
     LEFT, // Un utente è uscito
