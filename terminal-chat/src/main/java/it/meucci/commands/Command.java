@@ -1,6 +1,5 @@
 package it.meucci.commands;
 
-import it.meucci.App;
 import it.meucci.utils.Errors;
 
 import java.util.ArrayList;
