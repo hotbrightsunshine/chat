@@ -11,8 +11,9 @@ public enum Errors {
             case WRONG_ARGS:
                 return "[WARNING]The command arguments are incorrect";
             default:
-                break;}
-                return null;
+                break;
+        }
+        return null;
     }
 
 }

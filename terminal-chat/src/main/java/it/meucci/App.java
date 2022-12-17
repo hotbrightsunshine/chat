@@ -17,7 +17,6 @@ public class App
     private static int port;
     private static Inet4Address addr;
     private static boolean allowed = true;
-    private static Scanner scanner;
 
     public static void main( String[] args ) throws IOException {
         try {
@@ -33,7 +32,7 @@ public class App
 
         client = new Client(addr, port);
         client.initListener();
-        scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Successfully connected. Type /help for a list of commands.");
 

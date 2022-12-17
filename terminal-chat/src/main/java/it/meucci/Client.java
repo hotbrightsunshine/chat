@@ -2,64 +2,44 @@ package it.meucci;
 
 import it.meucci.utils.Message;
 
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.Inet4Address;
 import java.net.Socket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.meucci.utils.Username;
 
 /**
  * Represents client. Has some methods to write/send message from/to the Socket's input and output streams. 
  */
 public class Client {
     private String username;
-    private Socket socket;
-    private DataOutputStream output;
-    private BufferedReader input;
+    private final Socket socket;
+    private final DataOutputStream output;
     ObjectMapper objectmapper = new ObjectMapper();
     public UserMessagesList userMessagesList;
 
-    /**
-    * - Costruttore che avvia in automatico la connessione.
-    * - Deve inizializzare le *stream* del socket
-    * @throws IOException
-    */
     public Client(Inet4Address address, int port) throws IOException {
         socket = new Socket(address, port);
         userMessagesList = new UserMessagesList();
         output = new DataOutputStream(socket.getOutputStream());
-        input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
     public void initListener() {
         new Thread(new ReplyListener()).start();
     }
 
-    /**
-     * 
-     * @param message
-    */
     public void send(Message message) {
         try {
             output.writeBytes(objectmapper.writeValueAsString(message) + '\n');
-        } catch (Throwable e) {}
+        } catch (Throwable e) {
+            System.out.println("An error occurred while sending a message.");
+        }
     }
 
-    /**
-     * 
-     * @param newUsername
-     */
+
     public void changeUsername(String newUsername) {
         this.username = newUsername;
-    }
-
-    public Message read() throws IOException{
-        String str = input.readLine();
-        return objectmapper.readValue(str, Message.class);
     }
 
     public void stop() throws IOException {

@@ -1,6 +1,5 @@
 package it.meucci.utils;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.meucci.App;
 import java.util.ArrayList;
@@ -20,15 +19,6 @@ public class Message
     private String to;
     private ArrayList<String> args;
 
-    /**
-     * Costruttore per il messaggio.
-     * È privato perché l'utente può costruire il messaggio solo con validate().
-     * @param type Il tipo del messaggio {@link it.fi.meucci.utils.Type }
-     * @param from L'username {@link it.fi.meucci.utils.Message} di provenienza
-     * @param to L'username {@link it.fi.meucci.utils.Message} di destinazione
-     * @param args La lista di argomenti del comando o del messaggio
-     * @since 1.0
-     */
     public Message(
         @JsonProperty("type") Type type, 
         @JsonProperty("from") String from,
@@ -63,7 +53,7 @@ public class Message
         return args;
     }
 
-    public static Message createChangeNameCommand(String oldName, String newName) {
+    public static Message createChangeNameCommand(String newName) {
         ArrayList<String> args = new ArrayList<>();
         args.add(CHANGE_NAME.toString());
         args.add(newName);

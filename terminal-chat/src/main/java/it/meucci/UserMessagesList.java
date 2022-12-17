@@ -7,18 +7,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserMessagesList {
-    private Map<String, ArrayList<Message>> messages;
+    private final Map<String, ArrayList<Message>> messages;
 
     public UserMessagesList() {
         messages = Collections.synchronizedMap(new HashMap<>());
     }
 
     public ArrayList<String> getUsernames() {
-        ArrayList<String> usernames = new ArrayList<>();
-        for(String s : messages.keySet()) {
-            usernames.add(s);
-        }
-        return usernames;
+        return new ArrayList<>(messages.keySet());
     }
 
     public void addMessage(Message message) {
@@ -47,6 +43,7 @@ public class UserMessagesList {
         messages.put(newUsername, old_al);
     }
 
+    /*
     public boolean contains(String username) {
         return this.messages.keySet().contains(username);
     }
@@ -58,4 +55,5 @@ public class UserMessagesList {
             return new ArrayList<>();
         }
     }
+    */
 }

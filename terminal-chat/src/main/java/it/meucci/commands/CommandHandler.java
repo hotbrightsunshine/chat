@@ -8,7 +8,6 @@ import it.meucci.utils.Username;
 import java.util.ArrayList;
 
 public class CommandHandler {
-
     public static void handle(Command c) {
         switch(c.getType()) {
             case HELP:
@@ -83,7 +82,7 @@ public class CommandHandler {
 
     private static void nick(ArrayList<String> args) {
         if(args.size() == 1) {
-            App.client.send(Message.createChangeNameCommand(App.client.getUsername(), args.get(0)));
+            App.client.send(Message.createChangeNameCommand(args.get(0)));
             App.client.changeUsername(args.get(0));
         } else {
             System.out.println(Errors.humanizeError(Errors.WRONG_ARGS));

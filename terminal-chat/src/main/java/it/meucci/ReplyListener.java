@@ -17,12 +17,14 @@ import it.meucci.utils.Username;
  */
 public class ReplyListener implements Runnable {
     private BufferedReader input;
-    private ObjectMapper objectmapper = new ObjectMapper();
+    private final ObjectMapper objectmapper = new ObjectMapper();
 
     public ReplyListener() {
         try {
             input = new BufferedReader(new InputStreamReader(App.client.getSocket().getInputStream()));
-        } catch (IOException e) {}
+        } catch (IOException e) {
+            System.out.println("An error occurred while creating a Buffered Reader for App.client.getSocket()");
+        }
     }
 
     public void run() {
@@ -44,11 +46,6 @@ public class ReplyListener implements Runnable {
         }
     }
 
-    /** 
-     * -Riceve messaggi dal server e li gestisce
-     * -Controlla il tipo di messaggio e in base al messaggio si comporta in modo diverso
-     * @param message
-    */
     public void handle(Message message)
     {
         switch (message.getType()) {
@@ -69,19 +66,20 @@ public class ReplyListener implements Runnable {
         // refresh page if that's what textinterface is serving
     }
 
-    /**
-     * 
-     * @param message
-     */
     private void handleServerAnn(Message message) {
         // Methods here are NOT to be printed because they are printed immediately after
         ServerAnnouncement sa = null;
         ArrayList<String> args = new ArrayList<>();
         try {
-            sa = ServerAnnouncement.valueOf(message.getArgs().get(0).toString().toUpperCase());
+            sa = ServerAnnouncement.valueOf(message.getArgs().get(0).toUpperCase());
             args = message.getArgs();
             args.remove(0);
         } catch(Exception e) {}
+
+        if(sa == null){
+            return;
+        }
+
         switch (sa) {
             case JOINED:
                 App.client.userMessagesList.addUser(args.get(0));
@@ -92,9 +90,8 @@ public class ReplyListener implements Runnable {
                 break;
 
             case LIST:
-                ArrayList<String> usernames = args;
                 App.client.userMessagesList.addUser(Username.everyone);
-                for (String username : usernames) {
+                for (String username : args) {
                     App.client.userMessagesList.addUser(username);
                 }
                 break;

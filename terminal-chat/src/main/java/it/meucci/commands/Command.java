@@ -40,7 +40,7 @@ public class Command {
 
     private static Command validateCommand(String command) {
         command = command.replace("/", "");
-        String split[] = command.split(" ");
+        String[] split = command.split(" ");
         ArrayList<String> arraylist = new ArrayList<>();
 
         if (split.length > 1) {
@@ -59,7 +59,7 @@ public class Command {
 
     private static Command validateMessage(String command) {
         command = command.replace("@", "");
-        String words[] = command.split(" ", 2);
+        String[] words = command.split(" ", 2);
         ArrayList<String> args = new ArrayList<>();
 
         try{
