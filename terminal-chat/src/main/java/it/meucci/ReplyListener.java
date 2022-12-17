@@ -78,7 +78,7 @@ public class ReplyListener implements Runnable {
      * @param message
      */
     private void handleServerAnn(Message message){
-
+        // Methods here are NOT to be printed because they are printed immediately after
         ServerAnnouncement sa = null;
         ArrayList<String> args = new ArrayList<>();
         try {
@@ -88,35 +88,26 @@ public class ReplyListener implements Runnable {
         } catch(Exception e){}
         switch (sa){
             case JOINED:
-                HandleMethods.join(args.get(0));
+                App.client.userMessagesList.addUser(args.get(0));
                 break;
+
             case LEFT:
-                HandleMethods.left(args.get(0));
+                App.client.userMessagesList.removeUser(args.get(0));
                 break;
-            case NAME_OK:
-                HandleMethods.nameOk();
-                break;
-            case NAME_NOT_OK:
-                HandleMethods.nameNotOk();
-                break;
-            case NEED_NAME:
-                // TODO write better; need name is already printed by System.out.println( Message.humanize(m)); @ line 34
-                //HandleMethods.needName();
-                break;
+
             case LIST:
-                HandleMethods.list(args);
+                ArrayList<String> usernames = args;
+                App.client.userMessagesList.addUser(Username.everyone);
+                for (String username : usernames) {
+                    App.client.userMessagesList.addUser(username);
+                }
                 break;
-            case DEST_NOT_CORRECT:
-                HandleMethods.destNotOk();
-                break;
-            case DISCONNECT:
-                HandleMethods.disconnect();
-                break;
-            case COMMAND_NOT_RECOGNIZED:
-                HandleMethods.commandNotRecognized();
-                break;
+
             case USERNAME_CHANGED:
-                HandleMethods.usernameChanged(args.get(0), args.get(1));
+                App.client.userMessagesList.updateUser(args.get(0), args.get(1));
+                break;
+            
+            default:
                 break;
         }
     }
