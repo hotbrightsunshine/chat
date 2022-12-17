@@ -13,7 +13,7 @@ import it.fi.meucci.utils.Username;
 public class Server
 {
 
-    private ArrayList <RequestListener> listeners = new ArrayList<>();
+    private final ArrayList <RequestListener> listeners = new ArrayList<>();
     private ArrayList <Thread> threads = new ArrayList<>();
     private static ServerSocket serverSocket;
 
@@ -58,7 +58,7 @@ public class Server
         return temp;
     }
 
-    public void send(Message msg) throws IOException {
+    public void send(Message msg) {
         for(RequestListener r : listeners) {
             if (r.getUsername().equals(msg.getTo())) {
                 r.write(msg);

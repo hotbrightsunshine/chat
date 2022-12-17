@@ -21,21 +21,20 @@ public class RequestListener implements Runnable {
     private  String username;
 
     // La connessione con il client
-    private Socket socket;
+    private final Socket socket;
 
     // Dice se il thread può andare oppure no
     // è falso quando c'è un'eccezione, il socket si chiude etc.
     public  boolean allowedToRun;
 
-    private  ObjectMapper om = new ObjectMapper();
-    private  DataOutputStream outputStream;
-    private  BufferedReader inputStream;
+    private  final ObjectMapper om = new ObjectMapper();
+    private  final DataOutputStream outputStream;
+    private  final BufferedReader inputStream;
 
     /**
      * Costruttore di RequestListener
      * 
      * @param socket Il socket
-     * @throws IOException
      */
     public RequestListener(Socket socket) throws IOException {
         this.socket = socket;
@@ -65,7 +64,7 @@ public class RequestListener implements Runnable {
             write(ServerAnnouncement
             .createServerAnnouncement(ServerAnnouncement.NAME_NOT_OK, username));
         }
-        Log.print(LogType.INFO, this.toString() + " Il nome utente dopo il Change Name è " + username);
+        Log.print(LogType.INFO, this + " Il nome utente dopo il Change Name è " + username);
     }
 
     /**
@@ -74,7 +73,7 @@ public class RequestListener implements Runnable {
     @Override
     public void run() {
         try {
-            Log.print(LogType.INFO, this.toString() + ": Comunicazione iniziata");
+            Log.print(LogType.INFO, this + ": Comunicazione iniziata");
             sendList();
             write(ServerAnnouncement.createServerAnnouncement(ServerAnnouncement.NEED_NAME, username));
 
@@ -84,7 +83,7 @@ public class RequestListener implements Runnable {
                 else break;
             }
 
-            Log.print(LogType.INFO, this.toString() + ": Comunicazione in conclusione");
+            Log.print(LogType.INFO, this + ": Comunicazione in conclusione");
             this.socket.close();
             if(this.username != null) {
                 Message msgLeft = ServerAnnouncement.createLeftAnnouncement(username);
@@ -92,16 +91,16 @@ public class RequestListener implements Runnable {
             }
 
         } catch (JsonProcessingException e) {
-            Log.print(LogType.ERROR, this.toString() + ": JsonProcessingException");
+            Log.print(LogType.ERROR, this + ": JsonProcessingException");
         } catch (IOException e) {
-            Log.print(LogType.WARNING, this.toString() + ": IOException");
+            Log.print(LogType.WARNING, this + ": IOException");
             allowedToRun = false;
         }   catch (Throwable e) {
             e.printStackTrace();
-            Log.print(LogType.ERROR, this.toString() + ": Errore non riconociuto");
+            Log.print(LogType.ERROR, this + ": Errore non riconosciuto");
         } finally {
             App.server.getListeners().remove(this);
-            Log.print(LogType.INFO, this.toString() + ": Comunicazione conclusa");
+            Log.print(LogType.INFO, this + ": Comunicazione conclusa");
         }
     }
 
@@ -109,13 +108,12 @@ public class RequestListener implements Runnable {
      * In base al messaggio ricevuto, ha un comportamento diverso.
      * 
      * @param msg È il messaggio appena ricevuto
-     * @throws IOException
      */
     public void handle(Message msg) throws IOException {
         try {
             switch (msg.getType()) {
                 case COMMAND:
-                    Log.print(LogType.INFO, this.toString() + " : Gestione di un comando");
+                    Log.print(LogType.INFO, this + " : Gestione di un comando");
                     if(msg.getArgs().get(0).equals(CommandType.CHANGE_NAME.toString())) {
                         
                         changeName(msg.getArgs().get(1));
@@ -126,7 +124,7 @@ public class RequestListener implements Runnable {
                     
                 break;
                 case MESSAGE:
-                    Log.print(LogType.INFO, this.toString() + ": Gestione di un messaggio");
+                    Log.print(LogType.INFO, this + ": Gestione di un messaggio");
                     Handler.handleMessage(msg);
                 break;
                 default:
@@ -134,7 +132,7 @@ public class RequestListener implements Runnable {
                 break;
             }
         } catch (HandlerException e) {
-            Log.print(LogType.INFO, this.toString() + ": Errore durante la gestione di un comando. Tipo: " + e.getServerAnnouncement().toString());
+            Log.print(LogType.INFO, this + ": Errore durante la gestione di un comando. Tipo: " + e.getServerAnnouncement().toString());
             e.print();
             write(
                 ServerAnnouncement
@@ -166,7 +164,6 @@ public class RequestListener implements Runnable {
      * Manda un messaggio al client
      * 
      * @param msg Il messaggio da inviare
-     * @throws IOException Lanciata quando il messaggio non può essere mandato
      */
     public  void write(Message msg) {
         String str = "";
@@ -176,9 +173,8 @@ public class RequestListener implements Runnable {
         } catch (JsonProcessingException e) {
             Log.print(LogType.ERROR, str);
         } catch (IOException e) {
-            Log.print(LogType.WARNING, this.toString() + ": Chiusura forzata del thread durante la scrittura a causa di un errore IO");
+            Log.print(LogType.WARNING, this + ": Chiusura forzata del thread durante la scrittura a causa di un errore IO");
             allowedToRun = false;
-            return;
         } 
     }
 
@@ -191,19 +187,11 @@ public class RequestListener implements Runnable {
         return om.readValue(read, Message.class);
     }
 
-    public boolean isAllowedToRun() {
-        return allowedToRun;
-    }
-
     public String getUsername() {
         if (username == null) {
             return "";
         }
         return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     @Override

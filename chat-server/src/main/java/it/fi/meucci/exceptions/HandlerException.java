@@ -11,12 +11,6 @@ public abstract class HandlerException extends Exception {
         super();
         s = getServerAnnouncement();
     }
-    
-    public HandlerException(ServerAnnouncement s) {
-        super();
-        this.s = s;
-    }
-
     public abstract ServerAnnouncement getServerAnnouncement();
 
     @Override
@@ -25,6 +19,6 @@ public abstract class HandlerException extends Exception {
     }
 
     public void print() {
-        System.out.println(this.toString());
+        System.out.println(this);
     }
 }

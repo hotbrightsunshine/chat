@@ -1,6 +1,7 @@
 package it.fi.meucci.utils;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public enum ServerAnnouncement {
     JOINED, // Un utente entra
@@ -22,9 +23,7 @@ public enum ServerAnnouncement {
      */
     public static Message createListAnnouncement(ArrayList<String> utenti, String to) {
         ArrayList<String> strings= new ArrayList<>();
-        for(String u : utenti) {
-            strings.add(u);
-        }
+        strings.addAll(utenti);
         strings.remove("");
         strings.add(0, ServerAnnouncement.LIST.toString());
         return new Message(Type.SERVER_ANN, Username.server, to, strings);
@@ -49,7 +48,7 @@ public enum ServerAnnouncement {
 
         ArrayList<String> tmp = new ArrayList<>();
         tmp.add(ServerAnnouncement.JOINED.toString());
-        tmp.add(joined.toString());
+        tmp.add(joined);
         return new Message(Type.SERVER_ANN, Username.server, Username.everyone, tmp);
     }
 
@@ -57,7 +56,7 @@ public enum ServerAnnouncement {
 
         ArrayList<String> tmp = new ArrayList<>();
         tmp.add(ServerAnnouncement.LEFT.toString());
-        tmp.add(left.toString());
+        tmp.add(left);
         return new Message(Type.SERVER_ANN, Username.server, Username.everyone, tmp);
     }
 
@@ -67,11 +66,8 @@ public enum ServerAnnouncement {
 
         ArrayList<String> tmp = new ArrayList<>();
         tmp.add(ServerAnnouncement.USERNAME_CHANGED.toString());
-        if(before == null) {
-            tmp.add("");
-        } else
-            tmp.add(before.toString());
-        tmp.add(after.toString());
+        tmp.add(Objects.requireNonNullElse(before, ""));
+        tmp.add(after);
         return new Message(Type.SERVER_ANN, Username.server, Username.everyone, tmp);
     }
 }

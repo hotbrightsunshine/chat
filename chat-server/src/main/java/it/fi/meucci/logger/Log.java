@@ -4,7 +4,7 @@ package it.fi.meucci.logger;
 import java.util.Calendar;
 
 public class Log {
-    private static Calendar c = Calendar.getInstance();
+    private static final Calendar c = Calendar.getInstance();
 
     public static void print(LogType type, String message) {
         System.out.println(

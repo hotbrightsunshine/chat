@@ -1,7 +1,5 @@
 package it.fi.meucci;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import it.fi.meucci.exceptions.CommandNotRecognizedException;
 import it.fi.meucci.exceptions.DestNotCorrectException;
 import it.fi.meucci.exceptions.DisconnectException;
@@ -20,12 +18,7 @@ import java.util.ArrayList;
  * Sono chiamati dai Request Listener. NON può essere istanziata.
  */
 public abstract class Handler {
-    public static ObjectMapper om = new ObjectMapper();
-    /**
-     * Gestisce un messaggio, lo valida logicamente (se gli username sono corretti) e lo invia se è corretto.
-     * @param msg Il messaggio da gestire
-     * @throws HandlerException Può mandare una eccezione nel caso il messaggio non sia validabile
-     */
+
     public static void handleMessage(Message msg)
             throws NeedNameException,
             DestNotCorrectException, IOException {
@@ -69,11 +62,6 @@ public abstract class Handler {
             App.server.send(msg);
     }
 
-    /**
-     * Gestisce un comando, lo valida logicamente (se il mittente e gli argomenti sono corretti) e lo invia se è corretto.
-     * @param msg il comando da elaborare
-     * @throws HandlerException scatena una eccezione nel caso in cui il messaggio non sia validabile
-     */
     public static void handleCommand(Message msg) 
     throws  NeedNameException, 
             DestNotCorrectException, 
