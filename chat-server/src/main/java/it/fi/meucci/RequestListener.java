@@ -30,6 +30,7 @@ public class RequestListener implements Runnable {
     private  ObjectMapper om = new ObjectMapper();
     private  DataOutputStream outputStream;
     private  BufferedReader inputStream;
+    
     /**
      * Costruttore di RequestListener
      * 

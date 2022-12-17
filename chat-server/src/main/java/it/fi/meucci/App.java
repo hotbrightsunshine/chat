@@ -17,8 +17,7 @@ public class App
      * @param args Command Line Arguments
      * @throws IOException
      */
-    public static void main( String[] args ) throws IOException
-    {
+    public static void main( String[] args ) throws IOException {
         // Crea un server
         // Lo avvia
         App.server = new Server(PORT);

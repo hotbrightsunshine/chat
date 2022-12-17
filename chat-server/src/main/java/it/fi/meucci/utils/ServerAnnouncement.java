@@ -45,8 +45,7 @@ public enum ServerAnnouncement {
         return new Message(Type.SERVER_ANN, Username.server, to, tmp);
     }
 
-    public static Message createJoinedAnnouncement(
-        String joined) {
+    public static Message createJoinedAnnouncement(String joined) {
 
         ArrayList<String> tmp = new ArrayList<>();
         tmp.add(ServerAnnouncement.JOINED.toString());
@@ -54,8 +53,7 @@ public enum ServerAnnouncement {
         return new Message(Type.SERVER_ANN, Username.server, Username.everyone, tmp);
     }
 
-    public static Message createLeftAnnouncement(
-        String left) {
+    public static Message createLeftAnnouncement(String left) {
 
         ArrayList<String> tmp = new ArrayList<>();
         tmp.add(ServerAnnouncement.LEFT.toString());

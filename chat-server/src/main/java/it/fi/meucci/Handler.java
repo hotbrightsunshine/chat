@@ -63,9 +63,9 @@ public abstract class Handler {
         msg.setArgs(t);
 
         // Mando il messaggio
-        if(msg.getTo().equals(Username.everyone)){
+        if(msg.getTo().equals(Username.everyone))
             App.server.sendBroadcast(msg);
-        } else 
+        else 
             App.server.send(msg);
     }
 

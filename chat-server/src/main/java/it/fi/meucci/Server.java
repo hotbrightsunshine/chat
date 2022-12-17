@@ -17,8 +17,6 @@ public class Server
     private ArrayList <Thread> threads = new ArrayList<>();
     private static ServerSocket serverSocket;
 
-    
-
     public Server(int port) throws IOException {
         serverSocket = new ServerSocket(port);
         Log.print(LogType.INFO, "Una nuova istanza del server è stata creata");

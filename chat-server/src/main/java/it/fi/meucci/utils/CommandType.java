@@ -8,9 +8,7 @@ public enum CommandType {
         if(str.toUpperCase().equals("CHANGE_NAME")){
             return CHANGE_NAME;
         }
-        else
-
-        if(str.toUpperCase().equals("DISCONNECT")){
+        else if(str.toUpperCase().equals("DISCONNECT")){
             return DISCONNECT;
         } else
             return null;
