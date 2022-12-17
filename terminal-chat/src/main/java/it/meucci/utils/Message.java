@@ -1,10 +1,8 @@
 package it.meucci.utils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.meucci.App;
-import it.meucci.utils.ServerAnnouncement;
 import java.util.ArrayList;
 
 import static it.meucci.utils.CommandType.CHANGE_NAME;

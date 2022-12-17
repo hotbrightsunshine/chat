@@ -2,8 +2,6 @@ package it.meucci.utils;
 
 import java.util.ArrayList;
 
-import it.meucci.App;
-
 public enum ServerAnnouncement {
     JOINED, // Un utente entra
     LEFT, // Un utente è uscito
