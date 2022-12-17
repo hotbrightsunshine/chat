@@ -131,10 +131,10 @@ public class Message
             case SERVER_ANN:
             return humanizeServerAnn(m);
             default:
-                break;
+            break;
             
         }
-        return "";
+        return null;
     }
 
     private static String humanizeMessage(Message m)
@@ -179,6 +179,6 @@ public class Message
                 break;
             
         }
-        return "";
+        return null;
     }
 }

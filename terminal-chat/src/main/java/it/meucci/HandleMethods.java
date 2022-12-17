@@ -37,6 +37,15 @@ public abstract class HandleMethods
     {
         // TODO
         //System.out.println(Errors.NAME_NOT_AVAILABLE);
+       // System.out.println("no ok");
+        //System.out.println(Errors.NAME_NOT_AVAILABLE);
+    }
+
+    static void needName()
+    {
+        //errore needname
+       // System.out.println(Errors.NEED_A_NAME);
+        
     }
 
     /**
@@ -55,7 +64,7 @@ public abstract class HandleMethods
 
     static void destNotOk()
     {
-        System.out.println(Errors.DEST_NOT_CORRECT);
+        //System.out.println(Errors.DEST_NOT_CORRECT);
     }
 
     static void disconnect()
