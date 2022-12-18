@@ -54,7 +54,7 @@ public abstract class Handler {
     }
 
     /**
-     * Handles a Command
+     * Handles a Command. Checks if the message has a correct addressee and a correct sender.
      * @param msg The command to be handled
      * @throws NeedNameException When the name does not have a valid sender
      * @throws DestNotCorrectException When the name does not have a valid addressee
@@ -79,6 +79,11 @@ public abstract class Handler {
         }
     }
 
+    /**
+     * General purpose handler that automatically throws an exception
+     * @param msg The message to be handled
+     * @throws HandlerException A Command Not Recognized Exception
+     */
     public static void handle(Message msg) throws HandlerException {
         throw new CommandNotRecognizedException();
     }

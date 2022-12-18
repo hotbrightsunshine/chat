@@ -111,10 +111,10 @@ public enum ServerAnnouncement {
     }
 
     /**
-     *
-     * @param before
-     * @param after
-     * @return
+     * Creates a CHANGE USERNAME message
+     * @param before The username before the change
+     * @param after The username after the change
+     * @return a CHANGE_USERNAME message
      */
     public static Message createUsernameChangedAnnouncement(
         String before,
