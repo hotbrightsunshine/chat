@@ -1,7 +1,6 @@
 package it.meucci.commands;
 
 import it.meucci.App;
-import it.meucci.utils.Errors;
 import it.meucci.utils.Message;
 import it.meucci.utils.Username;
 

@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import static it.meucci.utils.CommandType.CHANGE_NAME;
 
 /**
- * I messaggi che vengono scambiati tra client e server.
- * Hanno un tipo, un destinatario, e un mittente.
- * Contengono un campo opzionale chiamato “content”, usato per vari scopi, dipendentemente dal tipo del messaggio.
- * Ha un metodo statico validate che converte l’user input in un Message.
+ * Messages that are exchanged between client and server.
+ * They have a type, a recipient, and a sender.
+ * Contain an optional field called "content", used for various purposes, depending on the type of message.
+ * Has a static validate method that converts user input into a Message.
  */
 public class Message
 {
@@ -19,6 +19,14 @@ public class Message
     private String to;
     private ArrayList<String> args;
 
+
+    /**
+     * Message Costructor
+     * @param type The Message type {@link it.fi.meucci.utils.Type }
+     * @param from The sender
+     * @param to The addressee
+     * @param args Arguments of the message. They follow a different syntax depending on the type of the message
+     */
     public Message(
         @JsonProperty("type") Type type, 
         @JsonProperty("from") String from,
@@ -30,6 +38,12 @@ public class Message
         this.args = args;
     }
 
+    /**
+     * Creates a message of type MESSAGE
+     * @param to the addressee
+     * @param content the content to be sent
+     * @return the composed message.
+     */
     public static Message createMessage(String to, String content) {
         ArrayList<String> args  = new ArrayList<>();
         args.add(content);
@@ -53,6 +67,11 @@ public class Message
         return args;
     }
 
+    /**
+     * Creates a message to change name
+     * @param newName the new name the user wants to use
+     * @return the composed message
+     */
     public static Message createChangeNameCommand(String newName) {
         ArrayList<String> args = new ArrayList<>();
         args.add(CHANGE_NAME.toString());
@@ -71,6 +90,14 @@ public class Message
                 ", args=" + args +
                 '}';
     }
+
+    /**
+     * Humanizes the message in order to be correctly displayed.
+     * Like handling methods, this is a wrapper to call humanize just once and avoid code duplication.
+     * toString() could have be used, but we didn't want to mess with it since we wanted to reserve it for debug purposes.
+     * @param m The message to be humanized
+     * @return A string ready to be printed
+     */
     public static String humanize(Message m) {
         switch(m.getType()) {
             case COMMAND:
@@ -86,10 +113,21 @@ public class Message
         return null;
     }
 
+    /**
+     * Humanizes a MESSAGE
+     * @param m the Message to be humanized
+     * @return the string ready to be printed
+     */
     private static String humanizeMessage(Message m) {
         return "<" + m.from + " to " + m.to + "> "+m.args.get(0);
     }
 
+    /**
+     * Humanizes a SERVER_ANN.
+     * Contains a big switch case to handle different type of {@link it.meucci.utils.ServerAnnouncement}
+     * @param m the Server Announcement to be humanized
+     * @return the string ready to be printed
+     */
     private static String humanizeServerAnn(Message m) {
         switch(ServerAnnouncement.valueOf(m.getArgs().get(0))) {
             case COMMAND_NOT_RECOGNIZED:

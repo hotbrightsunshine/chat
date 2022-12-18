@@ -3,6 +3,9 @@ package it.fi.meucci.utils;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Represents the types of Server Announcement a message of type SERVER_ANN can have.
+ */
 public enum ServerAnnouncement {
     /**
      * Sent when a new user joins the server

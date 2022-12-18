@@ -1,7 +1,5 @@
 package it.meucci.commands;
 
-import it.meucci.utils.Errors;
-
 import java.util.ArrayList;
 
 public class Command {
