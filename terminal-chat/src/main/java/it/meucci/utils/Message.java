@@ -52,7 +52,6 @@ public class Message
             App.client.getUsername(), 
             addressee, 
             args);
-        System.out.println("Newly created message: " + m); //TODO
         return m;
     }
 
@@ -167,7 +166,9 @@ public class Message
                 return "`" + m.getArgs().get(1) + "` left.";
 
             case LIST:
-                ArrayList<String> usernames = App.client.userMessagesList.getUsernames();
+                ArrayList<String> args = (ArrayList<String>) m.getArgs().clone();
+                args.remove(0);
+                ArrayList<String> usernames = args;
                 if(usernames.size() == 0) {
                     return "No one else is connected to the server.";
                 } else  {
