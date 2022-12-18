@@ -14,7 +14,7 @@ Documentation can be found in the [wiki](https://github.com/hotbrightsunshine/ch
 You can download our latest release [here](https://github.com/hotbrightsunshine/chat/releases/tag/v0.1.1).
 
 # 🔮 How to run
-## Prerequisites 
+## 🔒 Prerequisites 
 To run our binaries, Java is needed. Consider downloading JRE version 17 LTS. If you are on Linux, to install Java dependencies correctly, use the package manager of your distro.
 Headless versions should be fine. However, to be sure, install a complete JRE like we did. 
 
@@ -51,7 +51,7 @@ OpenJDK Runtime Environment (build 17.0.5+1)
 OpenJDK 64-Bit Server VM (build 17.0.5+1, mixed mode)
 ```
 
-## Running
+## 🔓 Running
 
 Make sure to have followed the guide above in order to have a JVM installed in your machine. 
 
