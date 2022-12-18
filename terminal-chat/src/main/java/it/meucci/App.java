@@ -8,15 +8,32 @@ import it.meucci.commands.Command;
 import it.meucci.commands.CommandHandler;
 
 /**
- * Hello world!
- *
+ * The main class that runs the client process.
  */
 public class App 
 {
+    /**
+     * The Client object
+     */
     public static Client client;
+    /**
+     * The port of the server's ServerSocket
+     */
     private static int port;
+    /**
+     * The IP address to which the client has to connect
+     */
     private static Inet4Address addr;
+    /**
+     * A flag that stand whether the client should continue to run or not.
+     */
     private static boolean allowed = true;
+
+    /**
+     * The main method that runs client's methods
+     * @param args Command line arguments. It must be run with ./_.jar IP PORT
+     * @throws IOException
+     */
 
     public static void main( String[] args ) throws IOException {
         try {
@@ -45,6 +62,9 @@ public class App
         System.out.println("You have been successfully disconnected.");
     }
 
+    /**
+     * Used to stop the client
+     */
     public static void stop() {
         allowed = false;
     }

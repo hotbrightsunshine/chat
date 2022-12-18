@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * The class used to read from the socket's input stream. It handles received messages with proper Handler methods.
+ */
 public class RequestListener implements Runnable {
     private  String username;
     private final Socket socket;

@@ -17,18 +17,35 @@ public class Client {
     private final Socket socket;
     private final DataOutputStream output;
     ObjectMapper objectmapper = new ObjectMapper();
+    /**
+     * The UserMessagesList object used to handle messages and users
+     */
     public UserMessagesList userMessagesList;
 
+    /**
+     * The client costructor.
+     * @param address The IP address of the ServerSocket
+     * @param port The port on which the ServerSocket listens to
+     * @throws IOException When socket or DataOutputStream can't be created successfully.
+     */
     public Client(Inet4Address address, int port) throws IOException {
         socket = new Socket(address, port);
         userMessagesList = new UserMessagesList();
         output = new DataOutputStream(socket.getOutputStream());
     }
 
+    /**
+     * Initializes the ReplyListener and starts it.
+     * Must be called once and after the successful creation of the client.
+     */
     public void initListener() {
         new Thread(new ReplyListener()).start();
     }
 
+    /**
+     * Sends a message to the socket's ouput stream
+     * @param message The message to be serialized and sent
+     */
     public void send(Message message) {
         try {
             output.writeBytes(objectmapper.writeValueAsString(message) + '\n');
@@ -37,11 +54,18 @@ public class Client {
         }
     }
 
-
+    /**
+     * Used to change user's username
+     * @param newUsername
+     */
     public void changeUsername(String newUsername) {
         this.username = newUsername;
     }
 
+    /**
+     * Stops the client's socket
+     * @throws IOException inherited from socket.close() -- thrown when it's impossible to stop the client.
+     */
     public void stop() throws IOException {
         socket.close();
     }
@@ -50,6 +74,10 @@ public class Client {
         return socket;
     }
 
+    /**
+     * Gets the current username. If it's null, `""` is automatically returned.
+     * @return
+     */
     public String getUsername() {
         if(username == null) {
             return "";
