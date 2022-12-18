@@ -40,31 +40,52 @@ public class Message
 
     /**
      * Creates a message of type MESSAGE
-     * @param to the addressee
+     * @param addressee the addressee
      * @param content the content to be sent
      * @return the composed message.
      */
-    public static Message createMessage(String to, String content) {
+    public static Message createMessage(String addressee, String content) {
         ArrayList<String> args  = new ArrayList<>();
         args.add(content);
-        return new Message(
+        Message m = new Message(
             Type.MESSAGE, 
             App.client.getUsername(), 
-            to, 
+            addressee, 
             args);
+        System.out.println("Newly created message: " + m); //TODO
+        return m;
     }
 
     public Type getType() {
         return type;
     }
 
+    public void setType(Type type) {
+        this.type = type;
+    }
+
     public String getFrom() {
-        if (this.from == null ) return "";
         return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
     }
 
     public ArrayList<String> getArgs() {
         return args;
+    }
+
+    public void setArgs(ArrayList<String> args) {
+        this.args = args;
     }
 
     /**
