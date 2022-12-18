@@ -118,6 +118,9 @@ public class ReplyListener implements Runnable {
             case USERNAME_CHANGED:
                 App.client.userMessagesList.updateUser(args.get(0), args.get(1));
                 break;
+
+            case NAME_OK:
+                App.client.changeUsername();
             
             default:
                 break;

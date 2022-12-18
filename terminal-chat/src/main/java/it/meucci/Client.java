@@ -21,6 +21,7 @@ public class Client {
      * The UserMessagesList object used to handle messages and users
      */
     public UserMessagesList userMessagesList;
+    private String pendingUsername;
 
     /**
      * The client costructor.
@@ -55,11 +56,11 @@ public class Client {
     }
 
     /**
-     * Used to change user's username
+     * Used to change user's username from the pending one.
      * @param newUsername
      */
-    public void changeUsername(String newUsername) {
-        this.username = newUsername;
+    public void changeUsername() {
+        this.username = pendingUsername;
     }
 
     /**
@@ -83,5 +84,9 @@ public class Client {
             return "";
         }
         return username;
+    }
+
+    public void setPendingUsername(String username){
+        this.pendingUsername = username;
     }
 }
