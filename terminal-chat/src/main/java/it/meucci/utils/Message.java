@@ -131,7 +131,7 @@ public class Message
     private static String humanizeServerAnn(Message m) {
         switch(ServerAnnouncement.valueOf(m.getArgs().get(0))) {
             case COMMAND_NOT_RECOGNIZED:
-                return "The command that you wrote is not recognized.";
+                return "The command that you wrote was not recognized by the server.";
 
             case DEST_NOT_CORRECT:
                 return "The addressee that you wrote is incorrect";
