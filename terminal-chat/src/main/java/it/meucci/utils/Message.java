@@ -22,7 +22,7 @@ public class Message
 
     /**
      * Message Costructor
-     * @param type The Message type {@link it.fi.meucci.utils.Type }
+     * @param type The Message type {@link it.meucci.utils.Type }
      * @param from The sender
      * @param to The addressee
      * @param args Arguments of the message. They follow a different syntax depending on the type of the message

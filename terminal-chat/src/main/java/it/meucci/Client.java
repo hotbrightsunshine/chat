@@ -57,7 +57,6 @@ public class Client {
 
     /**
      * Used to change user's username from the pending one.
-     * @param newUsername
      */
     public void changeUsername() {
         this.username = pendingUsername;
