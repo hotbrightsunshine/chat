@@ -8,10 +8,6 @@ import java.io.IOException;
 public class App 
 {
     /**
-     * Port on which the server will be listening and writing
-     */
-    public static final int PORT = 7777;
-    /**
      * The server object
      */
     public static Server server;
@@ -22,7 +18,14 @@ public class App
      * @throws IOException The server is unable to be started
      */
     public static void main( String[] args ) throws IOException {
-        App.server = new Server(PORT);
+        try {
+            int port = Integer.parseInt(args[0]);
+            App.server = new Server(port);
+        } catch (Exception e) {
+            System.out.println("It was impossible to start the server." +
+                    "Please consider adding a port number to the command line arguments.");
+            return;
+        }
         server.accept();
     }
 }

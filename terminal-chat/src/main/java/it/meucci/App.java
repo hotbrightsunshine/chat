@@ -47,8 +47,14 @@ public class App
             return;
         }
 
-        client = new Client(addr, port);
-        client.initListener();
+        try {
+            client = new Client(addr, port);
+            client.initListener();
+        } catch (Exception e) {
+            System.out.println("Connection to " + addr + " was refused. ");
+            return;
+        }
+
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Successfully connected. Type /help for a list of commands.");
