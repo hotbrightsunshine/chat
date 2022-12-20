@@ -16,7 +16,7 @@ You can download our latest release [here](https://github.com/hotbrightsunshine/
 # 🔮 How to run
 ## 🔒 Prerequisites 
 To run our binaries, Java is needed. Consider downloading JDK version 17 LTS. If you are on Linux, to install Java dependencies correctly, use the package manager of your distro.
-Headless versions should be fine. However, to be sure, install a complete JRE like we did. 
+Headless versions should be fine. However, to be sure, install a complete JDK like we did. 
 
 + **Debian based**
     ```
@@ -28,7 +28,7 @@ Headless versions should be fine. However, to be sure, install a complete JRE li
     ```
 + **Mac OS X**
     
-    Mac OS X installation hasn't been tested. We haven't found enough information about JRE, so here we recommend you to install a JDK (which is able to run Java as well, since it contains a JRE itself).
+    Mac OS X installation hasn't been tested, but this seems to be a reasonable one.
     ```
     $ brew install openjdk@17
     ```
