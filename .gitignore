@@ -27,3 +27,9 @@ replay_pid*
 .vscode
 
 target
+wiki
+releases
+
+chat-server/.classpath
+chat-server/.project
+chat-server/org*
