@@ -15,7 +15,7 @@ You can download our latest release [here](https://github.com/hotbrightsunshine/
 
 # 🔮 How to run
 ## 🔒 Prerequisites 
-To run our binaries, Java is needed. Consider downloading JRE version 17 LTS. If you are on Linux, to install Java dependencies correctly, use the package manager of your distro.
+To run our binaries, Java is needed. Consider downloading JDK version 17 LTS. If you are on Linux, to install Java dependencies correctly, use the package manager of your distro.
 Headless versions should be fine. However, to be sure, install a complete JRE like we did. 
 
 + **Debian based**
@@ -35,11 +35,11 @@ Headless versions should be fine. However, to be sure, install a complete JRE li
 
 + **Windows**
 
-    On Windows, installation might get trickier. We recommend you to install [this](https://www.azul.com/downloads/?version=java-17-lts&os=windows&package=jdk) OpenJDK distribution, which has served me well.
+    On Windows, installation might get trickier. We recommend you to install [this](https://www.azul.com/downloads/?version=java-17-lts&os=windows&package=jdk) OpenJDK distribution, which has served me well for a lot of time.
 
     On Windows, you might also need to set environment variables manually. DuckDuckGo it if you need to.
 
-You can verify the correct installation of the JRE (or JDK) typing 
+You can verify the correct installation of the JDK by typing 
 ```
 $ java --version
 ```
