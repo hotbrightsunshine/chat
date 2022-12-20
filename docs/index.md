@@ -19,3 +19,6 @@ Qui potrete trovare il Javadoc delle classi del Client.
 # Sito Javadoc Server
 Qui potrete trovare il Javadoc delle classi del Server.
 - [**Javadoc Server**](./javadoc/server/index.html)
+
+# Wiki
+La documentazione completa del codice non è stata hostata su GitHub Pages. È possibile trovarla a [questa pagina](https://github.com/hotbrightsunshine/chat/wiki).
