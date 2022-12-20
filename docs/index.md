@@ -3,7 +3,7 @@
 Questa pagina contiene un indice della documentazione consultabile su web.
 I diagrammi delle classi sono autogenerati dal software [Umbrello](https://umbrello.kde.org/) sviluppato da KDE.
 
-# Contributori progetto
+# Contributors del progetto 
 - [**Francesco Parisio**](https://github.com/hotbrightsunshine)
 - [**Davide Cazzatto**](https://github.com/Deivv77)
 - [**Lorenzo Salanitro**](https://github.com/LorenzoSalanitro)
@@ -19,4 +19,3 @@ Qui potrete trovare il Javadoc delle classi del Client.
 # Sito Javadoc Server
 Qui potrete trovare il Javadoc delle classi del Server.
 - [**Javadoc Server**](./javadoc/server/index.html)
-
