@@ -56,8 +56,6 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <finalName>chat-server</finalName>
-                    <appendAssemblyId>false</appendAssemblyId>
                 </configuration>
             </execution>
         </executions>

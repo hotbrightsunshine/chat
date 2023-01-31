@@ -1,7 +1,7 @@
-FROM        ubuntu:22.04
+FROM        ubuntu:22.04    
 RUN         apt update
-RUN         apt install -y openjdk-17-jdk maven
-COPY        pom.xml /java/
-COPY        src/*     /java/src/
-RUN         cd /java && mvn package && cd /
-#ENTRYPOINT  java -jar /java/target/chat-server-1-jar-with-dependencies.jar
+RUN         apt install -y openjdk-11-jdk maven git
+RUN         git clone https://github.com/hotbrightsunshine/chat.git
+RUN         rm -rf chat/terminal-chat
+RUN         cd /chat/chat-server && mvn clean package && ls -la ./target
+ENTRYPOINT  java -jar chat/chat-server/target/chat-server.jar 7777
